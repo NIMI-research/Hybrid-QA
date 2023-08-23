@@ -16,6 +16,7 @@ from .Custom_Classes import CustomWikipediaAPIWrapper
 from langchain.utilities import WikipediaAPIWrapper
 import requests
 from typing import List, Dict, Any
+import asyncio
 
 
 
@@ -23,7 +24,7 @@ class Squall():
     def __init__(self, few_shot_path: str, refined):
         self.few_shot_path = few_shot_path
         self.config = load_openai_api()
-        self.refined = refined()
+        self.refined = refined
         self.model = load_sentence_transformer()
 
 
@@ -72,7 +73,7 @@ class Squall():
             q42 = WikidataItem(q42_dict)
             return q42.get_label(), q42.get_description()
         except Exception as e:
-            print(e)
+            return None, None
 
     def get_entity_linking_from_refined_batch(self,inputs: list) -> List[str]:
         threshold = 0.05
@@ -206,6 +207,7 @@ class Squall():
         regex = r"Q[0-9]*"
         for e in entities:
             match = re.search(regex, e)
+            print("Here is the culprit", e)
             if e != "None" and match is not None:
                 label, description = self.get_label_and_description(e.strip())
                 x.append((e.strip(),label,description))
@@ -224,7 +226,9 @@ class Squall():
         llm = load_chain()
         llm_chain = LLMChain(prompt=prompt,llm=llm)
         x = llm_chain.run({'ques': question, 'entities': entities})
-        return x
+        converter = SparqlTool("/home/dhananjay/HybridQA/Tools/Tools_Data/squall2sparql_revised.sh")
+        response = converter.gen_sparql_from_squall(x)
+        return response
 
 
 
@@ -263,12 +267,13 @@ class SparqlTool():
 
     def gen_sparql_from_squall(self, query):
         y = self.run_squall_tool(query)
+        message = """The possible reason is\n 1) The query is syntactically wrong\n"""
         if "The above query is syntactically wrong please try with corrected syntax!" not in y:
             print(y)
             processed_sparql = self.post_process_sparql(y)
             return processed_sparql
         else:
-            return y
+            return message
 
     def get_nested_value(self, o: dict, path: list) -> any:
         current = o
@@ -294,7 +299,11 @@ class SparqlTool():
         if response.status_code != 200:
             return "That query failed. Perhaps you could try a different one?"
         results = self.get_nested_value(response.json(), ['results', 'bindings'])
-        return json.dumps(results)
+        if len(results) == 0:
+            return """The result is empty sset possible reasons\n 1) The tool gave out improper sparql query \n2) The entity id used for constrution might be wrong \n3) Our LLM created 
+                   its own query which is synctactically correct but the kg structure doesnt match the query\n
+                   For cases 1 and 3 you cant do much but for case 2 you can try to either change the entity id which gaves same answer from wikipedia."""
+        return results
 
 class WikiTool():
     def __init__(self):
@@ -345,22 +354,26 @@ class WikiTool():
         except Exception as e:
             return "There is an internal error while handling this request!"
 
-
-    def get_wikipedia_summary(self, search: str) -> str:
-        search = search.strip(" ").strip('"')
-        search = search.replace("[", "").replace("]", "").replace('"', '').split(',')
+    def get_wikipedia_summary(self,actionInput) -> str:
+        print(actionInput)
+        ques, search = actionInput.split("#")
+        ques, search = ques.strip(), search.replace('[', '').replace(']', '').strip()
+        items = search.split(',')
         results = []
         wikipedia = WikipediaAPIWrapper(top_k_results=1)
-        for label in search:
-            label = label.strip()
-            result = wikipedia.run(label)
-            results.append(result)
-        template = """Question: {search} with the provided context as {results}
-                    Answer: """
-        prompt = PromptTemplate(template=template, input_variables=['search', 'results'])
+        for item in items:
+            results.append(wikipedia.run(item))
+        results = '\n'.join(results)
+        print(results)
+        # print(results)
+        #     wikipedia = WikipediaAPIWrapper(top_k_results=1)
+        template = """Question: {ques} with the provided context as {results}. show proof to the answer along with the Page Name along with summary.
+                      If you dont find the answer in {results} Just say Answer not found in Context.
+                      Answer: """
+        prompt = PromptTemplate(template=template, input_variables=['ques', 'results'])
         llm=load_chain()
         llm_chain = LLMChain(prompt=prompt, llm=llm)
-        return llm_chain.run({'search': search, 'results': results})
+        return results, llm_chain.run({'ques': ques, 'results': results})
 
 
     def get_wikipedia_summary_keyword(self, actionInput) -> str:

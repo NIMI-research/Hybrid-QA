@@ -37,19 +37,20 @@ async def root():
 @app.post("/fetch_observation")
 async def get_items(body:Universal_Request_Body):
     if body.action == "squall_tool":
-        squall = Squall("/home/dhananjay/HybridQA/Tools/Tools_Data/squall_fixed_few_shot.json",ml_models["refined"])
+        refined = ml_models["refined"]()
+        squall = Squall("/home/dhananjay/HybridQA/Tools/Tools_Data/squall_fixed_few_shot.json",refined)
         response = squall.generate_squall_query(body.action_input)
         return {"message": response}
-    elif body.action == "squall2sparql":
-        converter = SparqlTool("/home/dhananjay/HybridQA/Tools/Tools_Data/squall2sparql_revised.sh")
-        response = converter.gen_sparql_from_squall(body.action_input)
-        return {"message": response}
+    # elif body.action == "squall2sparql":
+    #     converter = SparqlTool("/home/dhananjay/HybridQA/Tools/Tools_Data/squall2sparql_revised.sh")
+    #     response = converter.gen_sparql_from_squall(body.action_input)
+    #     return {"message": response}
     elif body.action == "search_relevant_article_and_summarize":
         response = WikiTool().get_wikipedia_summary_keyword(body.action_input)
         return {"message": response}
     elif body.action == "search_answer_from_article":
-        response = WikiTool().get_wikipedia_summary(body.action_input)
-        return {"message": response}
+        paragraphs, response = WikiTool().get_wikipedia_summary(body.action_input)
+        return {"verifying_summary":paragraphs,"message": response}
     elif body.action == "get_wiki_id":
         response = WikiTool().all_wikidata_ids(body.action_input)
         return {"message": response}
