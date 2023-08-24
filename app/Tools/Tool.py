@@ -16,7 +16,7 @@ from .Custom_Classes import CustomWikipediaAPIWrapper
 from langchain.utilities import WikipediaAPIWrapper
 import requests
 from typing import List, Dict, Any
-import asyncio
+import sys
 
 
 

@@ -5,6 +5,9 @@ from contextlib import asynccontextmanager
 from refined.inference.processor import Refined
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
+
+origins = ["*"]
 
 
 def load_refined_model():
@@ -28,6 +31,15 @@ class Universal_Request_Body(BaseModel):
 
 
 app = FastAPI(lifespan=lifespan)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=False,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 
 @app.get("/")
@@ -62,9 +74,7 @@ async def get_items(body:Universal_Request_Body):
     elif body.action == "get_label_from_id":
         response = WikiTool().get_label(body.action_input)
         return {"message": response}
-
-
-
-
+    else:
+        return {"message":"It is working Test"}
 
 
