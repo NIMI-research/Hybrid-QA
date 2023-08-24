@@ -226,7 +226,7 @@ class Squall():
         llm = load_chain()
         llm_chain = LLMChain(prompt=prompt,llm=llm)
         x = llm_chain.run({'ques': question, 'entities': entities})
-        converter = SparqlTool("/home/dhananjay/HybridQA/Tools/Tools_Data/squall2sparql_revised.sh")
+        converter = SparqlTool("/home/work/Human_IQ/HumanIQ_Tool/app/Tools/Tools_Data/squall2sparql_revised.sh")
         response = converter.gen_sparql_from_squall(x)
         return response
 
@@ -267,7 +267,7 @@ class SparqlTool():
 
     def gen_sparql_from_squall(self, query):
         y = self.run_squall_tool(query)
-        message = """The possible reason is\n 1) The query is syntactically wrong\n"""
+        message = "The possible reason is\n 1) The query is syntactically wrong\n"
         if "The above query is syntactically wrong please try with corrected syntax!" not in y:
             print(y)
             processed_sparql = self.post_process_sparql(y)
@@ -297,13 +297,12 @@ class SparqlTool():
         response = requests.get(url, headers=headers, params={'query': query, 'format': 'json'})
 
         if response.status_code != 200:
-            return "That query failed. Perhaps you could try a different one?"
+            return "That query failed. Perhaps you could try a different one? Maybe check the syntax, maybe double quotes etc!"
         results = self.get_nested_value(response.json(), ['results', 'bindings'])
         if len(results) == 0:
-            return """The result is empty sset possible reasons\n 1) The tool gave out improper sparql query \n2) The entity id used for constrution might be wrong \n3) Our LLM created 
-                   its own query which is synctactically correct but the kg structure doesnt match the query\n
-                   For cases 1 and 3 you cant do much but for case 2 you can try to either change the entity id which gaves same answer from wikipedia."""
-        return results
+            return {"message":"""The result is empty set possible reasons\n 1) The tool gave out improper sparql query \n2) The entity id used for constrution might be wrong \n3) Our LLM created its own query which is synctactically correct but the kg structure doesnt match the query
+                      For cases 1 and 3 you cant do much but for case 2 you can try to either change the entity id which gaves same answer from wikipedia."""}
+        return {"message":results}
 
 class WikiTool():
     def __init__(self):
@@ -323,7 +322,7 @@ class WikiTool():
                 q42 = WikidataItem(q42_dict)
                 results.append(q42.get_label())
             except Exception as e:
-                return e
+                return "Most probable reason would be the entity label passed might be wrong!"
         return results
 
     def get_wikidata_id(self, page_title, language='en'):
@@ -338,10 +337,10 @@ class WikiTool():
 
         response = requests.get(url, params=params)
         data = response.json()
-
         pages = data['query']['pages']
         for page in pages.values():
             return page.get('pageprops', {}).get('wikibase_item')
+
 
     def all_wikidata_ids(self, actionInput):
         try:
@@ -373,7 +372,7 @@ class WikiTool():
         prompt = PromptTemplate(template=template, input_variables=['ques', 'results'])
         llm=load_chain()
         llm_chain = LLMChain(prompt=prompt, llm=llm)
-        return results, llm_chain.run({'ques': ques, 'results': results})
+        return results
 
 
     def get_wikipedia_summary_keyword(self, actionInput) -> str:

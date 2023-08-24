@@ -48,30 +48,30 @@ async def root():
 
 @app.post("/fetch_observation")
 async def get_items(body:Universal_Request_Body):
-    if body.action == "squall_tool":
+    if body.action == "GenerateSquall":
         refined = ml_models["refined"]()
-        squall = Squall("/home/dhananjay/HybridQA/Tools/Tools_Data/squall_fixed_few_shot.json",refined)
+        squall = Squall("/home/work/Human_IQ/HumanIQ_Tool/app/Tools/Tools_Data/squall_fixed_few_shot.json",refined)
         response = squall.generate_squall_query(body.action_input)
         return {"message": response}
     # elif body.action == "squall2sparql":
     #     converter = SparqlTool("/home/dhananjay/HybridQA/Tools/Tools_Data/squall2sparql_revised.sh")
     #     response = converter.gen_sparql_from_squall(body.action_input)
     #     return {"message": response}
-    elif body.action == "search_relevant_article_and_summarize":
+    elif body.action == "WikiSearch":
         response = WikiTool().get_wikipedia_summary_keyword(body.action_input)
         return {"message": response}
-    elif body.action == "search_answer_from_article":
-        paragraphs, response = WikiTool().get_wikipedia_summary(body.action_input)
-        return {"verifying_summary":paragraphs,"message": response}
-    elif body.action == "get_wiki_id":
+    elif body.action == "WikiSearchSummary":
+        paragraphs= WikiTool().get_wikipedia_summary(body.action_input)
+        return {"message":paragraphs}
+    elif body.action == "GetWikidataID":
         response = WikiTool().all_wikidata_ids(body.action_input)
         return {"message": response}
-    elif body.action == "run_sparql":
-        converter = SparqlTool("/home/dhananjay/HybridQA/Tools/Tools_Data/squall2sparql_revised.sh")
+    elif body.action == "RunSparql":
+        converter = SparqlTool("/home/work/Human_IQ/HumanIQ_Tool/app/Tools/Tools_Data/squall2sparql_revised.sh")
         response = converter.run_sparql(body.action_input)
         json_compatible_item_data = jsonable_encoder(response)
         return JSONResponse(content=json_compatible_item_data)
-    elif body.action == "get_label_from_id":
+    elif body.action == "GetLabel":
         response = WikiTool().get_label(body.action_input)
         return {"message": response}
     else:
