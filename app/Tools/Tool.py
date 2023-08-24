@@ -302,7 +302,13 @@ class SparqlTool():
         if len(results) == 0:
             return {"message":"""The result is empty set possible reasons\n 1) The tool gave out improper sparql query \n2) The entity id used for constrution might be wrong \n3) Our LLM created its own query which is synctactically correct but the kg structure doesnt match the query
                       For cases 1 and 3 you cant do much but for case 2 you can try to either change the entity id which gaves same answer from wikipedia."""}
-        return {"message":results}
+        results_list = []
+        x = results
+        if len(x) > 0:
+            for y in x:
+                if y.get("x1") is not None:
+                    results_list.append({"value": y.get("x1").get("value")})
+        return {"message":results_list}
 
 class WikiTool():
     def __init__(self):
