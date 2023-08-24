@@ -339,7 +339,11 @@ class WikiTool():
         data = response.json()
         pages = data['query']['pages']
         for page in pages.values():
-            return page.get('pageprops', {}).get('wikibase_item')
+            x = page.get('pageprops', {}).get('wikibase_item')
+            if x is not None:
+               return x
+            else:
+               return "Please check the label may be QID doesnt exist for this label!Check Online for small corrections pls!"
 
 
     def all_wikidata_ids(self, actionInput):
