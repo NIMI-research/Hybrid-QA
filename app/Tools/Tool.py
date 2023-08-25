@@ -8,9 +8,9 @@ from langchain import PromptTemplate
 from langchain import OpenAI, LLMChain
 from langchain.prompts.few_shot import FewShotPromptTemplate
 import re
-from utilities.utilities_for_tools import load_chain, load_openai_api
+from app.utilities.utilities_for_tools import load_chain, load_openai_api
 import openai
-from utilities.utilities_for_tools import load_sentence_transformer
+from app.utilities.utilities_for_tools import load_sentence_transformer
 import subprocess
 from .Custom_Classes import CustomWikipediaAPIWrapper
 from langchain.utilities import WikipediaAPIWrapper
@@ -308,6 +308,9 @@ class SparqlTool():
             for y in x:
                 if y.get("x1") is not None:
                     results_list.append({"value": y.get("x1").get("value")})
+                else:
+                    results_list.append(y)
+
         return {"message":results_list}
 
 class WikiTool():
