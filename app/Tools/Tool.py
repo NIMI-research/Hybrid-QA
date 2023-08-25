@@ -8,9 +8,9 @@ from langchain import PromptTemplate
 from langchain import OpenAI, LLMChain
 from langchain.prompts.few_shot import FewShotPromptTemplate
 import re
-from app.utilities.utilities_for_tools import load_chain, load_openai_api
+from utilities.utilities_for_tools import load_chain, load_openai_api
 import openai
-from app.utilities.utilities_for_tools import load_sentence_transformer
+from utilities.utilities_for_tools import load_sentence_transformer
 import subprocess
 from .Custom_Classes import CustomWikipediaAPIWrapper
 from langchain.utilities import WikipediaAPIWrapper

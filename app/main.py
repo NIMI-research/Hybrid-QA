@@ -9,7 +9,7 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from refined.inference.processor import Refined
 
-from app.Tools.Tool import Squall, SparqlTool, WikiTool
+from Tools.Tool import Squall, SparqlTool, WikiTool
 
 LOGGER = logging.getLogger(__name__)
 
@@ -55,12 +55,12 @@ class Universal_Request_Body(BaseModel):
 async def get_items(body: Universal_Request_Body):
     try:
         refined = ml_models["refined"]()
-        squall = Squall("app/Tools/Tools_Data/squall_fixed_few_shot.json",
+        squall = Squall("Tools/Tools_Data/squall_fixed_few_shot.json",
                         refined)
         response = squall.generate_squall_query(body.action_input)
         return {"message": response}
     except Exception as ex_err:
-        raise HTTPException(400, detail="Failed general search")
+        print(str(ex_err))
     # elif body.action == "squall2sparql":
     #     converter = SparqlTool("/home/dhananjay/HybridQA/Tools/Tools_Data/squall2sparql_revised.sh")
     #     response = converter.gen_sparql_from_squall(body.action_input)
@@ -97,7 +97,7 @@ async def get_wiki_search(body: Universal_Request_Body):
 @app.post('/run_sparql')
 async def get_wiki_search(body: Universal_Request_Body):
     try:
-        converter = SparqlTool("app/Tools/Tools_Data/squall2sparql_revised.sh")
+        converter = SparqlTool("Tools/Tools_Data/squall2sparql_revised.sh")
         response = converter.run_sparql(body.action_input)
         json_compatible_item_data = jsonable_encoder(response)
         return JSONResponse(content=json_compatible_item_data)

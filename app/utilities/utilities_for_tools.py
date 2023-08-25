@@ -9,7 +9,7 @@ def load_chain():
 
 def load_openai_api():
     config = configparser.ConfigParser()
-    config.read('app/Tools/Tools_Data/secrets.ini')
+    config.read('Tools/Tools_Data/secrets.ini')
     openai_api_key = config['OPENAI']['OPENAI_API_KEY']
     os.environ.update({'OPENAI_API_KEY': openai_api_key})
     print(openai_api_key)
