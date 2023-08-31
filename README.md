@@ -27,4 +27,7 @@ pip install -r requirements.txt
 ```bash
 cd app
 ```
-
+7. To run
+```bash
+python main.py --dataset qald #for other datasets replace qald with mintaka or compmix
+```
