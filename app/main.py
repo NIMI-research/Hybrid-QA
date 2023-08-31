@@ -1,114 +1,91 @@
-import logging
-from contextlib import asynccontextmanager
-
-from fastapi import FastAPI
-from fastapi import HTTPException
-from fastapi.encoders import jsonable_encoder
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
-from pydantic import BaseModel
-from refined.inference.processor import Refined
-
 from Tools.Tool import Squall, SparqlTool, WikiTool
+from Tools.utilities_for_tools import load_refined_model,load_chain
+import json
+import fire
+from Lang_file import Lanchain_impl
+import os
+import re
+from langchain import PromptTemplate
+from langchain import LLMChain
 
-LOGGER = logging.getLogger(__name__)
+def prepare_question_list(data_file):
+    with open(f"data/{data_file}.txt", "r") as file:
+        lines = file.readlines()
+        return lines
 
-origins = ["*"]
+def write_answers(answer_list, output_path, dataset, answer=True):
+    json_write = json.dumps(answer_list, indent=4)
 
+    # Writing to sample.json
+    path = ""
+    if answer:
+        path = f"{output_path}/{dataset}_answer.json"
+    else:
+        path = f"{output_path}/{dataset}_templates.json"
+    with open(path, "w") as outfile:
+        outfile.write(json_write)
 
-def load_refined_model():
-    refined = Refined.from_pretrained(model_name='wikipedia_model_with_numbers',
-                                      entity_set="wikipedia")
-    return refined
+def read_json(dataset):
+    path = os.getcwd()
+    with open(f"{path}/data/merge_few_shot_examples.json","r") as file:
+        data = json.load(file)
+        return data[dataset]
 
+def merge_step_updated(output, few_shot,langchain_call,model_name):
+    ques = output['input']
+    wikipedia_match = re.search(r'Wikipedia_Answer:\s*(\d+)', output['output'])
+    wikidata_match = re.search(r'Wikidata_Answer:\s*(\d+)', output['output'])
+    assistant_match = re.search(r'Assistant Response:\s*(.*)', output['output'], re.DOTALL)
+    wikipedia_ans = wikipedia_match.group(1) if wikipedia_match else None
+    wikidata_ans = wikidata_match.group(1) if wikidata_match else None
+    context = assistant_match.group(1).strip() if assistant_match else None
+    int_knw = langchain_call.answer_ques(ques)
 
-ml_models = {}
-
-
-#
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    # Load the ML model
-    ml_models["refined"] = load_refined_model
-    yield
-    # Clean up the ML models and release the resources
-    ml_models.clear()
-
-
-app = FastAPI(lifespan=lifespan)
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=False,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-
-class Universal_Request_Body(BaseModel):
-    action: str
-    action_input: str
-
-
-@app.post('/generate_squall')
-async def get_items(body: Universal_Request_Body):
-    try:
-        refined = ml_models["refined"]()
-        squall = Squall("Tools/Tools_Data/squall_fixed_few_shot.json",
-                        refined)
-        response = squall.generate_squall_query(body.action_input)
-        return {"message": response}
-    except Exception as ex_err:
-        print(str(ex_err))
-    # elif body.action == "squall2sparql":
-    #     converter = SparqlTool("/home/dhananjay/HybridQA/Tools/Tools_Data/squall2sparql_revised.sh")
-    #     response = converter.gen_sparql_from_squall(body.action_input)
-    #     return {"message": response}
+    template = """Your task is to provide short answers to questions. For doing this, you get answers that were extracted from Wikipedia, Wikidata and your own parametric knowledge respectively. You also get a paragraph of context information related to the answer of the question. 
+                Here are few examples to refer to.
+                {example}
+                Question: {ques}
+                Wikipedia Answer: {wikipedia_ans}
+                Wikidata Answer: {wikidata_ans}
+                Internal Knowledge: {int_knw}
+                Context: {context}
+                Answer:
 
 
-@app.post('/wiki_search')
-async def get_wiki_search(body: Universal_Request_Body):
-    try:
-        response = WikiTool().get_wikipedia_summary_keyword(body.action_input)
-        return {"message": response}
-    except Exception as ex_Err:
-        raise HTTPException(400, detail="failed wiki search")
+                """
+    prompt = PromptTemplate(
+        template=template,
+        input_variables=['ques', 'context', 'wikipedia_ans', 'wikidata_ans', 'int_knw', 'example'])
+    llm = load_chain(model_name)
+    llm_chain = LLMChain(prompt=prompt, llm=llm)
+    return llm_chain.run(
+        {'ques': ques, 'context': context, 'wikipedia_ans': wikipedia_ans, 'wikidata_ans': wikidata_ans,
+         'int_knw': int_knw, 'example': few_shot})
 
 
-@app.post('/wiki_search_summary')
-async def get_wiki_search(body: Universal_Request_Body):
-    try:
-        paragraphs = WikiTool().get_wikipedia_summary(body.action_input)
-        return {"message": paragraphs}
-    except Exception as ex_err:
-        raise HTTPException(400, detail="Failed to search wiki summary")
+def main(dataset: str = "mintaka",
+         model_name: str = "gpt-4-0314",
+         output_path: str = "answers_data"
+):
+    refined = load_refined_model()
+    wiki_tool = WikiTool(model_name)
+    path = os.getcwd()
+    print("main---->", path)
+    squall = Squall(f"{path}/Tools/Tools_Data/squall_fixed_few_shot.json", refined,model_name)
+    sparql_tool = SparqlTool(f"{path}/Tools/Tools_Data/squall2sparql_revised.sh")
+    questions = prepare_question_list(dataset)
+    print(questions)
+    print(refined)
+    langchain_call = Lanchain_impl(dataset, model_name, wiki_tool, squall, sparql_tool)
+    final_answer_list = []
+    for question in questions:
+        out, template_answer = langchain_call.execute_agent(question.strip("\n"))
+        #answer_list.append(out)
+        #template_list.append(template_answer)
+        few_shot = read_json(dataset)
+        final_answer = merge_step_updated(out,few_shot,langchain_call,model_name)
+        final_answer_list.append({"question":question,"context":out ,"final_answer":final_answer})
+    write_answers(final_answer_list, output_path, dataset)
 
-
-@app.post('/get_wikidata_id')
-async def get_wiki_search(body: Universal_Request_Body):
-    try:
-        response = WikiTool().all_wikidata_ids(body.action_input)
-        return {"message": response}
-    except Exception as ex_Err:
-        raise HTTPException(400, detail="Failed ")
-
-
-@app.post('/run_sparql')
-async def get_wiki_search(body: Universal_Request_Body):
-    try:
-        converter = SparqlTool("Tools/Tools_Data/squall2sparql_revised.sh")
-        response = converter.run_sparql(body.action_input)
-        json_compatible_item_data = jsonable_encoder(response)
-        return JSONResponse(content=json_compatible_item_data)
-    except Exception as ex_err:
-        raise HTTPException(400, detail="Failed to run sqarql")
-
-
-@app.post('/get_label')
-async def get_wiki_search(body: Universal_Request_Body):
-    try:
-        response = WikiTool().get_label(body.action_input)
-        return {"message": response}
-    except Exception as ex_err:
-        raise HTTPException(400, detail="Failed to get label")
+if __name__ == "__main__":
+    fire.Fire(main)

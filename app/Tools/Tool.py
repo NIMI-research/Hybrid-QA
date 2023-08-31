@@ -8,25 +8,25 @@ from langchain import PromptTemplate
 from langchain import OpenAI, LLMChain
 from langchain.prompts.few_shot import FewShotPromptTemplate
 import re
-from utilities.utilities_for_tools import load_chain, load_openai_api
+from .utilities_for_tools import load_chain, load_openai_api
 import openai
-from utilities.utilities_for_tools import load_sentence_transformer
+from .utilities_for_tools import load_sentence_transformer
 import subprocess
 from .Custom_Classes import CustomWikipediaAPIWrapper
 from langchain.utilities import WikipediaAPIWrapper
 import requests
 from typing import List, Dict, Any
-import sys
+import os
 
 
 
 class Squall():
-    def __init__(self, few_shot_path: str, refined):
+    def __init__(self, few_shot_path: str, refined, model_name):
         self.few_shot_path = few_shot_path
         self.config = load_openai_api()
         self.refined = refined
         self.model = load_sentence_transformer()
-
+        self.mode_name = model_name
 
 
     def cos_sim(self, element, model, labels_sim, threshold = 2):
@@ -96,7 +96,7 @@ class Squall():
         prompt = PromptTemplate(
             template=template,
             input_variables=['ques'])
-        llm = load_chain()
+        llm = load_chain(self.mode_name)
         llm_chain = LLMChain(prompt=prompt, llm=llm)
         result = llm_chain.run(ques)
         return list(result.split(','))
@@ -215,7 +215,7 @@ class Squall():
         print(entities)
         few_shot_template = '''Question: {ques} \nEntities: {entities} \nSQUALL Query: {answer}'''
         prefix = '''Given the Question and Entities Generate the SQUALL Query. Here are the examples'''
-        suffix =  '''Question: {ques} \nEntities: {entities} \nSQUALL Query:'''
+        suffix = '''Question: {ques} \nEntities: {entities} \nSQUALL Query:'''
         few_shot_prompt = PromptTemplate(input_variables=["ques", "entities", "answer"], template=few_shot_template)
 
         prompt = FewShotPromptTemplate(
@@ -223,10 +223,12 @@ class Squall():
                         example_prompt=few_shot_prompt,
                         suffix=suffix,
                         input_variables=["ques", "entities"] )
-        llm = load_chain()
+        llm = load_chain(self.mode_name)
         llm_chain = LLMChain(prompt=prompt,llm=llm)
         x = llm_chain.run({'ques': question, 'entities': entities})
-        converter = SparqlTool("/home/work/Human_IQ/HumanIQ_Tool/app/Tools/Tools_Data/squall2sparql_revised.sh")
+        path = os.getcwd()
+        print("Tool----->", path)
+        converter = SparqlTool(f"{path}/Tools/Tools_Data/squall2sparql_revised.sh")
         response = converter.gen_sparql_from_squall(x)
         return response
 
@@ -314,8 +316,9 @@ class SparqlTool():
         return {"message":results_list}
 
 class WikiTool():
-    def __init__(self):
+    def __init__(self,model_name):
         self.config = load_openai_api()
+        self.model_name = model_name
 
     def get_label(self, entity_id):
         if "[" in entity_id and "]" in entity_id:
@@ -383,7 +386,7 @@ class WikiTool():
                       If you dont find the answer in {results} Just say Answer not found in Context.
                       Answer: """
         prompt = PromptTemplate(template=template, input_variables=['ques', 'results'])
-        llm=load_chain()
+        llm=load_chain(self.model_name)
         llm_chain = LLMChain(prompt=prompt, llm=llm)
         return results
 
@@ -408,6 +411,6 @@ class WikiTool():
                     Context: {result}
                     Answer:: """
         prompt = PromptTemplate(template=template, input_variables=['search', 'result'])
-        llm = load_chain()
+        llm = load_chain(self.model_name)
         llm_chain = LLMChain(prompt=prompt, llm= llm)
         return llm_chain.run({'search': ques, 'result': result})
