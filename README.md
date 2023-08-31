@@ -30,7 +30,7 @@ cd app
 7. To run
 ```bash
 python main.py --dataset qald #for other datasets replace qald with mintaka or compmix
-
+```
 
 -----------Using Conda----------
 
