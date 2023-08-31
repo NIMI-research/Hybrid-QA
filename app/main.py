@@ -89,10 +89,12 @@ def main(dataset: str = "mintaka",
             final_answer = merge_step_updated(out, few_shot, langchain_call, model_name)
             temp["final_answer"] = final_answer.strip()
             temp["error"] = None
+            temp["intermediate_logs"] = template_answer
             final_answer_list.append(temp)
         except Exception as e:
             temp["question"] = question
             temp["final_answer"] = None
+            temp["intermediate_logs"] = None
             temp["error"] = str(e)
             final_answer_list.append(temp)
             continue
