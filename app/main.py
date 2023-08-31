@@ -79,13 +79,26 @@ def main(dataset: str = "mintaka",
     langchain_call = Lanchain_impl(dataset, model_name, wiki_tool, squall, sparql_tool)
     final_answer_list = []
     for question in questions:
-        out, template_answer = langchain_call.execute_agent(question.strip("\n"))
+        temp = {}
+        try:
+            temp["question"] = question
+            out, template_answer = langchain_call.execute_agent(question.strip("\n"))
+            #answer_list.append(out)
+            #template_list.append(template_answer)
+            few_shot = read_json(dataset)
+            final_answer = merge_step_updated(out, few_shot, langchain_call, model_name)
+            temp["final_answer"] = final_answer.strip()
+            temp["error"] = None
+            final_answer_list.append(temp)
+        except Exception as e:
+            temp["question"] = question
+            temp["final_answer"] = None
+            temp["error"] = str(e)
+            final_answer_list.append(temp)
+            continue
+        del temp
 
-        few_shot = read_json(dataset)
-        final_answer = merge_step_updated(out,few_shot,langchain_call,model_name)
-        final_answer_list.append({"question":question,"Context":str(out), "final_answer":final_answer})
-        answer_for_current_question = [{"question": question, "Context": template_answer, "final_answer": final_answer}]
-        write_answers(answer_for_current_question, output_path, dataset)
+    write_answers(final_answer_list, output_path, dataset)
 
 if __name__ == "__main__":
     fire.Fire(main)
