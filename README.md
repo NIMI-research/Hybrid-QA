@@ -30,4 +30,28 @@ cd app
 7. To run
 ```bash
 python main.py --dataset qald #for other datasets replace qald with mintaka or compmix
+
+
+-----------Using Conda----------
+
+Make sure you are in the base env before creating the Conda env
+1. Create a bew Conda env
+   ```bash
+   conda create --name hybrid python==3.10 ##env name is hybrid
+   ```
+3. Activate your environment 
+  ```bash
+  conda activate hybrid
+  ```
+3. Install requirements
+```bash
+pip install -r requirements.txt
+```
+4. Go to the project directory
+```bash
+cd app
+```
+5. To run the application
+```bash
+python main.py --dataset qald
 ```
