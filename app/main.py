@@ -16,7 +16,6 @@ def prepare_question_list(data_file):
 def write_answers(answer_list, output_path, dataset, answer=True):
     json_write = json.dumps(answer_list, indent=4)
 
-    # Writing to sample.json
     path = ""
     if answer:
         path = f"{output_path}/{dataset}_answer.json"
@@ -62,9 +61,10 @@ def merge_step_updated(output, few_shot,langchain_call,model_name):
         {'ques': ques, 'context': context, 'wikipedia_ans': wikipedia_ans, 'wikidata_ans': wikidata_ans,
          'int_knw': int_knw, 'example': few_shot})
 
-
+#'gpt-3.5-turbo'
+#gpt-4-0314
 def main(dataset: str = "mintaka",
-         model_name: str = "gpt-4-0314",
+         model_name: str = "gpt-3.5-turbo",
          output_path: str = "answers_data"
 ):
     refined = load_refined_model()
@@ -80,12 +80,12 @@ def main(dataset: str = "mintaka",
     final_answer_list = []
     for question in questions:
         out, template_answer = langchain_call.execute_agent(question.strip("\n"))
-        #answer_list.append(out)
-        #template_list.append(template_answer)
+
         few_shot = read_json(dataset)
         final_answer = merge_step_updated(out,few_shot,langchain_call,model_name)
-        final_answer_list.append({"question":question,"final_answer":final_answer})
-    write_answers(final_answer_list, output_path, dataset)
+        final_answer_list.append({"question":question,"Context":str(out), "final_answer":final_answer})
+        answer_for_current_question = [{"question": question, "Context": template_answer, "final_answer": final_answer}]
+        write_answers(answer_for_current_question, output_path, dataset)
 
 if __name__ == "__main__":
     fire.Fire(main)
