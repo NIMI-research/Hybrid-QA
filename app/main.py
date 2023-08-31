@@ -84,7 +84,7 @@ def main(dataset: str = "mintaka",
         #template_list.append(template_answer)
         few_shot = read_json(dataset)
         final_answer = merge_step_updated(out,few_shot,langchain_call,model_name)
-        final_answer_list.append({"question":question,"context":out ,"final_answer":final_answer})
+        final_answer_list.append({"question":question,"final_answer":final_answer})
     write_answers(final_answer_list, output_path, dataset)
 
 if __name__ == "__main__":
