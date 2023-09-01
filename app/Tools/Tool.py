@@ -295,12 +295,13 @@ class SparqlTool():
         }
         if wikidata_user_agent_header is not None:
             headers['User-Agent'] = wikidata_user_agent_header
-
         response = requests.get(url, headers=headers, params={'query': query, 'format': 'json'})
-
+        if "boolean" in response.json():
+            return {"message": response.json()["boolean"]}
         if response.status_code != 200:
             return "That query failed. Perhaps you could try a different one?"
         results = self.get_nested_value(response.json(), ['results', 'bindings'])
+
         if len(results) == 0:
             return {"message":"""The given query failed, please reconstruct your query and try again."""}
         results_list = []

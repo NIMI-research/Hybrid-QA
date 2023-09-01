@@ -288,9 +288,11 @@ class Lanchain_impl():
 When Wikipedia gives no answer or SPARQL query gives no result, you are allowed to use relevant keywords for finding QIDs to generate the SPARQL query.
 Your immediate steps include finding relevant wikipedia articles summary to find the answer, find Keywords that are the QIDS from the Wikidata using Wikipedia Page title. \nUse these QIDs to generate the SPARQL query using available {tools}.\nWikidata Answers are the observation after executing the SPARQL query.\n
 Always follow the specific format to output the answer - 
-Wikipedia_answer : Wikipedia Answer, Wikidata_answer : Wikidata Answer , Assistance Response: Extended Answer that containing your reasoning, proof and final answer, please keep this descriptive.
+Wikipedia_Answer : Wikipedia Answer, Wikidata_Answer : Wikidata Answer , 
+Assistance Response: Extended Answer that containing your reasoning, proof and final answer, please keep this descriptive.
 if no answer is found using wikidata but found answer with wikipedia return 
-Wikipedia_answer : Answer, Wikidata_answer : None , Assistance Response: And extended Answer containing your reasoning and proof, please keep this descriptive.
+Wikipedia_Answer : Answer, Wikidata_Answer : None , 
+Assistance Response: And extended Answer containing your reasoning and proof, please keep this descriptive.
 
 Here are three examples to look at\n"""
         additional_template = """
@@ -302,7 +304,7 @@ Action Input: the input to the action
 Observation: the result of the action
 ... (this Thought/Action/Action Input/Observation can repeat N times)
 Thought: I now know the final answer...
-Final Answer: Wikipedia_answer : , Wikidata_answer : ,
+Final Answer: Wikipedia_Answer : , Wikidata_Answer : ,
 Assistance Response : 
         
 Question: {input}
