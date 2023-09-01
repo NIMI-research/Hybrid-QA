@@ -285,14 +285,15 @@ class Lanchain_impl():
     def get_prompt(self,question):
         workflow = Template_Construction(question, self.dataset).full_shot_with_diversity()
         prepend_template = """
-        Given the question, your eventual task is to find the answer using both Wikipedia and Wikidata Databases.
-        If you found the answer using Wikipedia Article you need to verify it with Wikidata and vice versa. At the end also very using your own internal knowledge
-        Your immediate steps include finding relevant wikipedia articles summary to find the answer, find Keywords that are the QIDS from the Wikidata using Wikipedia Page title.. 
+        Given the question, your task is to find the answer using both Wikipedia and Wikidata Databases.
+        If you found the answer using Wikipedia Article you need to verify it with Wikidata, even if you do not find an answer with Wikpedia, first make sure to look up on different relevant wikipedia articles. If you still cannot find with wikipedia, try with Wikidata as well. When Wikipedia gives no answer or SPARQL query gives no result, you are allowed to use relevant keywords for finding QIDs to generate the SPARQL query.
+        Your immediate steps include finding relevant wikipedia articles summary to find the answer, find Keywords that are the QIDS from the Wikidata using Wikipedia Page title.
         Use these QIDs to generate the SPARQL query using available {tools}.
+        Wikidata Answers are the observation after executing the SPARQL query.
         Always follow the specific format to output the answer - 
-        Wikipedia_answer : Answer, Wikidata_answer : Answer 
+        Wikipedia_answer : Wikipedia Answer, Wikidata_answer : Wikidata Answer , Assistance Response: Extended Answer that containing your reasoning, proof and final answer, please keep this descriptive.
         if no answer is found using wikidata but found answer with wikipedia return 
-        Wikipedia_answer : Answer, Wikidata_answer : None 
+        Wikipedia_answer : Answer, Wikidata_answer : None , Assistance Response: And extended Answer containing your reasoning and proof, please keep this descriptive.
 
         Here are three examples to look at\n
         """
@@ -305,7 +306,8 @@ class Lanchain_impl():
         Observation: the result of the action
         ... (this Thought/Action/Action Input/Observation can repeat N times)
         Thought: I now know the final answer...
-        Final Answer: the final SQUALL Query 
+        Final Answer: Wikipedia_answer : , Wikidata_answer : ,
+        Assistance Response : 
         
         Question: {input}
         {agent_scratchpad}
@@ -314,6 +316,7 @@ class Lanchain_impl():
 
         workflow=workflow.strip("\n")
         complete_workflow = f"{prepend_template}{workflow}\n\n{additional_template}"
+        print(complete_workflow)
         prompt = CustomPromptTemplate(
             template = complete_workflow.strip("\n"),
             tools= self.get_tools(),
@@ -321,6 +324,7 @@ class Lanchain_impl():
             # This includes the `intermediate_steps` variable because that is needed
             input_variables=["input", "intermediate_steps"]
         )
+        
         return prompt
 
     def answer_ques(self, ques):
@@ -343,8 +347,7 @@ class Lanchain_impl():
             else:
                 thought = "Thought: "
                 complete_steps = f"{complete_steps}\n{thought}{i[0].log}\nObservation:{i[1]}\n"
-        final_string = """Thought: I now know the final answer based on both Wikipedia, Wikidata and Internal Knowledge. The answer for the Wikidata is the List I have from above Observation. Therefore,
-        Final Answer: """
+        final_string = """Thought: I now know the final answer based on both Wikipedia and Wikidata. \nFinal Answer: """
         complete_steps = f'{out.get("input")}\n{complete_steps}\n{final_string}{out.get("output")}, Internal Knowledge: {int_answer}'
         return complete_steps
 
@@ -393,5 +396,4 @@ class Lanchain_impl():
         out = agent_executor(question)
         answer_template_for_inference = self.get_template_inference(out,internal_answer)
         print(answer_template_for_inference)
-        #one_dict = self.execute_one_query(answer_template_for_inference, question)
         return out, answer_template_for_inference

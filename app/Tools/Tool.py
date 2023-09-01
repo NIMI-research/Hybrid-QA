@@ -299,11 +299,10 @@ class SparqlTool():
         response = requests.get(url, headers=headers, params={'query': query, 'format': 'json'})
 
         if response.status_code != 200:
-            return "That query failed. Perhaps you could try a different one? Maybe check the syntax, maybe double quotes etc!"
+            return "That query failed. Perhaps you could try a different one?"
         results = self.get_nested_value(response.json(), ['results', 'bindings'])
         if len(results) == 0:
-            return {"message":"""The result is empty set possible reasons\n 1) The tool gave out improper sparql query \n2) The entity id used for constrution might be wrong \n3) Our LLM created its own query which is synctactically correct but the kg structure doesnt match the query
-                      For cases 1 and 3 you cant do much but for case 2 you can try to either change the entity id which gaves same answer from wikipedia."""}
+            return {"message":"""The given query failed, please reconstruct your query and try again."""}
         results_list = []
         x = results
         if len(x) > 0:
@@ -355,7 +354,7 @@ class WikiTool():
             if x is not None:
                return x
             else:
-               return "Please check the label may be QID doesnt exist for this label!Check Online for small corrections pls!"
+               return "There is no QID for the given keyword, please retry with another relvant keyword for the QID from Wikidata pages."
 
 
     def all_wikidata_ids(self, actionInput):
