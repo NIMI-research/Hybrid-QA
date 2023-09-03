@@ -2,7 +2,7 @@ from Tools.Tool import Squall, SparqlTool, WikiTool
 from Tools.utilities_for_tools import load_refined_model,load_chain
 import json
 import fire
-from Lang_file import Lanchain_impl
+from Lang_file import Lanchain_impl,Template_Construction
 import os
 import re
 from langchain import PromptTemplate
@@ -48,7 +48,8 @@ def merge_step_updated(output, few_shot,langchain_call,model_name):
 #gpt-4-0314
 def main(dataset: str = "mintaka",
          model_name: str = "gpt-4-0314",
-         output_path: str = "answers_data"
+         output_path: str = "answers_data",
+         dynamic = True
 ):
     refined = load_refined_model()
     wiki_tool = WikiTool(model_name)
@@ -59,7 +60,7 @@ def main(dataset: str = "mintaka",
     questions = prepare_question_list(dataset)
     print(questions)
     print(refined)
-    langchain_call = Lanchain_impl(dataset, model_name, wiki_tool, squall, sparql_tool)
+    langchain_call = Lanchain_impl(dataset, model_name, wiki_tool, squall, sparql_tool,dynamic)
     final_answer_list = []
     for question in questions:
         temp = {}

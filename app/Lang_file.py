@@ -1,4 +1,5 @@
 import os
+from weakref import finalize
 
 from langchain import PromptTemplate
 from langchain.prompts import StringPromptTemplate
@@ -17,6 +18,7 @@ from langchain.callbacks.manager import (
 from langchain.agents import Tool, AgentExecutor, AgentOutputParser, BaseSingleActionAgent
 from langchain.chat_models import ChatOpenAI
 import traceback
+import random
 
 
 
@@ -225,14 +227,35 @@ class Template_Construction():
             return final_template
 
 
+    def static_prompt_construction(self):
+        path = os.getcwd()
+        questions = self.load_dataset_for_few_shot(f"{path}/data/{self.dataset}.json")
+        #random.seed(4)
+        selected_questions = random.sample(questions,3)
+        with open(f"{path}/data/{self.dataset}.json", "r") as file:
+            data = json.load(file)
+            final_template = ""
+            print(selected_questions)
+            counter = 0
+            for x in data:
+                for question in selected_questions:
+                    if x.get("Question").strip() == question.strip():
+                        counter = counter + 1
+                        final_template = f"{final_template}\n\nExample {counter}: \n\n{x.get('One_Shot')}"
+
+            return final_template
+
+
+
 
 class Lanchain_impl():
-    def __init__(self, dataset, model_name, wiki_tool, squall, sparql_tool):
+    def __init__(self, dataset, model_name, wiki_tool, squall, sparql_tool,dynamic):
         self.dataset = dataset
         self.model_name = model_name
         self.wiki_tool = wiki_tool
         self.squall = squall
         self.sparql_tool = sparql_tool
+        self.dynamic = dynamic
 
     def get_observation(self,x):
         if "Observation" in x and ":" in x:
@@ -245,7 +268,7 @@ class Lanchain_impl():
         tools = [Tool(
                 name="WikiSearch",
                 func=lambda x: self.wiki_tool.get_wikipedia_summary_keyword(x),
-                description="useful to find relevant wikipedia article given the Action Input"
+                description="useful to find relevant wikipedia article given the Action Input. Do not use this tool with same input/query."
             ),
             Tool(
                 name="GetWikidataID",
@@ -255,17 +278,17 @@ class Lanchain_impl():
             Tool(
                 name="GenerateSparql",
                 func=lambda x: self.squall.generate_squall_query(x),
-                description="useful to get Squall query given the Action Input"
+                description="useful to get Squall query given the Action Input. Do not use this tool with same input/query."
             ),
             Tool(
                 name="RunSparql",
                 func=lambda x: self.sparql_tool.run_sparql(x),
-                description="useful to run a query on wikibase to get results"
+                description="useful to run a query on wikibase to get results. Do not use this tool with same input/query."
             ),
             Tool(
                 name="WikiSearchSummary",
                 func=lambda x: self.wiki_tool.get_wikipedia_summary(x),
-                description="useful to find the answer on wikipedia article given the Action Input if WikiSearch Tool doesnt provide any answer!",
+                description="useful to find the answer on wikipedia article given the Action Input if WikiSearch Tool doesnt provide any answer!. Do not use this tool with same input/query.",
                 verbose=True,
             ),
             Tool(
@@ -282,17 +305,21 @@ class Lanchain_impl():
 
 
 
-    def get_prompt(self,question):
-        workflow = Template_Construction(question, self.dataset).full_shot_with_diversity()
+    def get_prompt(self,question,dynamic):
+        workflow = ""
+        if dynamic:
+            workflow = f'{workflow}{Template_Construction(question, self.dataset).full_shot_with_diversity()}'
+        else:
+            workflow = f'{workflow}{Template_Construction(question, self.dataset).static_prompt_construction()}'
         prepend_template = """Given the question, your task is to find the answer using both Wikipedia and Wikidata Databases.If you found the answer using Wikipedia Article you need to verify it with Wikidata, even if you do not find an answer with Wikpedia, first make sure to look up on different relevant wikipedia articles. If you still cannot find with wikipedia, try with Wikidata as well. 
 When Wikipedia gives no answer or SPARQL query gives no result, you are allowed to use relevant keywords for finding QIDs to generate the SPARQL query.
 Your immediate steps include finding relevant wikipedia articles summary to find the answer, find Keywords that are the QIDS from the Wikidata using Wikipedia Page title. \nUse these QIDs to generate the SPARQL query using available {tools}.\nWikidata Answers are the observation after executing the SPARQL query.\n
 Always follow the specific format to output the answer - 
 Wikipedia_Answer : Wikipedia Answer, Wikidata_Answer : Wikidata Answer , 
-Assistance Response: Extended Answer that containing your reasoning, proof and final answer, please keep this descriptive.
+Assistance Response: Extended Answer that contains your reasoning, proof and final answer, please keep this descriptive.
 if no answer is found using wikidata but found answer with wikipedia return 
 Wikipedia_Answer : Answer, Wikidata_Answer : None , 
-Assistance Response: And extended Answer containing your reasoning and proof, please keep this descriptive.
+Assistance Response: And extended Answer contains your reasoning and proof, please keep this descriptive.
 
 Here are three examples to look at\n"""
         additional_template = """
@@ -312,7 +339,7 @@ Question: {input}
                     
         """
 
-        workflow=workflow.strip("\n")
+        workflow = workflow.strip("\n")
         complete_workflow = f"{prepend_template}{workflow}\n\n{additional_template.strip()}"
         print(complete_workflow)
         prompt = CustomPromptTemplate(
@@ -376,7 +403,7 @@ Question: {input}
 
     def execute_agent(self, question):
         llm = ChatOpenAI(model_name=self.model_name, temperature=0)
-        prompt = self.get_prompt(question)
+        prompt = self.get_prompt(question, self.dynamic)
         llm_chain = LLMChain(llm=llm, prompt = prompt)
         tools = self.get_tools()
         tool_names = [tool.name for tool in tools]
