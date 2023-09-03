@@ -7,40 +7,22 @@ import os
 import re
 from langchain import PromptTemplate
 from langchain import LLMChain
+from utils import extract_values, read_json, write_answers,prepare_question_list
 
-def prepare_question_list(data_file):
-    with open(f"data/{data_file}.txt", "r") as file:
-        lines = file.readlines()
-        return lines
 
-def write_answers(answer_list, output_path, dataset, answer=True):
-    json_write = json.dumps(answer_list, indent=4)
-
-    path = ""
-    if answer:
-        path = f"{output_path}/{dataset}_answer.json"
-    else:
-        path = f"{output_path}/{dataset}_templates.json"
-    with open(path, "w") as outfile:
-        outfile.write(json_write)
-
-def read_json(dataset):
-    path = os.getcwd()
-    with open(f"{path}/data/merge_few_shot_examples.json","r") as file:
-        data = json.load(file)
-        return data[dataset]
 
 def merge_step_updated(output, few_shot,langchain_call,model_name):
     ques = output['input']
-    wikipedia_match = re.search(r'Wikipedia_Answer:\s*(\d+)', output['output'])
-    wikidata_match = re.search(r'Wikidata_Answer:\s*(\d+)', output['output'])
+    wikipedia_ans, wikidata_ans = extract_values(output['output'])
     assistant_match = re.search(r'Assistant Response:\s*(.*)', output['output'], re.DOTALL)
-    wikipedia_ans = wikipedia_match.group(1) if wikipedia_match else None
-    wikidata_ans = wikidata_match.group(1) if wikidata_match else None
     context = assistant_match.group(1).strip() if assistant_match else None
     int_knw = langchain_call.answer_ques(ques)
-
+    print(f'context is ------> {context}')
+    print(f'wikipedia answer is ------> {wikipedia_ans}')
+    print(f'wikidata answer is  -------->{wikidata_ans}')
+    print(f'internal knowledge answer is  -------->{int_knw}')
     template = """Your task is to provide short answers to questions. For doing this, you get answers that were extracted from Wikipedia, Wikidata and your own parametric knowledge respectively. You also get a paragraph of context information related to the answer of the question. 
+                Only pick Internal Knowledge, if you have no answers either from Wikipedia nor Wikidata.
                 Here are few examples to refer to.
                 {example}
                 Question: {ques}
@@ -57,14 +39,15 @@ def merge_step_updated(output, few_shot,langchain_call,model_name):
         input_variables=['ques', 'context', 'wikipedia_ans', 'wikidata_ans', 'int_knw', 'example'])
     llm = load_chain(model_name)
     llm_chain = LLMChain(prompt=prompt, llm=llm)
-    return llm_chain.run(
+    final_answer =  llm_chain.run(
         {'ques': ques, 'context': context, 'wikipedia_ans': wikipedia_ans, 'wikidata_ans': wikidata_ans,
          'int_knw': int_knw, 'example': few_shot})
+    return wikipedia_ans, wikidata_ans, int_knw, final_answer
 
 #'gpt-3.5-turbo'
 #gpt-4-0314
 def main(dataset: str = "mintaka",
-         model_name: str = "gpt-3.5-turbo",
+         model_name: str = "gpt-4-0314",
          output_path: str = "answers_data"
 ):
     refined = load_refined_model()
@@ -86,8 +69,11 @@ def main(dataset: str = "mintaka",
             #answer_list.append(out)
             #template_list.append(template_answer)
             few_shot = read_json(dataset)
-            final_answer = merge_step_updated(out, few_shot, langchain_call, model_name)
+            wiki_ans, wikidata_ans, int_ans, final_answer = merge_step_updated(out, few_shot, langchain_call, model_name)
             temp["final_answer"] = final_answer.strip()
+            temp['wikipedia_answer'] = wiki_ans
+            temp['wikidata_answer'] =wikidata_ans
+            temp['internal_knowledge'] = int_ans
             temp["error"] = None
             temp["intermediate_logs"] = template_answer
             final_answer_list.append(temp)
