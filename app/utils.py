@@ -1,7 +1,7 @@
 import re
 import os 
 import json
-import uuid
+import datetime
 
 def extract_values(data_str):
     wikipedia_match = re.search(r'wikipedia_answer\s*:\s*(.*?)(?=\s*,\s*wikidata_answer|$)', data_str, re.I)
@@ -29,10 +29,10 @@ def read_json(dataset):
     
 def write_answers(answer_list, output_path, dataset, answer=True):
     json_write = json.dumps(answer_list, indent=4)
-
+    timestamp = datetime.datetime.now().strftime("%M%H%d%Y")
     path = ""
     if answer:
-        path = f"{output_path}/{dataset}_{str(uuid.uuid4())}_answer.json"
+        path = f"{output_path}/{timestamp}_{dataset}_answer.json" 
     else:
         path = f"{output_path}/{dataset}_templates.json"
     with open(path, "w") as outfile:

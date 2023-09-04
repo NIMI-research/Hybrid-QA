@@ -47,7 +47,7 @@ def merge_step_updated(output, few_shot,langchain_call,model_name):
 #'gpt-3.5-turbo'
 #gpt-4-0314
 def main(dataset: str = "mintaka",
-         model_name: str = "gpt-4-0314",
+         model_name: str = "gpt-3.5-turbo",
          output_path: str = "answers_data",
          dynamic = True
 ):
