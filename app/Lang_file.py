@@ -223,7 +223,7 @@ class Template_Construction():
                 action_sequence_list.append(x.get("Action_Sequence").strip().strip("\t"))
             similar_sequences = self.model.encode(action_sequence_list)
             indexes = self.cos_sim_least(action_sequence, self.model, similar_sequences, 2)
-            final_template = f"{final_template}\n\nExample 2:\n\n{data[indexes[0]].get('One_Shot')}\n\nExample 3:\n\n{data[indexes[1]].get('One_Shot')}"
+            final_template = f"{final_template}\n\nExample 2:\n\n{data[indexes[0]].get('One_Shot')}"#\n\nExample 3:\n\n{data[indexes[1]].get('One_Shot')}"
             return final_template
 
 
@@ -231,7 +231,7 @@ class Template_Construction():
         path = os.getcwd()
         questions = self.load_dataset_for_few_shot(f"{path}/data/{self.dataset}.json")
         #random.seed(4)
-        selected_questions = random.sample(questions,3)
+        selected_questions = random.sample(questions,2)
         with open(f"{path}/data/{self.dataset}.json", "r") as file:
             data = json.load(file)
             final_template = ""
@@ -268,7 +268,7 @@ class Lanchain_impl():
         tools = [Tool(
                 name="WikiSearch",
                 func=lambda x: self.wiki_tool.get_wikipedia_summary_keyword(x),
-                description="useful to find relevant wikipedia article given the Action Input. Do not use this tool with same input/query."
+                description="Useful to find relevant wikipedia article given the Action Input. Do not use this tool with same input/query."
             ),
             Tool(
                 name="GetWikidataID",
@@ -313,7 +313,8 @@ class Lanchain_impl():
             workflow = f'{workflow}{Template_Construction(question, self.dataset).static_prompt_construction()}'
         prepend_template = """Given the question, your task is to find the answer using both Wikipedia and Wikidata Databases.If you found the answer using Wikipedia Article you need to verify it with Wikidata, even if you do not find an answer with Wikpedia, first make sure to look up on different relevant wikipedia articles. If you still cannot find with wikipedia, try with Wikidata as well. 
 When Wikipedia gives no answer or SPARQL query gives no result, you are allowed to use relevant keywords for finding QIDs to generate the SPARQL query.
-Your immediate steps include finding relevant wikipedia articles summary to find the answer, find Keywords that are the QIDS from the Wikidata using Wikipedia Page title. \nUse these QIDs to generate the SPARQL query using available {tools}.\nWikidata Answers are the observation after executing the SPARQL query.\n
+Your immediate steps include finding relevant wikipedia articles summary to find the answer using {tools} provided, find Keywords that are the QIDS from the Wikidata using Wikipedia Page title. \nUse these QIDs to generate the SPARQL query using available {tools}.\nWikidata Answers are the observation after executing the SPARQL query.\n
+You have access to the following - {tools}!. I repeat always use the {tools}!
 Always follow the specific format to output the answer - 
 Wikipedia_Answer : Wikipedia Answer, Wikidata_Answer : Wikidata Answer , 
 Assistance Response: Extended Answer that contains your reasoning, proof and final answer, please keep this descriptive.
@@ -321,8 +322,9 @@ if no answer is found using wikidata but found answer with wikipedia return
 Wikipedia_Answer : Answer, Wikidata_Answer : None , 
 Assistance Response: And extended Answer contains your reasoning and proof, please keep this descriptive.
 
-Here are three examples to look at\n"""
+Here are three examples to look at on how to use the {tools}\n"""
         additional_template = """
+You have access to the following - {tools}!.I repeat always use the {tools}!
 Use the following format:
 Question: the input question for which you must provide a natural language answer
 Thought: you should always think about what to do

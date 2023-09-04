@@ -312,7 +312,7 @@ class SparqlTool():
                     results_list.append({"value": y.get("x1").get("value")})
                 else:
                     results_list.append(y)
-
+        print(results_list)
         return {"message":results_list}
 
 class WikiTool():
@@ -335,6 +335,7 @@ class WikiTool():
                 results.append(q42.get_label())
             except Exception as e:
                 return "Most probable reason would be the entity label passed might be wrong!"
+        print(results)
         return results
 
     def get_wikidata_id(self, page_title, language='en'):
@@ -365,6 +366,7 @@ class WikiTool():
             x = []
             for act in actionInput:
                 x.append(self.get_wikidata_id(act.strip()))
+                print(x)
             return x
         except Exception as e:
             return "There is an internal error while handling this request!"
@@ -398,6 +400,7 @@ class WikiTool():
         search = search.replace("[", "").replace("]","").split(',')
         wikipedia_wrapper = CustomWikipediaAPIWrapper(top_k_results=3)
         result = wikipedia_wrapper.run(search)
+        print(result)
         #wikipedia = WikipediaAPIWrapper(top_k_results=1)
         template = """Your task is to find only the relevant page out of all the given pages and not to find the page that answers the given Question.
                     Question: {search} with the provided context as {result} containing the Page title and the summary.Show only one relevant Page title that is relevant to the question, also summarize this page summary
