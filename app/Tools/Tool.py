@@ -196,23 +196,20 @@ class Squall():
         return examples_list
 
     def generate_squall_query(self, actionInput:str):
+        print("Inside GenerateSparql!")
         question, entities = actionInput.split("#")
-        print(question,entities)
         question, entities = question.strip(), entities.strip()
         examples = self.generate_prompt_based_on_similarity(question)
         entities = entities.replace("[","").replace("]","").split(",")
         entities = [e.strip().strip("'").strip('"') for e in entities]
-        print(question)
         x = []
         regex = r"Q[0-9]*"
         for e in entities:
             match = re.search(regex, e)
-            print("Here is the culprit", e)
             if e != "None" and match is not None:
                 label, description = self.get_label_and_description(e.strip())
                 x.append((e.strip(),label,description))
         entities = x
-        print(entities)
         few_shot_template = '''Question: {ques} \nEntities: {entities} \nSQUALL Query: {answer}'''
         prefix = '''Given the Question and Entities Generate the SQUALL Query. Here are the examples'''
         suffix = '''Question: {ques} \nEntities: {entities} \nSQUALL Query:'''
@@ -227,7 +224,6 @@ class Squall():
         llm_chain = LLMChain(prompt=prompt,llm=llm)
         x = llm_chain.run({'ques': question, 'entities': entities})
         path = os.getcwd()
-        print("Tool----->", path)
         converter = SparqlTool(f"{path}/Tools/Tools_Data/squall2sparql_revised.sh")
         response = converter.gen_sparql_from_squall(x)
         return response
@@ -287,7 +283,7 @@ class SparqlTool():
         return current
 
     def run_sparql(self, query: str, url='https://query.wikidata.org/sparql'):
-
+        print("Inside RunSparql!")
         wikidata_user_agent_header = None if not self.config.has_section('WIKIDATA') else self.config['WIKIDATA']['WIKIDATA_USER_AGENT_HEADER']
         query = self.post_process_sparql(query)
         headers = {
@@ -312,7 +308,6 @@ class SparqlTool():
                     results_list.append({"value": y.get("x1").get("value")})
                 else:
                     results_list.append(y)
-        print(results_list)
         return {"message":results_list}
 
 class WikiTool():
@@ -321,6 +316,7 @@ class WikiTool():
         self.model_name = model_name
 
     def get_label(self, entity_id):
+        print("Inside GetLabel!")
         if "[" in entity_id and "]" in entity_id:
             entity_id = entity_id.replace("[", "").replace("]", "").strip()
             entity_id = entity_id.split(",")
@@ -360,19 +356,19 @@ class WikiTool():
 
 
     def all_wikidata_ids(self, actionInput):
+        print("Inside GetWikidataId!")
         try:
             actionInput = actionInput.replace("[", "").replace("]", "")
             actionInput = actionInput.replace("'","").replace('"','').split(",")
             x = []
             for act in actionInput:
                 x.append(self.get_wikidata_id(act.strip()))
-                print(x)
             return x
         except Exception as e:
             return "There is an internal error while handling this request!"
 
     def get_wikipedia_summary(self,actionInput) -> str:
-        print(actionInput)
+        print("Inside WikiSearchSummary!")
         ques, search = actionInput.split("#")
         ques, search = ques.strip(), search.replace('[', '').replace(']', '').strip()
         items = search.split(',')
@@ -381,9 +377,6 @@ class WikiTool():
         for item in items:
             results.append(wikipedia.run(item))
         results = '\n'.join(results)
-        print(results)
-        # print(results)
-        #     wikipedia = WikipediaAPIWrapper(top_k_results=1)
         template = """Question: {ques} with the provided context as {results}. show proof to the answer along with the Page Name along with summary.
                       If you dont find the answer in {results} Just say Answer not found in Context.
                       Answer: """
@@ -394,13 +387,13 @@ class WikiTool():
 
 
     def get_wikipedia_summary_keyword(self, actionInput) -> str:
+        print("Inside WikiSearch!")
         ques, search = actionInput.split("#")
         ques, search = ques.strip(), search.strip()
         search = search.replace("'","").replace('"',"")
         search = search.replace("[", "").replace("]","").split(',')
         wikipedia_wrapper = CustomWikipediaAPIWrapper(top_k_results=3)
         result = wikipedia_wrapper.run(search)
-        print(result)
         #wikipedia = WikipediaAPIWrapper(top_k_results=1)
         template = """Your task is to find only the relevant page out of all the given pages and not to find the page that answers the given Question.
                     Question: {search} with the provided context as {result} containing the Page title and the summary.Show only one relevant Page title that is relevant to the question, also summarize this page summary

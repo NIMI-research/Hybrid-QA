@@ -1,8 +1,0 @@
-[
-    {
-        "question": "How many presidents has Tanzania had so far?",
-        "final_answer": null,
-        "intermediate_logs": null,
-        "error": "too many values to unpack (expected 2)"
-    }
-]

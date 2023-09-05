@@ -8,6 +8,7 @@ import re
 from langchain import PromptTemplate
 from langchain import LLMChain
 from utils import extract_values, read_json, write_answers,prepare_question_list
+import time
 
 
 
@@ -47,7 +48,7 @@ def merge_step_updated(output, few_shot,langchain_call,model_name):
 #'gpt-3.5-turbo'
 #gpt-4-0314
 def main(dataset: str = "mintaka",
-         model_name: str = "gpt-3.5-turbo",
+         model_name: str = "gpt-4-0314",
          output_path: str = "answers_data",
          dynamic = True
 ):
@@ -66,6 +67,7 @@ def main(dataset: str = "mintaka",
         temp = {}
         try:
             temp["question"] = question
+            #time.sleep(60)
             out, template_answer = langchain_call.execute_agent(question.strip("\n"))
             #answer_list.append(out)
             #template_list.append(template_answer)

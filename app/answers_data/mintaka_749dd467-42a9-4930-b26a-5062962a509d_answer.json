@@ -1,8 +1,0 @@
-[
-    {
-        "question": "Did Madden 21 come out before Red Ded Redemption?",
-        "final_answer": null,
-        "intermediate_logs": null,
-        "error": "object of type 'NoneType' has no len()"
-    }
-]

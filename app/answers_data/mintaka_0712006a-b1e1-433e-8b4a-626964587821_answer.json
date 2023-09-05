@@ -1,8 +1,0 @@
-[
-    {
-        "question": "When did Al Gore first become vice president?",
-        "final_answer": null,
-        "intermediate_logs": null,
-        "error": "This model's maximum context length is 4097 tokens. However, your messages resulted in 4311 tokens. Please reduce the length of the messages."
-    }
-]
