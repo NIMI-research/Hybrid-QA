@@ -17,10 +17,10 @@ from langchain.utilities import WikipediaAPIWrapper
 import requests
 from typing import List, Dict, Any
 import os
+import logging
 
 
-
-class Squall():
+class Squall:
     def __init__(self, few_shot_path: str, refined, model_name):
         self.few_shot_path = few_shot_path
         self.config = load_openai_api()
@@ -28,10 +28,9 @@ class Squall():
         self.model = load_sentence_transformer()
         self.mode_name = model_name
 
-
-    def cos_sim(self, element, model, labels_sim, threshold = 2):
+    def cos_sim(self, element, model, labels_sim, threshold=2):
         x = model.encode([element])
-        res = (util.dot_score(x, labels_sim))
+        res = util.dot_score(x, labels_sim)
         res = res.squeeze()
         y = np.array(res)
         ind = np.argpartition(y, -threshold)[-threshold:]
@@ -42,10 +41,19 @@ class Squall():
         with open(self.few_shot_path, "r") as file:
             data_train = json.load(file)
             for i in data_train:
-                if i['Question'] == 'What is the name of the sixth movie in the Harry Potter franchise?':
-                    i['Completion'] = 'Which <Q11424:film> is-<P179:part_of_the_series> <Q216930:Harry_Potter_film_series> at <P1545:series_ordinal> 6?'
-                elif i['Question'] == 'What was the name of the last Harry Potter movie?':
-                    i['Completion'] = 'Which <Q11424:film> is-<P179:part_of_the_series> <Q216930:Harry_Potter_film_series> has the latest <P577:publication_date>?'
+                if (
+                    i["Question"]
+                    == "What is the name of the sixth movie in the Harry Potter franchise?"
+                ):
+                    i[
+                        "Completion"
+                    ] = "Which <Q11424:film> is-<P179:part_of_the_series> <Q216930:Harry_Potter_film_series> at <P1545:series_ordinal> 6?"
+                elif (
+                    i["Question"] == "What was the name of the last Harry Potter movie?"
+                ):
+                    i[
+                        "Completion"
+                    ] = "Which <Q11424:film> is-<P179:part_of_the_series> <Q216930:Harry_Potter_film_series> has the latest <P577:publication_date>?"
             return data_train
 
     def create_question_squall_mapping(self):
@@ -75,7 +83,7 @@ class Squall():
         except Exception as e:
             return None, None
 
-    def get_entity_linking_from_refined_batch(self,inputs: list) -> List[str]:
+    def get_entity_linking_from_refined_batch(self, inputs: list) -> List[str]:
         threshold = 0.05
         docs = self.refined.process_text_batch(inputs)
         local_list = []
@@ -93,15 +101,15 @@ class Squall():
         Example: Question - Who ran for president in 2008 and was from Chicago, Illinois - Answer: President, Chicago, Illinois.
         Question: {ques}
         Answer: """
-        prompt = PromptTemplate(
-            template=template,
-            input_variables=['ques'])
+        prompt = PromptTemplate(template=template, input_variables=["ques"])
         llm = load_chain(self.mode_name)
         llm_chain = LLMChain(prompt=prompt, llm=llm)
         result = llm_chain.run(ques)
-        return list(result.split(','))
+        return list(result.split(","))
 
-    def perform_entity_disambiguation_davinci_003(self, question, ambiguation_dict) -> List:
+    def perform_entity_disambiguation_davinci_003(
+        self, question, ambiguation_dict
+    ) -> List:
         final_list = []
         for k, v in ambiguation_dict.items():
             prompt = f"""Your are an expert in performing Entity Disambiguation task on wikidata IDs. Your task is to perform Entity 
@@ -111,15 +119,16 @@ class Squall():
                           Perform the task given the above List.
                           Return the answer only from the above wikidata IDs List, dont try to answer the given Question I repeat dont try to answer the Question and dont provide any explanation.
                           Answer:"""
-            response = openai.Completion.create(api_key = self.config['OPENAI']['OPENAI_API_KEY'],
-                                                model="text-davinci-003",
-                                                prompt=prompt,
-                                                max_tokens=20,
-                                                temperature=0,
-                                                top_p=1,
-                                                n=1,
-                                                stop="/n")
-            print(response["choices"][0]["text"])
+            response = openai.Completion.create(
+                api_key=self.config["OPENAI"]["OPENAI_API_KEY"],
+                model="text-davinci-003",
+                prompt=prompt,
+                max_tokens=20,
+                temperature=0,
+                top_p=1,
+                n=1,
+                stop="/n",
+            )
             regex = r"Q[0-9]*"
             llm_output = response["choices"][0]["text"].strip()
             match = re.search(regex, llm_output)
@@ -141,7 +150,10 @@ class Squall():
             if predicted_entities is not None:
                 predicted_span_lists = []
                 for tuples in predicted_entities:
-                    if "wikidata_entity_id" in str(tuples[0]) and float(tuples[1]) > threshold:
+                    if (
+                        "wikidata_entity_id" in str(tuples[0])
+                        and float(tuples[1]) > threshold
+                    ):
                         regex = r"Q[0-9]*"
                         match = re.search(regex, str(tuples[0]))
                         predicted_span_lists.append(match.group(0))
@@ -157,9 +169,10 @@ class Squall():
                     index = index + 1
                     del local_list
                 del predicted_span_lists
-        # except:
-        #     print("Oops! please check the code no span returned!")
-        disambiguated_list = self.perform_entity_disambiguation_davinci_003(question, ambiguation_dict)
+
+        disambiguated_list = self.perform_entity_disambiguation_davinci_003(
+            question, ambiguation_dict
+        )
         entity_desc_list = []
         for qid in single_entity_list:
             label, desc = self.get_label_and_description(qid)
@@ -172,7 +185,9 @@ class Squall():
 
     def union_of_refined_entities(self, question):
         ents = self.get_llm_ent(question)
-        for_question, disambiguation_list = self.get_entity_linking_from_refined(question)
+        for_question, disambiguation_list = self.get_entity_linking_from_refined(
+            question
+        )
         for_entities = self.get_entity_linking_from_refined_batch(ents)
         for dis in disambiguation_list:
             for ents in for_entities:
@@ -181,7 +196,7 @@ class Squall():
         for_question.extend(for_entities)
         return list(set(for_question))
 
-    def generate_prompt_based_on_similarity(self,question: str):
+    def generate_prompt_based_on_similarity(self, question: str):
         most_similar_questions, mapping = self.most_similar_question(question)
         examples_list = []
         for x in most_similar_questions:
@@ -192,15 +207,14 @@ class Squall():
             example_dict["answer"] = mapping.get(x)
             examples_list.append(example_dict)
             del example_dict
-        print(examples_list)
         return examples_list
 
-    def generate_squall_query(self, actionInput:str):
+    def generate_squall_query(self, actionInput: str):
         print("Inside GenerateSparql!")
         question, entities = actionInput.split("#")
         question, entities = question.strip(), entities.strip()
         examples = self.generate_prompt_based_on_similarity(question)
-        entities = entities.replace("[","").replace("]","").split(",")
+        entities = entities.replace("[", "").replace("]", "").split(",")
         entities = [e.strip().strip("'").strip('"') for e in entities]
         x = []
         regex = r"Q[0-9]*"
@@ -208,37 +222,41 @@ class Squall():
             match = re.search(regex, e)
             if e != "None" and match is not None:
                 label, description = self.get_label_and_description(e.strip())
-                x.append((e.strip(),label,description))
+                x.append((e.strip(), label, description))
         entities = x
-        few_shot_template = '''Question: {ques} \nEntities: {entities} \nSQUALL Query: {answer}'''
-        prefix = '''Given the Question and Entities Generate the SQUALL Query. Here are the examples'''
-        suffix = '''Question: {ques} \nEntities: {entities} \nSQUALL Query:'''
-        few_shot_prompt = PromptTemplate(input_variables=["ques", "entities", "answer"], template=few_shot_template)
+        few_shot_template = (
+            """Question: {ques} \nEntities: {entities} \nSQUALL Query: {answer}"""
+        )
+        prefix = """Given the Question and Entities Generate the SQUALL Query. Here are the examples"""
+        suffix = """Question: {ques} \nEntities: {entities} \nSQUALL Query:"""
+        few_shot_prompt = PromptTemplate(
+            input_variables=["ques", "entities", "answer"], template=few_shot_template
+        )
 
         prompt = FewShotPromptTemplate(
-                        examples=examples,
-                        example_prompt=few_shot_prompt,
-                        suffix=suffix,
-                        input_variables=["ques", "entities"] )
+            examples=examples,
+            example_prompt=few_shot_prompt,
+            suffix=suffix,
+            input_variables=["ques", "entities"],
+        )
         llm = load_chain(self.mode_name)
-        llm_chain = LLMChain(prompt=prompt,llm=llm)
-        x = llm_chain.run({'ques': question, 'entities': entities})
+        llm_chain = LLMChain(prompt=prompt, llm=llm)
+        x = llm_chain.run({"ques": question, "entities": entities})
         path = os.getcwd()
         converter = SparqlTool(f"{path}/Tools/Tools_Data/squall2sparql_revised.sh")
         response = converter.gen_sparql_from_squall(x)
         return response
 
 
-
-class SparqlTool():
-
-    def __init__(self, path_to_conversion_tool : str):
+class SparqlTool:
+    def __init__(self, path_to_conversion_tool: str):
         self.path = path_to_conversion_tool
         self.config = load_openai_api()
 
     def run_squall_tool(self, x: str):
-        p = subprocess.Popen([self.path, "-wikidata", x],
-                             stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        p = subprocess.Popen(
+            [self.path, "-wikidata", x], stdout=subprocess.PIPE, stderr=subprocess.PIPE
+        )
         out, err = p.communicate()
         if out.decode() == "":
             return "The above query is syntactically wrong please try with corrected syntax!"
@@ -251,23 +269,28 @@ class SparqlTool():
         x = query.split(" ")
         for e in x:
             if "<" in e and ">" in e and ":" in e:
-                if e.startswith("p") or e.startswith("ps") or e.startswith("pq") or e.startswith("n1") or e.startswith(
-                        "n2"):
+                if (
+                    e.startswith("p")
+                    or e.startswith("ps")
+                    or e.startswith("pq")
+                    or e.startswith("n1")
+                    or e.startswith("n2")
+                ):
                     ids, _ = e.split(":", 1)
                     e = ids.replace("<", ":").strip()
                 elif (e.startswith("<") or e.endswith(">")) and ">" in e and "Q" in e:
                     ids, _ = e.split(":", 1)
                     e = ids.replace("<", "wd:").strip()
             update_query.append(e)
-        print(update_query)
         return " ".join(update_query).strip()
-
 
     def gen_sparql_from_squall(self, query):
         y = self.run_squall_tool(query)
         message = "The possible reason is\n 1) The query is syntactically wrong\n"
-        if "The above query is syntactically wrong please try with corrected syntax!" not in y:
-            print(y)
+        if (
+            "The above query is syntactically wrong please try with corrected syntax!"
+            not in y
+        ):
             processed_sparql = self.post_process_sparql(y)
             return processed_sparql
         else:
@@ -282,24 +305,30 @@ class SparqlTool():
                 return None
         return current
 
-    def run_sparql(self, query: str, url='https://query.wikidata.org/sparql'):
+    def run_sparql(self, query: str, url="https://query.wikidata.org/sparql"):
         print("Inside RunSparql!")
-        wikidata_user_agent_header = None if not self.config.has_section('WIKIDATA') else self.config['WIKIDATA']['WIKIDATA_USER_AGENT_HEADER']
+        wikidata_user_agent_header = (
+            None
+            if not self.config.has_section("WIKIDATA")
+            else self.config["WIKIDATA"]["WIKIDATA_USER_AGENT_HEADER"]
+        )
         query = self.post_process_sparql(query)
-        headers = {
-            'Accept': 'application/json'
-        }
+        headers = {"Accept": "application/json"}
         if wikidata_user_agent_header is not None:
-            headers['User-Agent'] = wikidata_user_agent_header
-        response = requests.get(url, headers=headers, params={'query': query, 'format': 'json'})
+            headers["User-Agent"] = wikidata_user_agent_header
+        response = requests.get(
+            url, headers=headers, params={"query": query, "format": "json"}
+        )
         if "boolean" in response.json():
             return {"message": response.json()["boolean"]}
         if response.status_code != 200:
             return "That query failed. Perhaps you could try a different one?"
-        results = self.get_nested_value(response.json(), ['results', 'bindings'])
+        results = self.get_nested_value(response.json(), ["results", "bindings"])
 
         if len(results) == 0:
-            return {"message":"""The given query failed, please reconstruct your query and try again."""}
+            return {
+                "message": """The given query failed, please reconstruct your query and try again."""
+            }
         results_list = []
         x = results
         if len(x) > 0:
@@ -308,10 +337,11 @@ class SparqlTool():
                     results_list.append({"value": y.get("x1").get("value")})
                 else:
                     results_list.append(y)
-        return {"message":results_list}
+        return {"message": results_list}
 
-class WikiTool():
-    def __init__(self,model_name):
+
+class WikiTool:
+    def __init__(self, model_name):
         self.config = load_openai_api()
         self.model_name = model_name
 
@@ -324,42 +354,41 @@ class WikiTool():
             return "Try again by passing values in a Python List format with comma separated values!"
         results = []
         for e in entity_id:
-            e = e.replace("'", "").replace('"', '')
+            e = e.replace("'", "").replace('"', "")
             try:
                 q42_dict = get_entity_dict_from_api(e.strip())
                 q42 = WikidataItem(q42_dict)
                 results.append(q42.get_label())
             except Exception as e:
                 return "Most probable reason would be the entity label passed might be wrong!"
-        print(results)
         return results
 
-    def get_wikidata_id(self, page_title, language='en'):
+    def get_wikidata_id(self, page_title, language="en"):
         url = f"https://{language}.wikipedia.org/w/api.php"
         params = {
-            'action': 'query',
-            'prop': 'pageprops',
-            'ppprop': 'wikibase_item',
-            'format': 'json',
-            'titles': page_title
+            "action": "query",
+            "prop": "pageprops",
+            "ppprop": "wikibase_item",
+            "format": "json",
+            "titles": page_title,
         }
 
         response = requests.get(url, params=params)
         data = response.json()
-        pages = data['query']['pages']
+        pages = data["query"]["pages"]
         for page in pages.values():
-            x = page.get('pageprops', {}).get('wikibase_item')
+            x = page.get("pageprops", {}).get("wikibase_item")
             if x is not None:
-               return x
+                return x
             else:
-               return "There is no QID for the given keyword, please retry with another relvant keyword for the QID from Wikidata pages."
-
+                return "There is no QID for the given keyword, please retry with another relvant keyword for the QID from Wikidata pages."
 
     def all_wikidata_ids(self, actionInput):
         print("Inside GetWikidataId!")
+        logging.info("Using the Tool -----> GetWikidataId")
         try:
             actionInput = actionInput.replace("[", "").replace("]", "")
-            actionInput = actionInput.replace("'","").replace('"','').split(",")
+            actionInput = actionInput.replace("'", "").replace('"', "").split(",")
             x = []
             for act in actionInput:
                 x.append(self.get_wikidata_id(act.strip()))
@@ -367,34 +396,34 @@ class WikiTool():
         except Exception as e:
             return "There is an internal error while handling this request!"
 
-    def get_wikipedia_summary(self,actionInput) -> str:
+    def get_wikipedia_summary(self, actionInput) -> str:
         print("Inside WikiSearchSummary!")
+        logging.info('Using the Tool -----> WikiSearchSummary')
         ques, search = actionInput.split("#")
-        ques, search = ques.strip(), search.replace('[', '').replace(']', '').strip()
-        items = search.split(',')
+        ques, search = ques.strip(), search.replace("[", "").replace("]", "").strip()
+        items = search.split(",")
         results = []
         wikipedia = WikipediaAPIWrapper(top_k_results=1)
         for item in items:
             results.append(wikipedia.run(item))
-        results = '\n'.join(results)
+        results = "\n".join(results)
         template = """Question: {ques} with the provided context as {results}. show proof to the answer along with the Page Name along with summary.
                       If you dont find the answer in {results} Just say Answer not found in Context.
                       Answer: """
-        prompt = PromptTemplate(template=template, input_variables=['ques', 'results'])
-        llm=load_chain(self.model_name)
+        prompt = PromptTemplate(template=template, input_variables=["ques", "results"])
+        llm = load_chain(self.model_name)
         llm_chain = LLMChain(prompt=prompt, llm=llm)
         return results
-
 
     def get_wikipedia_summary_keyword(self, actionInput) -> str:
         print("Inside WikiSearch!")
         ques, search = actionInput.split("#")
         ques, search = ques.strip(), search.strip()
-        search = search.replace("'","").replace('"',"")
-        search = search.replace("[", "").replace("]","").split(',')
+        search = search.replace("'", "").replace('"', "")
+        search = search.replace("[", "").replace("]", "").split(",")
         wikipedia_wrapper = CustomWikipediaAPIWrapper(top_k_results=3)
         result = wikipedia_wrapper.run(search)
-        #wikipedia = WikipediaAPIWrapper(top_k_results=1)
+        # wikipedia = WikipediaAPIWrapper(top_k_results=1)
         template = """Your task is to find only the relevant page out of all the given pages and not to find the page that answers the given Question.
                     Question: {search} with the provided context as {result} containing the Page title and the summary.Show only one relevant Page title that is relevant to the question, also summarize this page summary
                     Example here
@@ -406,7 +435,7 @@ class WikiTool():
                     Question: {search}
                     Context: {result}
                     Answer:: """
-        prompt = PromptTemplate(template=template, input_variables=['search', 'result'])
+        prompt = PromptTemplate(template=template, input_variables=["search", "result"])
         llm = load_chain(self.model_name)
-        llm_chain = LLMChain(prompt=prompt, llm= llm)
-        return llm_chain.run({'search': ques, 'result': result})
+        llm_chain = LLMChain(prompt=prompt, llm=llm)
+        return llm_chain.run({"search": ques, "result": result})
