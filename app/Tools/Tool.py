@@ -307,37 +307,40 @@ class SparqlTool:
 
     def run_sparql(self, query: str, url="https://query.wikidata.org/sparql"):
         print("Inside RunSparql!")
-        wikidata_user_agent_header = (
-            None
-            if not self.config.has_section("WIKIDATA")
-            else self.config["WIKIDATA"]["WIKIDATA_USER_AGENT_HEADER"]
-        )
-        query = self.post_process_sparql(query)
-        headers = {"Accept": "application/json"}
-        if wikidata_user_agent_header is not None:
-            headers["User-Agent"] = wikidata_user_agent_header
-        response = requests.get(
-            url, headers=headers, params={"query": query, "format": "json"}
-        )
-        if "boolean" in response.json():
-            return {"message": response.json()["boolean"]}
-        if response.status_code != 200:
-            return "That query failed. Perhaps you could try a different one?"
-        results = self.get_nested_value(response.json(), ["results", "bindings"])
+        try:
+            wikidata_user_agent_header = (
+                None
+                if not self.config.has_section("WIKIDATA")
+                else self.config["WIKIDATA"]["WIKIDATA_USER_AGENT_HEADER"]
+            )
+            query = self.post_process_sparql(query)
+            headers = {"Accept": "application/json"}
+            if wikidata_user_agent_header is not None:
+                headers["User-Agent"] = wikidata_user_agent_header
+            response = requests.get(
+                url, headers=headers, params={"query": query, "format": "json"}
+            )
+            if "boolean" in response.json():
+                return {"message": response.json()["boolean"]}
+            if response.status_code != 200:
+                return "That query failed. Perhaps you could try a different one?"
+            results = self.get_nested_value(response.json(), ["results", "bindings"])
 
-        if len(results) == 0:
-            return {
-                "message": """The given query failed, please reconstruct your query and try again."""
-            }
-        results_list = []
-        x = results
-        if len(x) > 0:
-            for y in x:
-                if y.get("x1") is not None:
-                    results_list.append({"value": y.get("x1").get("value")})
-                else:
-                    results_list.append(y)
-        return {"message": results_list}
+            if len(results) == 0:
+                return {
+                    "message": """The given query failed, please reconstruct your query and try again."""
+                }
+            results_list = []
+            x = results
+            if len(x) > 0:
+                for y in x:
+                    if y.get("x1") is not None:
+                        results_list.append({"value": y.get("x1").get("value")})
+                    else:
+                        results_list.append(y)
+            return {"message": results_list}
+        except Exception as e:
+            return {'message':'The given query failed, please reconstruct your query and try again.'}
 
 
 class WikiTool:

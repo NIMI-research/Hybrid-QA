@@ -333,11 +333,11 @@ class Lanchain_impl:
                 func=lambda x: self.wiki_tool.get_label(x),
                 description="useful to get the label for the wikidata QID. Do not use this tool with same Action Input.",
             ),
-            Tool(
-                name="GetObservation",
-                func=lambda x: self.get_observation(x),
-                description="useful to get the Observation for the LLM. Do not use this tool with same Action Input.",
-            ),
+            # Tool(
+            #     name="GetObservation",
+            #     func=lambda x: self.get_observation(x),
+            #     description="useful to get the Observation for the LLM. Do not use this tool with same Action Input.",
+            # ),
         ]
         return tools
 
