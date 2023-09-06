@@ -11,6 +11,7 @@ from utils import extract_values, read_json, write_answers, prepare_question_lis
 import datetime
 import os
 import logging
+import torch, gc
 
 
 log_dir = "./logs/"
@@ -125,16 +126,18 @@ def main(
                 f"----Evaluation Done Question: {question} Index: {idx}---"
             )
         except Exception as e:
+            # if "CUDA error:" in str(e):
+            #     gc.collect()
+            #     torch.cuda.empty_cache()
             temp["question"] = question
             temp["final_answer"] = None
             temp["intermediate_logs"] = None
             temp["error"] = str(e)
             final_answer_list.append(temp)
-            continue
         del temp
-
-    write_answers(final_answer_list, output_path, dataset)
-
+        if (idx+1) % 10 == 0:
+            write_answers(final_answer_list, output_path, dataset)
+        continue
 
 if __name__ == "__main__":
     fire.Fire(main)

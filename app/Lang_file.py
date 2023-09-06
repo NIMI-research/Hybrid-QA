@@ -151,20 +151,22 @@ class CustomOutputParser(AgentOutputParser):
                 log=llm_output,
             )
         # Parse out the action and action input
-        regex = r"Action: (.*)\nAction Input: (.*)"
-        match = re.search(regex, llm_output, re.DOTALL)
-        if not match:
-            return AgentAction(
-                tool="GetObservation", tool_input=llm_output, log=llm_output
-            )
+        # regex = r"Action: (.*)\nAction Input: (.*)"
+        # match = re.search(regex, llm_output, re.DOTALL)
+        regex_action = r"Action:(.*\n)Action Input:(.*)"
+        match_action = re.search(regex_action, llm_output, re.DOTALL)
+        # if not match:
+        #     return AgentAction(
+        #         tool="GetObservation", tool_input=llm_output, log=llm_output
+        #     )
             # return AgentFinish(
             #     # Return values is generally always a dictionary with a single `output` key
             #     # It is not recommended to try anything else at the moment :)s
             #     return_values={"output": llm_output},
             #     log=llm_output,
             # )
-        action = match.group(1).strip()
-        action_input = match.group(2)
+        action = match_action.group(1).strip("\n").strip()
+        action_input = match_action.group(2).strip()
         # Return the action and action input
         if (
             action == "WikiSearch"
