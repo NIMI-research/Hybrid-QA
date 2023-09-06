@@ -82,7 +82,6 @@ python-dotenv==1.0.0
 python-multipart==0.0.6
 PyYAML==6.0.1
 qwikidata==0.4.2
-ReFinED @ https://github.com/amazon-science/ReFinED/archive/refs/tags/V1.zip#sha256=f70ef05f6dc644c758a919be65c960ba1f2cfb187f93d417962f3b79b3aeadc0
 regex==2023.8.8
 requests==2.31.0
 requests-oauthlib==1.3.1
