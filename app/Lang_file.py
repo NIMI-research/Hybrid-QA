@@ -165,8 +165,10 @@ class CustomOutputParser(AgentOutputParser):
             #     return_values={"output": llm_output},
             #     log=llm_output,
             # )
+        print(f"Match------------>{match_action}")
         action = match_action.group(1).strip("\n").strip()
         action_input = match_action.group(2).strip()
+        print(f"llm output------>{llm_output}")
         # Return the action and action input
         if (
             action == "WikiSearch"

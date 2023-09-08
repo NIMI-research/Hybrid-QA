@@ -12,6 +12,7 @@ import datetime
 import os
 import logging
 import torch, gc
+import time
 
 
 log_dir = "./logs/"
@@ -137,6 +138,7 @@ def main(
         del temp
         if (idx+1) % 10 == 0:
             write_answers(final_answer_list, output_path, dataset)
+            time.sleep(200)
         continue
 
 if __name__ == "__main__":
