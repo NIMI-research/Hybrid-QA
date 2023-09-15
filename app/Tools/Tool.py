@@ -26,7 +26,7 @@ class Squall:
         self.config = load_openai_api()
         self.refined = refined
         self.model = load_sentence_transformer()
-        self.mode_name = model_name
+        self.mode_name = "gpt-4-0314"
 
     def cos_sim(self, element, model, labels_sim, threshold=2):
         x = model.encode([element])
@@ -346,7 +346,7 @@ class SparqlTool:
 class WikiTool:
     def __init__(self, model_name):
         self.config = load_openai_api()
-        self.model_name = model_name
+        self.model_name = "gpt-4-0314"
 
     def get_label(self, entity_id):
         print("Inside GetLabel!")

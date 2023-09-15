@@ -23,7 +23,6 @@ log_filename = os.path.join(log_dir, f"logs_{current_time}.log")
 
 logging.basicConfig(
     filename=log_filename,
-    level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s",
 )
 
@@ -87,6 +86,9 @@ def main(
     output_path: str = "answers_data",
     dynamic=True,
 ):
+    logging.info(
+        f"------Dataset: {dataset}, Model: {model_name}, Dynamic:{dynamic}--------"
+    )
     refined = load_refined_model()
     wiki_tool = WikiTool(model_name)
     path = os.getcwd()
@@ -110,7 +112,7 @@ def main(
             )
             temp["question"] = question
             out, template_answer = langchain_call.execute_agent(question.strip("\n"))
-
+            time.sleep(20)
             few_shot = read_json(dataset)
             wiki_ans, wikidata_ans, int_ans, final_answer = merge_step_updated(
                 out, few_shot, langchain_call, model_name
@@ -138,7 +140,6 @@ def main(
         del temp
         if (idx+1) % 10 == 0:
             write_answers(final_answer_list, output_path, dataset)
-            time.sleep(200)
         continue
 
 if __name__ == "__main__":
