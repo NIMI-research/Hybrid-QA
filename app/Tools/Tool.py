@@ -21,12 +21,13 @@ import logging
 
 
 class Squall:
-    def __init__(self, few_shot_path: str, refined, model_name):
+    def __init__(self, few_shot_path: str, refined, model_name, wikidata=False):
         self.few_shot_path = few_shot_path
         self.config = load_openai_api()
         self.refined = refined
         self.model = load_sentence_transformer()
-        self.mode_name = model_name
+        self.mode_name = "gpt-4-0314"
+        self.wikidata = wikidata
 
     def cos_sim(self, element, model, labels_sim, threshold=2):
         x = model.encode([element])
@@ -211,11 +212,18 @@ class Squall:
 
     def generate_squall_query(self, actionInput: str):
         print("Inside GenerateSparql!")
-        question, entities = actionInput.split("#")
-        question, entities = question.strip(), entities.strip()
-        examples = self.generate_prompt_based_on_similarity(question)
-        entities = entities.replace("[", "").replace("]", "").split(",")
+        if self.wikidata:
+            question = actionInput
+            ent_list = self.union_of_refined_entities(question)
+            entities = []
+            for i in ent_list:
+                entities.append(i[0])
+        else:
+            question, entities = actionInput.split("#")
+            question, entities = question.strip(), entities.strip()
+            entities = entities.replace("[", "").replace("]", "").split(",")
         entities = [e.strip().strip("'").strip('"') for e in entities]
+        examples = self.generate_prompt_based_on_similarity(question)
         x = []
         regex = r"Q[0-9]*"
         for e in entities:
@@ -306,44 +314,49 @@ class SparqlTool:
         return current
 
     def run_sparql(self, query: str, url="https://query.wikidata.org/sparql"):
-        print("Inside RunSparql!")
-        wikidata_user_agent_header = (
-            None
-            if not self.config.has_section("WIKIDATA")
-            else self.config["WIKIDATA"]["WIKIDATA_USER_AGENT_HEADER"]
-        )
-        query = self.post_process_sparql(query)
-        headers = {"Accept": "application/json"}
-        if wikidata_user_agent_header is not None:
-            headers["User-Agent"] = wikidata_user_agent_header
-        response = requests.get(
-            url, headers=headers, params={"query": query, "format": "json"}
-        )
-        if "boolean" in response.json():
-            return {"message": response.json()["boolean"]}
-        if response.status_code != 200:
-            return "That query failed. Perhaps you could try a different one?"
-        results = self.get_nested_value(response.json(), ["results", "bindings"])
+        try:
+            print("Inside RunSparql!")
+            wikidata_user_agent_header = (
+                None
+                if not self.config.has_section("WIKIDATA")
+                else self.config["WIKIDATA"]["WIKIDATA_USER_AGENT_HEADER"]
+            )
+            query = self.post_process_sparql(query)
+            headers = {"Accept": "application/json"}
+            if wikidata_user_agent_header is not None:
+                headers["User-Agent"] = wikidata_user_agent_header
+            response = requests.get(
+                url, headers=headers, params={"query": query, "format": "json"}
+            )
+            if "boolean" in response.json():
+                return {"message": response.json()["boolean"]}
+            if response.status_code != 200:
+                return "That query failed. Perhaps you could try a different one?"
+            results = self.get_nested_value(response.json(), ["results", "bindings"])
 
-        if len(results) == 0:
+            if len(results) == 0:
+                return {
+                    "message": """The given query failed, please reconstruct your query and try again."""
+                }
+            results_list = []
+            x = results
+            if len(x) > 0:
+                for y in x:
+                    if y.get("x1") is not None:
+                        results_list.append({"value": y.get("x1").get("value")})
+                    else:
+                        results_list.append(y)
+            return {"message": results_list}
+        except Exception as e:
             return {
-                "message": """The given query failed, please reconstruct your query and try again."""
+                "message": "The given query failed, please reconstruct your query and try again."
             }
-        results_list = []
-        x = results
-        if len(x) > 0:
-            for y in x:
-                if y.get("x1") is not None:
-                    results_list.append({"value": y.get("x1").get("value")})
-                else:
-                    results_list.append(y)
-        return {"message": results_list}
 
 
 class WikiTool:
     def __init__(self, model_name):
         self.config = load_openai_api()
-        self.model_name = model_name
+        self.model_name = "gpt-4-0314"
 
     def get_label(self, entity_id):
         print("Inside GetLabel!")
@@ -398,7 +411,7 @@ class WikiTool:
 
     def get_wikipedia_summary(self, actionInput) -> str:
         print("Inside WikiSearchSummary!")
-        logging.info('Using the Tool -----> WikiSearchSummary')
+        logging.info("Using the Tool -----> WikiSearchSummary")
         ques, search = actionInput.split("#")
         ques, search = ques.strip(), search.replace("[", "").replace("]", "").strip()
         items = search.split(",")
@@ -436,6 +449,6 @@ class WikiTool:
                     Context: {result}
                     Answer:: """
         prompt = PromptTemplate(template=template, input_variables=["search", "result"])
-        llm = load_chain(self.model_name)
+        llm = load_chain("gpt-4-0314")
         llm_chain = LLMChain(prompt=prompt, llm=llm)
         return llm_chain.run({"search": ques, "result": result})

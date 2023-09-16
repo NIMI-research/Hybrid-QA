@@ -43,7 +43,7 @@ class CustomPromptTemplate(StringPromptTemplate):
         thoughts = ""
         for action, observation in intermediate_steps:
             thoughts += action.log
-            thoughts += f"\nObservation: {observation}\nThought: "
+            thoughts += f"\n\nObservation: {observation}\n\nThought: "
         # Set the agentHow many Hunger Games books were made into movies?_scratchpad variable to that value
         kwargs["agent_scratchpad"] = thoughts
         # Create a tools variable from the list of tools provided
@@ -150,21 +150,44 @@ class CustomOutputParser(AgentOutputParser):
                 return_values={"output": llm_output},
                 log=llm_output,
             )
-        # Parse out the action and action input
-        regex = r"Action: (.*)\nAction Input: (.*)"
-        match = re.search(regex, llm_output, re.DOTALL)
-        if not match:
-            return AgentAction(
-                tool="GetObservation", tool_input=llm_output, log=llm_output
+        if "Wikipedia_Answer" in llm_output and "Wikidata_Answer" in llm_output:
+            wiki_regex = r"Wikipedia_Answer:(.*),"
+            wikidata_regex = r"Wikidata_Answer:(.*)"
+            wiki_answer = re.search(wiki_regex, llm_output, re.DOTALL)
+            wikidata_answer = re.search(wikidata_regex, llm_output, re.DOTALL)
+            wikipedia = wiki_answer.group(1).strip().strip("\n").strip(",")
+            wikidata = wikidata_answer.group(1).strip().strip("\n")
+            return AgentFinish(
+                # Return values is generally always a dictionary with a single `output` key
+                # It is not recommended to try anything else at the moment :)
+                return_values={
+                    "output": f"Wikipedia_Answer: {wikipedia}, Wikidata_Answer: {wikidata}"
+                },
+                log=llm_output,
             )
-            # return AgentFinish(
-            #     # Return values is generally always a dictionary with a single `output` key
-            #     # It is not recommended to try anything else at the moment :)s
-            #     return_values={"output": llm_output},
-            #     log=llm_output,
-            # )
-        action = match.group(1).strip()
-        action_input = match.group(2)
+
+        # Parse out the action and action input
+        regex_action = r"Action:(.*?)(?=\s*Action Input:|$)"
+        regex_action_input = r"Action Input:(.*)"
+        print(f"LLMOUtpUT----->{llm_output}")
+        match_action = re.search(regex_action, llm_output, re.DOTALL)
+        match_action_input = re.search(regex_action_input, llm_output, re.DOTALL)
+        if match_action is None and match_action_input is None:
+            print("Non returnable zone!")
+
+            return AgentFinish(
+                # Return values is generally always a dictionary with a single `output` key
+                # It is not recommended to try anything else at the moment :)
+                return_values={
+                    "output": "Wikipedia Answer: None, Wikidata Answer: None "
+                },
+                log=llm_output,
+            )
+        print(f"Match action---->{match_action}")
+        print(f"Match action input---->{match_action_input}")
+        action = match_action.group(1).strip("\n").strip()
+        action_input = match_action_input.group(1).strip("\n").strip()
+
         # Return the action and action input
         if (
             action == "WikiSearch"
@@ -172,22 +195,96 @@ class CustomOutputParser(AgentOutputParser):
             or action == "WikiSearchSummary"
         ):
             logging.info(f"Using the Tool -----> {action}")
+            # print(f"Action is the Tool -----> {action}")
+            # print(f"Action Input the Tool -----> {action_input}")
             return AgentAction(
                 tool=action, tool_input=f"{user_q} # {action_input}", log=llm_output
             )
-        # if action == "WikiSearchSummary":
-        #     return AgentAction(tool=action, tool_input=f"{user_q} # {action_input}", log=llm_output)
-        # if action == "GenerateSquall":
-        #     return AgentAction(tool=action, tool_input=f"{user_q} # {action_input}", log=llm_output)
+        else:
+            return AgentAction(tool=action, tool_input=action_input, log=llm_output)
+
+
+class CustomOutputParserWikidata(AgentOutputParser):
+    def parse(self, llm_output: str, user_q) -> Union[AgentAction, AgentFinish]:
+        # Check if agent should finish
+        if "Final Answer:" in llm_output:
+            return AgentFinish(
+                # Return values is generally always a dictionary with a single `output` key
+                # It is not recommended to try anything else at the moment :)
+                return_values={"output": llm_output.split("Final Answer:")[-1].strip()},
+                log=llm_output,
+            )
+
+        if "Wikipedia and Wikidata" in llm_output:
+            a = re.search(r"\b(that is)\b", llm_output)
+            if a is not None:
+                llm_output = llm_output[a.end() :].strip()
+            return AgentFinish(
+                # Return values is generally always a dictionary with a single `output` key
+                # It is not recommended to try anything else at the moment :)
+                return_values={"output": llm_output},
+                log=llm_output,
+            )
+        if "Wikipedia_Answer" in llm_output and "Wikidata_Answer" in llm_output:
+            wiki_regex = r"Wikipedia_Answer:(.*),"
+            wikidata_regex = r"Wikidata_Answer:(.*)"
+            wiki_answer = re.search(wiki_regex, llm_output, re.DOTALL)
+            wikidata_answer = re.search(wikidata_regex, llm_output, re.DOTALL)
+            wikipedia = wiki_answer.group(1).strip().strip("\n").strip(",")
+            wikidata = wikidata_answer.group(1).strip().strip("\n")
+            return AgentFinish(
+                # Return values is generally always a dictionary with a single `output` key
+                # It is not recommended to try anything else at the moment :)
+                return_values={
+                    "output": f"Wikipedia_Answer: {wikipedia}, Wikidata_Answer: {wikidata}"
+                },
+                log=llm_output,
+            )
+
+        # Parse out the action and action input
+        regex_action = r"Action:(.*?)(?=\s*Action Input:|$)"
+        regex_action_input = r"Action Input:(.*)"
+        print(f"LLMOUtpUT----->{llm_output}")
+        match_action = re.search(regex_action, llm_output, re.DOTALL)
+        match_action_input = re.search(regex_action_input, llm_output, re.DOTALL)
+        if match_action is None and match_action_input is None:
+            print("Non returnable zone!")
+
+            return AgentFinish(
+                # Return values is generally always a dictionary with a single `output` key
+                # It is not recommended to try anything else at the moment :)
+                return_values={
+                    "output": "Wikipedia Answer: None, Wikidata Answer: None "
+                },
+                log=llm_output,
+            )
+        print(f"Match action---->{match_action}")
+        print(f"Match action input---->{match_action_input}")
+        action = match_action.group(1).strip("\n").strip()
+        action_input = match_action_input.group(1).strip("\n").strip()
+
+        # Return the action and action input
+        if (
+            action == "WikiSearch"
+            or action == "GenerateSparql"
+            or action == "WikiSearchSummary"
+        ):
+            logging.info(f"Using the Tool -----> {action}")
+            # print(f"Action is the Tool -----> {action}")
+            # print(f"Action Input the Tool -----> {action_input}")
+            return AgentAction(
+                tool=action, tool_input=f"{action_input}", log=llm_output
+            )
         else:
             return AgentAction(tool=action, tool_input=action_input, log=llm_output)
 
 
 class Template_Construction:
-    def __init__(self, question, dataset):
+    def __init__(self, question, dataset, wikidata=False):
         self.model = load_sentence_transformer()
         self.question = question
         self.dataset = dataset
+        self.wikidata = wikidata
 
     def cos_sim(self, element, model, labels_sim, threshold=2):
         x = model.encode([element])
@@ -252,13 +349,21 @@ class Template_Construction:
 
     def static_prompt_construction(self):
         path = os.getcwd()
-        questions = self.load_dataset_for_few_shot(f"{path}/data/{self.dataset}.json")
+        if self.wikidata:
+            questions = self.load_dataset_for_few_shot(
+                f"{path}/data_late_fusion/{self.dataset}.json"
+            )
+            full_path = f"{path}/data_late_fusion/{self.dataset}.json"
+        else:
+            questions = self.load_dataset_for_few_shot(
+                f"{path}/data/{self.dataset}.json"
+            )
+            full_path = f"{path}/data/{self.dataset}.json"
         # random.seed(4)
         selected_questions = random.sample(questions, 3)
-        with open(f"{path}/data/{self.dataset}.json", "r") as file:
+        with open(full_path, "r") as file:
             data = json.load(file)
             final_template = ""
-            print(selected_questions)
             counter = 0
             for x in data:
                 for question in selected_questions:
@@ -333,11 +438,6 @@ class Lanchain_impl:
                 func=lambda x: self.wiki_tool.get_label(x),
                 description="useful to get the label for the wikidata QID. Do not use this tool with same Action Input.",
             ),
-            Tool(
-                name="GetObservation",
-                func=lambda x: self.get_observation(x),
-                description="useful to get the Observation for the LLM. Do not use this tool with same Action Input.",
-            ),
         ]
         return tools
 
@@ -350,18 +450,17 @@ class Lanchain_impl:
         prepend_template = """Given the question, your task is to find the answer using both Wikipedia and Wikidata Databases.If you found the answer using Wikipedia Article you need to verify it with Wikidata, even if you do not find an answer with Wikpedia, first make sure to look up on different relevant wikipedia articles. If you still cannot find with wikipedia, try with Wikidata as well. 
 When Wikipedia gives no answer or SPARQL query gives no result, you are allowed to use relevant keywords for finding QIDs to generate the SPARQL query.
 Your immediate steps include finding relevant wikipedia articles summary to find the answer using {tools} provided, find Keywords that are the QIDS from the Wikidata using Wikipedia Page title. \nUse these QIDs to generate the SPARQL query using available {tools}.\nWikidata Answers are the observation after executing the SPARQL query.\n
-Also do not check the wikipedia page manually to answer the questions. If answer is not found from WikiSearch or WikiSearchSummary just say Answer not found in the context provided!
-You have access to the following - {tools}!. I repeat always use the {tools}!
-Always follow the specific format to output the answer - 
-Wikipedia_Answer : Wikipedia Answer, Wikidata_Answer : Wikidata Answer , 
-Assistance Response: Extended Answer that contains your reasoning, proof and final answer, please keep this descriptive.
-if no answer is found using wikidata but found answer with wikipedia return 
+Also do not check the wikipedia page manually to answer the questions. 
+You have access to the following - {tools}!. 
+Once you have the Wikipedia Answer and Wikidata Answer or either of them after trying, always follow the specific format to output the final answer - 
+Final Answer: Wikipedia_Answer : Wikipedia Answer, Wikidata_Answer : Wikidata Answer , 
+Assistant Response: Extended Answer that contains your reasoning, proof and final answer, please keep this descriptive.
+Please do not use same Action Input to the tools, If no answer is found even after multiple tries using wikidata but found answer with wikipedia return and vice versa
 Wikipedia_Answer : Answer, Wikidata_Answer : None , 
-Assistance Response: And extended Answer contains your reasoning and proof, please keep this descriptive.
 
 Here are three examples to look at on how to use the {tools}\n"""
         additional_template = """
-You have access to the following - {tools}!.I repeat always use the {tools}!
+You have access to the following - {tools}!
 Use the following format:
 Question: the input question for which you must provide a natural language answer
 Thought: you should always think about what to do
@@ -369,14 +468,13 @@ Action: the action to take, should be one of [{tool_names}]
 Action Input: the input to the action
 Observation: the result of the action
 ... (this Thought/Action/Action Input/Observation can repeat N times)
-Thought: I now know the final answer...
+Always use the following format for the Final Answer -
 Final Answer: Wikipedia_Answer : , Wikidata_Answer : ,
-Assistance Response : 
-        
+Assistant Response : 
 Question: {input}
 {agent_scratchpad}
-                    
-        """
+
+            """
 
         workflow = workflow.strip("\n")
         complete_workflow = (
@@ -473,5 +571,176 @@ Question: {input}
         answer_template_for_inference = self.get_template_inference(
             out, internal_answer
         )
-        print(answer_template_for_inference)
+        return out, answer_template_for_inference
+
+
+class Lanchain_impl_wikidata:
+    def __init__(self, dataset, model_name, wiki_tool, squall, sparql_tool, dynamic):
+        self.dataset = dataset
+        self.model_name = model_name
+        self.squall = squall
+        self.sparql_tool = sparql_tool
+        self.wiki_tool = wiki_tool
+        self.dynamic = dynamic
+
+    @backoff.on_exception(backoff.expo, openai.error.RateLimitError)
+    def exponential_backoff_generate_squall_query(self, x):
+        return self.squall.generate_squall_query(x)
+
+    def get_observation(self, x):
+        print("Inside GetObservation!")
+        if "Observation" in x and ":" in x:
+            _, observation = x.split(":", 1)
+            return observation
+        else:
+            return x
+
+    def get_tools(self):
+        tools = [
+            Tool(
+                name="GenerateSparql",
+                func=lambda x: self.exponential_backoff_generate_squall_query(x),
+                description="useful to get Squall query given the Action Input. Do not use this tool with same Action Input.",
+            ),
+            Tool(
+                name="RunSparql",
+                func=lambda x: self.sparql_tool.run_sparql(x),
+                description="useful to run a query on wikibase to get results. Do not use this tool with same Action Input.",
+            ),
+            Tool(
+                name="GetLabel",
+                func=lambda x: self.wiki_tool.get_label(x),
+                description="useful to get the label for the wikidata QID. Do not use this tool with same Action Input.",
+            ),
+        ]
+        return tools
+
+    def get_prompt(self, question, dynamic):
+        workflow = ""
+        if dynamic:
+            workflow = f"{workflow}{Template_Construction(question, self.dataset).full_shot_with_diversity()}"
+        else:
+            workflow = f"{workflow}{Template_Construction(question, self.dataset, wikidata= True).static_prompt_construction()}"
+        prepend_template = """Given the question, your task is to find the answer using Wikidata Databases.You are not allowed to use your own knowledge to get QIDs to generate the SPARQL query.
+Your immediate steps include generating SPARQL queries using available {tools} and then executing the query over Wikidata.\nWikidata Answers are the observation after executing the SPARQL query.\n
+You have access to the following - {tools}!. 
+Once you have the Wikidata Answer, always follow the specific format to output the final answer - 
+Final Answer: Wikidata_Answer : Wikidata Answer , 
+Assistant Response: Extended Answer that contains your reasoning, proof and final answer, please keep this descriptive.
+Please do not use same Action Input to the tools, If no answer is found even after multiple tries using wikidata 
+Wikidata_Answer : None ,
+
+Here are three examples to look at on how to use the {tools}\n"""
+        additional_template = """
+You have access to the following - {tools}!
+Use the following format:
+Question: the input question for which you must provide a natural language answer
+Thought: you should always think about what to do
+Action: the action to take, should be one of [{tool_names}]
+Action Input: the input to the action
+Observation: the result of the action
+... (this Thought/Action/Action Input/Observation can repeat N times)
+Always use the following format for the Final Answer -
+Final Answer: Wikidata_Answer : ,
+Assistant Response : 
+Question: {input}
+{agent_scratchpad}
+
+            """
+
+        workflow = workflow.strip("\n")
+        complete_workflow = (
+            f"{prepend_template}{workflow}\n\n{additional_template.strip()}"
+        )
+        logging.info(complete_workflow)
+        prompt = CustomPromptTemplate(
+            template=complete_workflow.strip("\n"),
+            tools=self.get_tools(),
+            # This omits the `agent_scratchpad`, `tools`, and `tool_names` variables because those are generated dynamically
+            # This includes the `intermediate_steps` variable because that is needed
+            input_variables=["input", "intermediate_steps"],
+        )
+
+        return prompt
+
+    def answer_ques(self, ques):
+        template = """Given a question your task is to answer the question, please do not provide any other information other than the Answer
+                    Question: {ques}
+                    Answer: """
+        prompt = PromptTemplate(template=template, input_variables=["ques"])
+        llm = load_chain(self.model_name)
+        llm_chain = LLMChain(prompt=prompt, llm=llm)
+        return llm_chain.run(ques)
+
+    def get_template_inference(self, out, int_answer):
+        complete_steps = ""
+        for i in out.get("intermediate_steps"):
+            thought = ""
+            if "Thought:" in i[0].log:
+                complete_steps = (
+                    f"{complete_steps}\n{thought}{i[0].log}\nObservation:{i[1]}\n"
+                )
+            else:
+                thought = "Thought: "
+                complete_steps = (
+                    f"{complete_steps}\n{thought}{i[0].log}\nObservation:{i[1]}\n"
+                )
+        final_string = """Thought: I now know the final answer based on  Wikidata. \nFinal Answer: """
+        complete_steps = f'{out.get("input")}\n{complete_steps}\n{final_string}{out.get("output")}, Internal Knowledge: {int_answer}'
+        return complete_steps
+
+    def execute_one_query(self, complete_steps, x):
+        temp = {}
+        temp["question"] = x
+        parametric_knowledge = self.answer_ques(x.strip())
+        temp["internal_knowledge"] = parametric_knowledge.strip()
+        try:
+            answers = complete_steps  # agent_executor.run(x.strip())
+            idx = answers.find("Wikidata_answer")
+            _, wiki_answer = answers[:idx].split(":", 1)
+            _, wikidata_answer = answers[idx:].split(":", 1)
+            # temp["wikipedia"] = (
+            #     wiki_answer.replace(",", "").strip()
+            #     if "None" not in wiki_answer
+            #     else None
+            # )
+            temp["wikidata"] = (
+                wikidata_answer.strip() if "None" not in wikidata_answer else None
+            )
+            if "Wikidata_answer" not in answers and "Wikipedia_answer" not in answers:
+                temp["error"] = answers
+            else:
+                temp["error"] = None
+        except Exception as e:
+            temp["wikipedia"] = None
+            temp["wikidata"] = None
+            temp["error"] = str(e)
+            temp["stack_trace"] = str(traceback.print_exc())
+        return temp
+
+    def execute_agent(self, question):
+        llm = ChatOpenAI(model_name=self.model_name, temperature=0, request_timeout=300)
+        prompt = self.get_prompt(question, self.dynamic)
+        llm_chain = LLMChain(llm=llm, prompt=prompt)
+        tools = self.get_tools()
+        tool_names = [tool.name for tool in tools]
+        output_parser = CustomOutputParserWikidata()
+        agent = LLMSingleActionAgentCustom(
+            llm_chain=llm_chain,
+            output_parser=output_parser,
+            stop=["\nObservation:"],
+            allowed_tools=tool_names,
+        )
+        agent_executor = AgentExecutor.from_agent_and_tools(
+            agent=agent,
+            tools=tools,
+            verbose=True,
+            handle_parsing_errors=True,
+            return_intermediate_steps=True,
+        )
+        internal_answer = self.answer_ques(question)
+        out = agent_executor(question)
+        answer_template_for_inference = self.get_template_inference(
+            out, internal_answer
+        )
         return out, answer_template_for_inference

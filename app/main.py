@@ -11,7 +11,8 @@ from utils import extract_values, read_json, write_answers, prepare_question_lis
 import datetime
 import os
 import logging
-
+import time
+import langchain
 
 log_dir = "./logs/"
 
@@ -21,7 +22,7 @@ log_filename = os.path.join(log_dir, f"logs_{current_time}.log")
 
 logging.basicConfig(
     filename=log_filename,
-    level=logging.INFO,
+    level=logging.DEBUG,
     format="%(asctime)s - %(levelname)s - %(message)s",
 )
 
@@ -38,8 +39,8 @@ def merge_step_updated(output, few_shot, langchain_call, model_name):
     print(f"wikipedia answer is ------> {wikipedia_ans}")
     print(f"wikidata answer is  -------->{wikidata_ans}")
     print(f"internal knowledge answer is  -------->{int_knw}")
-    template = """Your task is to provide short answers to questions. For doing this, you get answers that were extracted from Wikipedia, Wikidata and your own parametric knowledge respectively. You also get a paragraph of context information related to the answer of the question. 
-                Only pick Internal Knowledge, if you have no answers either from Wikipedia nor Wikidata.
+    template = """Your task is to provide short answers to questions. For doing this, you get answers that were extracted from Wikipedia, Wikidata and your own parametric knowledge respectively. You also get a paragraph of context information related to the answer of the question.
+                Only pick Internal Knowledge, if you have no answers either from Wikipedia nor Wikidata. If you cannot find an answer using given Context, please pick {int_knw} as the Answer
                 Here are few examples to refer to.
                 {example}
                 Question: {ques}
@@ -85,6 +86,9 @@ def main(
     output_path: str = "answers_data",
     dynamic=True,
 ):
+    logging.info(
+        f"------Dataset: {dataset}, Model: {model_name}, Dynamic:{dynamic}--------"
+    )
     refined = load_refined_model()
     wiki_tool = WikiTool(model_name)
     path = os.getcwd()
@@ -94,6 +98,7 @@ def main(
     )
     sparql_tool = SparqlTool(f"{path}/Tools/Tools_Data/squall2sparql_revised.sh")
     questions = prepare_question_list(dataset)
+    # langchain.debug = True
     print(questions)
     print(refined)
     langchain_call = Lanchain_impl(
@@ -101,6 +106,9 @@ def main(
     )
     final_answer_list = []
     for idx, question in enumerate(questions):
+        # time.sleep(30)
+        # if idx % 10 == 0:
+        #     time.sleep(300)
         temp = {}
         try:
             logging.info(
@@ -120,10 +128,12 @@ def main(
             temp["error"] = None
             temp["intermediate_logs"] = template_answer
             final_answer_list.append(temp)
-            logging.info(temp)
-            logging.info(
-                f"----Evaluation Done Question: {question} Index: {idx}---"
-            )
+            logging.info(f"final_answer ---> {final_answer}")
+            logging.info(f"wikipedia_answer ---> {wiki_ans}")
+            logging.info(f"wikidata_answer ---> {wikidata_ans}")
+            logging.info(f"internal_knowledge ---> {int_ans}")
+            logging.info(f"intermediate_logs ---> {template_answer}")
+            logging.info(f"----Evaluation Done Question: {question} Index: {idx}---")
         except Exception as e:
             temp["question"] = question
             temp["final_answer"] = None
