@@ -86,11 +86,12 @@ def main(
     model_name: str = "gpt-4-0314",
     output_path: str = "answers_data",
     dynamic=True,
+    refined_cache_dir='~/.cache/refined/'
 ):
     logging.info(
         f"------Dataset: {dataset}, Model: {model_name}, Dynamic:{dynamic}--------"
     )
-    refined = load_refined_model()
+    refined = load_refined_model(refined_cache_dir=refined_cache_dir)
     wiki_tool = WikiTool(model_name)
     path = os.getcwd()
     print("main---->", path)

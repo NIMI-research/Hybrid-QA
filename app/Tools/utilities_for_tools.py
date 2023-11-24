@@ -33,7 +33,8 @@ def load_sentence_transformer():
     return model
 
 
-def load_refined_model():
+def load_refined_model(refined_cache_dir='~/.cache/refined/'):
     refined = Refined.from_pretrained(model_name='wikipedia_model_with_numbers',
-                                      entity_set="wikipedia")
+                                      entity_set="wikipedia",
+                                      data_dir=refined_cache_dir)
     return refined
