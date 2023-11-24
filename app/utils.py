@@ -35,6 +35,8 @@ def write_answers(answer_list, output_path, dataset, answer=True):
         path = f"{output_path}/{timestamp}_{dataset}_answer.json" 
     else:
         path = f"{output_path}/{dataset}_templates.json"
+    os.makedirs(os.path.dirname(path),exist_ok=True)
+    
     with open(path, "w") as outfile:
         outfile.write(json_write)
 

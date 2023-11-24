@@ -16,6 +16,7 @@ import time
 
 
 log_dir = "./logs/"
+os.makedirs(log_dir,exist_ok=True)
 
 current_time = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 log_filename = os.path.join(log_dir, f"logs_{current_time}.log")
