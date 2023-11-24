@@ -1,4 +1,5 @@
 from langchain.chat_models import ChatOpenAI
+from langchain.llms.huggingface_pipeline import HuggingFacePipeline
 import configparser
 import os
 from sentence_transformers import SentenceTransformer, util
@@ -7,7 +8,15 @@ import os
 
 
 def load_chain(model_name):
-    llm = ChatOpenAI(model_name = model_name, temperature=0)
+    if model_name in ['gpt-4-0314','gpt-3.5-turbo']:
+        llm = ChatOpenAI(model_name = model_name, temperature=0,request_timeout=300)
+    else:
+        llm = HuggingFacePipeline.from_model_id(
+            model_id=model_name,
+            task="text-generation",
+            pipeline_kwargs={"max_new_tokens": 100},
+            model_kwargs=dict({"trust_remote_code":True})
+        )
     return llm
 
 def load_openai_api():

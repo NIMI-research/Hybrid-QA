@@ -21,7 +21,6 @@ from langchain.agents import (
     AgentOutputParser,
     BaseSingleActionAgent,
 )
-from langchain.chat_models import ChatOpenAI
 import traceback
 import random
 import backoff
@@ -433,7 +432,7 @@ Question: {input}
 
 
     def execute_agent(self, question):
-        llm = ChatOpenAI(model_name=self.model_name, temperature=0, request_timeout=300)
+        llm = load_chain(self.model_name)
         prompt = self.get_prompt(question, self.dynamic)
         llm_chain = LLMChain(llm=llm, prompt=prompt)
         tools = self.get_tools()
@@ -585,7 +584,7 @@ Question: {input}
 
 
     def execute_agent_wikipedia(self,question):
-        llm = ChatOpenAI(model_name=self.model_name, temperature=0, request_timeout=300)
+        llm = load_chain(self.model_name)
         prompt = self.get_prompt_wikipedia()
         llm_chain = LLMChain(llm=llm, prompt=prompt)
         tools = self.get_tools_wikipedia()
