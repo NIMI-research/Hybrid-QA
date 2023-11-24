@@ -1,3 +1,8 @@
 #!/bin/bash
-module load modenv/hiera GCCcore/11.3.0 Python/3.10.4
+#taurus
+#module load modenv/hiera GCCcore/11.3.0 Python/3.10.4
+
+#barnard
+module load release/23.04  GCCcore/11.3.0 Python/3.10.4
+
 source hybridqa_env/bin/activate
