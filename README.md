@@ -70,11 +70,11 @@ ws_allocate -F horse hybridQA 90
    git clone https://github.com/dhananjaybhandiwad/HybridQA.git
    ```
 3. Setup the code including the creation of the virtual env
-**Clone the repository**:
    ```bash
    bash hpc_setup.sh
    ```
 4. Allocate Resources, Load Modules and activate virtual env (if not already done)
+   
    **Do this before every session!**
    ```bash
    #cpu only run, interactive
