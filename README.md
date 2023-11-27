@@ -55,3 +55,34 @@ cd app
 ```bash
 python main.py --dataset qald
 ```
+
+-----------HPC Setup TUD Barnard----------
+
+🚩 Note: If you set everything up already, start from Step **4** with every new nession.
+
+
+1. Create a workspace
+```bash
+ws_allocate -F horse hybridQA 90
+```
+2. **Clone the repository**:
+   ```bash
+   git clone https://github.com/dhananjaybhandiwad/HybridQA.git
+   ```
+3. Setup the code including the creation of the virtual env
+**Clone the repository**:
+   ```bash
+   bash hpc_setup.sh
+   ```
+4. Allocate Resources, Load Modules and activate virtual env (if not already done)
+   **Do this before every session!**
+   ```bash
+   #cpu only run, interactive
+   srun -n 1 -c 32 -t 02:00:00 --mem-per-cpu 1972 --pty bash
+   source activate_env.sh
+   ```
+5. Set Huggingface to your Workspace (Default is in your $HOME which has probably not enough disc space)
+   ```bash
+   export TRANSFORMERS_CACHE=/data/horse/ws/<workspace_name>
+   python main.py --dataset qald --model-name 'mosaicml/mpt-7b' --refined_cache_dir /data/horse/ws/<workspace_name>
+   ```
