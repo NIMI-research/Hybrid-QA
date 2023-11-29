@@ -26,7 +26,7 @@ class Squall:
         self.config = load_openai_api()
         self.refined = refined
         self.model = load_sentence_transformer()
-        self.mode_name = "gpt-4-0314"
+        self.model_name = model_name
 
     def cos_sim(self, element, model, labels_sim, threshold=2):
         x = model.encode([element])
@@ -102,7 +102,7 @@ class Squall:
         Question: {ques}
         Answer: """
         prompt = PromptTemplate(template=template, input_variables=["ques"])
-        llm = load_chain(self.mode_name)
+        llm = load_chain(self.model_name)
         llm_chain = LLMChain(prompt=prompt, llm=llm)
         result = llm_chain.run(ques)
         return list(result.split(","))
@@ -239,7 +239,7 @@ class Squall:
             suffix=suffix,
             input_variables=["ques", "entities"],
         )
-        llm = load_chain(self.mode_name)
+        llm = load_chain(self.model_name)
         llm_chain = LLMChain(prompt=prompt, llm=llm)
         x = llm_chain.run({"ques": question, "entities": entities})
         path = os.getcwd()
@@ -346,7 +346,8 @@ class SparqlTool:
 class WikiTool:
     def __init__(self, model_name):
         self.config = load_openai_api()
-        self.model_name = "gpt-4-0314"
+        self.model_name = model_name
+        
 
     def get_label(self, entity_id):
         print("Inside GetLabel!")
