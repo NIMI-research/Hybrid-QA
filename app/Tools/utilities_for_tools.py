@@ -3,20 +3,21 @@ from langchain.llms.huggingface_pipeline import HuggingFacePipeline
 import configparser
 import os
 from sentence_transformers import SentenceTransformer, util
+from transformers import AutoTokenizer, AutoModelForCausalLM,pipeline
 from refined.inference.processor import Refined
 import os
+import torch
 
 
 def load_chain(model_name):
     if model_name in ['gpt-4-0314','gpt-3.5-turbo']:
         llm = ChatOpenAI(model_name = model_name, temperature=0,request_timeout=300)
     else:
-        llm = HuggingFacePipeline.from_model_id(
-            model_id=model_name,
-            task="text-generation",
-            pipeline_kwargs={"max_new_tokens": 100},
-            model_kwargs=dict({"trust_remote_code":True})
-        )
+        model = AutoModelForCausalLM.from_pretrained(model_name,trust_remote_code=True)
+        tokenizer = AutoTokenizer.from_pretrained(model_name)
+        device = get_device()
+        pipe = pipeline("text-generation", model=model, tokenizer=tokenizer,max_new_tokens=30,device=device)
+        llm = HuggingFacePipeline(pipeline=pipe)    
     return llm
 
 def load_openai_api():
@@ -38,3 +39,7 @@ def load_refined_model(refined_cache_dir='~/.cache/refined/'):
                                       entity_set="wikipedia",
                                       data_dir=refined_cache_dir)
     return refined
+
+
+def get_device():
+    return torch.cuda.device_count()-1
