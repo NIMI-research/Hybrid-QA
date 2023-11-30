@@ -112,9 +112,10 @@ def main(
             logging.info(
                 f"----------Evaluation on Question: {question} Index: {idx}----------"
             )
+            start = time.time()
             temp["question"] = question
             out, template_answer = langchain_call.execute_agent(question.strip("\n"))
-            time.sleep(20)
+            #time.sleep(20)
             few_shot = read_json(dataset)
             wiki_ans, wikidata_ans, int_ans, final_answer = merge_step_updated(
                 out, few_shot, langchain_call, model_name
@@ -126,9 +127,10 @@ def main(
             temp["error"] = None
             temp["intermediate_logs"] = template_answer
             final_answer_list.append(temp)
-            logging.info(temp)
+            exec_time = time.time() - start
+            logging.info(temp
             logging.info(
-                f"----Evaluation Done Question: {question} Index: {idx}---"
+                f"----Evaluation Done Question: {question} Index: {idx}---\nExecution Time:{exec_time}s"
             )
         except Exception as e:
             # if "CUDA error:" in str(e):
