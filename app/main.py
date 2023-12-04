@@ -128,7 +128,7 @@ def main(
             temp["intermediate_logs"] = template_answer
             final_answer_list.append(temp)
             exec_time = time.time() - start
-            logging.info(temp
+            logging.info(temp)
             logging.info(
                 f"----Evaluation Done Question: {question} Index: {idx}---\nExecution Time:{exec_time}s"
             )
