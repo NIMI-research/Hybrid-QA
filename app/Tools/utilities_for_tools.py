@@ -16,7 +16,7 @@ def load_chain(model_name):
         model = AutoModelForCausalLM.from_pretrained(model_name,trust_remote_code=True)
         tokenizer = AutoTokenizer.from_pretrained(model_name)
         device = get_device()
-        pipe = pipeline("text-generation", model=model, tokenizer=tokenizer,max_new_tokens=30,device=device)
+        pipe = pipeline("text-generation", model=model, tokenizer=tokenizer,max_new_tokens=50,device=0)
         llm = HuggingFacePipeline(pipeline=pipe)    
     return llm
 

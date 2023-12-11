@@ -28,13 +28,14 @@ def main(
     logging.info(
         f"------Dataset: {dataset}, Model: {model_name}"
     )
-    wiki_tool = WikiTool(model_name)
+    llm = load_chain(model_name)
+    wiki_tool = WikiTool(llm)
     path = os.getcwd()
     print("main---->", path)
     questions = prepare_question_list(dataset)
     print(questions)
     langchain_call = Lanchain_impl_wikipedia(
-        dataset, model_name, wiki_tool, few_shot_dataset
+        dataset, llm, wiki_tool, few_shot_dataset
     )
     print("Here---Bro")
     final_answer_list = []

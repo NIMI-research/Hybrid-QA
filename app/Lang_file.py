@@ -7,7 +7,7 @@ from langchain import LLMChain
 from typing import List, Union, Dict, Any
 from langchain.schema import AgentAction, AgentFinish
 import re
-from Tools.utilities_for_tools import load_sentence_transformer, load_chain
+from Tools.utilities_for_tools import load_sentence_transformer
 import json
 import numpy as np
 from sentence_transformers import util
@@ -283,9 +283,9 @@ class Template_Construction:
 
 
 class Lanchain_impl:
-    def __init__(self, dataset, model_name, wiki_tool, squall, sparql_tool, dynamic):
+    def __init__(self, dataset, llm, wiki_tool, squall, sparql_tool, dynamic):
         self.dataset = dataset
-        self.model_name = model_name
+        self.llm = llm
         self.wiki_tool = wiki_tool
         self.squall = squall
         self.sparql_tool = sparql_tool
@@ -409,8 +409,7 @@ Question: {input}
                     Question: {ques}
                     Answer: """
         prompt = PromptTemplate(template=template, input_variables=["ques"])
-        llm = load_chain(self.model_name)
-        llm_chain = LLMChain(prompt=prompt, llm=llm)
+        llm_chain = LLMChain(prompt=prompt, llm=self.llm)
         return llm_chain.run(ques)
 
     def get_template_inference(self, out, int_answer):
@@ -432,9 +431,8 @@ Question: {input}
 
 
     def execute_agent(self, question):
-        llm = load_chain(self.model_name)
         prompt = self.get_prompt(question, self.dynamic)
-        llm_chain = LLMChain(llm=llm, prompt=prompt)
+        llm_chain = LLMChain(llm=self.llm, prompt=prompt)
         tools = self.get_tools()
         tool_names = [tool.name for tool in tools]
         output_parser = CustomOutputParser()
@@ -451,7 +449,11 @@ Question: {input}
             handle_parsing_errors=True,
             return_intermediate_steps=True,
         )
+        start = time.time()
         internal_answer = self.answer_ques(question)
+        end = time.time()
+        print(f"generating internal answer took {end-start}s.")
+        print(f"Internal answer: {internal_answer}")
         out = agent_executor(question)
         answer_template_for_inference = self.get_template_inference(
             out, internal_answer
@@ -461,9 +463,9 @@ Question: {input}
 
 class Lanchain_impl_wikipedia:
 
-    def __init__(self,dataset, model_name, wiki_tool,few_shot_dataset):
+    def __init__(self,dataset, llm, wiki_tool,few_shot_dataset):
         self.dataset = dataset
-        self.model_name = model_name
+        self.llm = llm
         self.wiki_tool = wiki_tool
         self.few_shot_dataset=few_shot_dataset
 
@@ -584,9 +586,8 @@ Question: {input}
 
 
     def execute_agent_wikipedia(self,question):
-        llm = load_chain(self.model_name)
         prompt = self.get_prompt_wikipedia()
-        llm_chain = LLMChain(llm=llm, prompt=prompt)
+        llm_chain = LLMChain(llm=self.llm, prompt=prompt)
         tools = self.get_tools_wikipedia()
         tool_names = [tool.name for tool in tools]
         output_parser = CustomOutputParser()

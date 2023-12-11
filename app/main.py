@@ -28,7 +28,7 @@ logging.basicConfig(
 )
 
 
-def merge_step_updated(output, few_shot, langchain_call, model_name):
+def merge_step_updated(output, few_shot, langchain_call, llm):
     ques = output["input"]
     wikipedia_ans, wikidata_ans = extract_values(output["output"])
     assistant_match = re.search(
@@ -64,7 +64,6 @@ def merge_step_updated(output, few_shot, langchain_call, model_name):
             "example",
         ],
     )
-    llm = load_chain(model_name)
     llm_chain = LLMChain(prompt=prompt, llm=llm)
     final_answer = llm_chain.run(
         {
@@ -91,19 +90,20 @@ def main(
     logging.info(
         f"------Dataset: {dataset}, Model: {model_name}, Dynamic:{dynamic}--------"
     )
+    llm = load_chain(model_name)
     refined = load_refined_model(refined_cache_dir=refined_cache_dir)
-    wiki_tool = WikiTool(model_name)
+    wiki_tool = WikiTool(llm)
     path = os.getcwd()
     print("main---->", path)
     squall = Squall(
-        f"{path}/Tools/Tools_Data/squall_fixed_few_shot.json", refined, model_name
+        f"{path}/Tools/Tools_Data/squall_fixed_few_shot.json", refined, llm
     )
     sparql_tool = SparqlTool(f"{path}/Tools/Tools_Data/squall2sparql_revised.sh")
     questions = prepare_question_list(dataset)
     print(questions)
     print(refined)
     langchain_call = Lanchain_impl(
-        dataset, model_name, wiki_tool, squall, sparql_tool, dynamic
+        dataset, llm, wiki_tool, squall, sparql_tool, dynamic
     )
     final_answer_list = []
     for idx, question in enumerate(questions):
@@ -118,7 +118,7 @@ def main(
             #time.sleep(20)
             few_shot = read_json(dataset)
             wiki_ans, wikidata_ans, int_ans, final_answer = merge_step_updated(
-                out, few_shot, langchain_call, model_name
+                out, few_shot, langchain_call, llm
             )
             temp["final_answer"] = final_answer.strip()
             temp["wikipedia_answer"] = wiki_ans
@@ -133,6 +133,7 @@ def main(
                 f"----Evaluation Done Question: {question} Index: {idx}---\nExecution Time:{exec_time}s"
             )
         except Exception as e:
+            print(e)
             # if "CUDA error:" in str(e):
             #     gc.collect()
             #     torch.cuda.empty_cache()
@@ -142,7 +143,7 @@ def main(
             temp["error"] = str(e)
             final_answer_list.append(temp)
         del temp
-        if (idx+1) % 10 == 0:
+        if (idx+1) % 1 == 0:
             write_answers(final_answer_list, output_path, dataset)
         continue
 

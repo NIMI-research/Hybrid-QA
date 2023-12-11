@@ -8,7 +8,7 @@ from langchain import PromptTemplate
 from langchain import OpenAI, LLMChain
 from langchain.prompts.few_shot import FewShotPromptTemplate
 import re
-from .utilities_for_tools import load_chain, load_openai_api
+from .utilities_for_tools import load_openai_api
 import openai
 from .utilities_for_tools import load_sentence_transformer
 import subprocess
@@ -21,12 +21,12 @@ import logging
 
 
 class Squall:
-    def __init__(self, few_shot_path: str, refined, model_name):
+    def __init__(self, few_shot_path: str, refined, llm):
         self.few_shot_path = few_shot_path
         self.config = load_openai_api()
         self.refined = refined
         self.model = load_sentence_transformer()
-        self.model_name = model_name
+        self.llm = llm
 
     def cos_sim(self, element, model, labels_sim, threshold=2):
         x = model.encode([element])
@@ -102,8 +102,7 @@ class Squall:
         Question: {ques}
         Answer: """
         prompt = PromptTemplate(template=template, input_variables=["ques"])
-        llm = load_chain(self.model_name)
-        llm_chain = LLMChain(prompt=prompt, llm=llm)
+        llm_chain = LLMChain(prompt=prompt, llm=self.llm)
         result = llm_chain.run(ques)
         return list(result.split(","))
 
@@ -239,8 +238,7 @@ class Squall:
             suffix=suffix,
             input_variables=["ques", "entities"],
         )
-        llm = load_chain(self.model_name)
-        llm_chain = LLMChain(prompt=prompt, llm=llm)
+        llm_chain = LLMChain(prompt=prompt, llm=self.llm)
         x = llm_chain.run({"ques": question, "entities": entities})
         path = os.getcwd()
         converter = SparqlTool(f"{path}/Tools/Tools_Data/squall2sparql_revised.sh")
@@ -344,9 +342,9 @@ class SparqlTool:
 
 
 class WikiTool:
-    def __init__(self, model_name):
+    def __init__(self, llm):
         self.config = load_openai_api()
-        self.model_name = model_name
+        self.llm = llm
         
 
     def get_label(self, entity_id):
@@ -415,8 +413,7 @@ class WikiTool:
                       If you dont find the answer in {results} Just say Answer not found in Context.
                       Answer: """
         prompt = PromptTemplate(template=template, input_variables=["ques", "results"])
-        llm = load_chain(self.model_name)
-        llm_chain = LLMChain(prompt=prompt, llm=llm)
+        llm_chain = LLMChain(prompt=prompt, llm=self.llm)
         return results
 
     def get_wikipedia_summary_keyword(self, actionInput) -> str:
@@ -440,6 +437,5 @@ class WikiTool:
                     Context: {result}
                     Answer:: """
         prompt = PromptTemplate(template=template, input_variables=["search", "result"])
-        llm = load_chain(self.model_name)
-        llm_chain = LLMChain(prompt=prompt, llm=llm)
+        llm_chain = LLMChain(prompt=prompt, llm=self.llm)
         return llm_chain.run({"search": ques, "result": result})
