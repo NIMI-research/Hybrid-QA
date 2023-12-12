@@ -26,7 +26,7 @@ logging.basicConfig(
     filename=log_filename,
     format="%(asctime)s - %(levelname)s - %(message)s",
 )
-
+logging.root.setLevel(logging.NOTSET)
 
 def merge_step_updated(output, few_shot, langchain_call, llm):
     ques = output["input"]
@@ -120,14 +120,16 @@ def main(
             wiki_ans, wikidata_ans, int_ans, final_answer = merge_step_updated(
                 out, few_shot, langchain_call, llm
             )
+            exec_time = time.time() - start
             temp["final_answer"] = final_answer.strip()
             temp["wikipedia_answer"] = wiki_ans
             temp["wikidata_answer"] = wikidata_ans
             temp["internal_knowledge"] = int_ans
             temp["error"] = None
             temp["intermediate_logs"] = template_answer
+            temp["execution_time"] = exec_time
             final_answer_list.append(temp)
-            exec_time = time.time() - start
+            
             logging.info(temp)
             logging.info(
                 f"----Evaluation Done Question: {question} Index: {idx}---\nExecution Time:{exec_time}s"
