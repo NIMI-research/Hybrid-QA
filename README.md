@@ -63,26 +63,37 @@ python main.py --dataset qald
 
 1. Create a workspace
 ```bash
+# on Barnard
 ws_allocate -F horse hybridQA 90
+
+#on Alpha (A100 GPU Cluster)
+ws_allocate -F beegfs hybridQA 90
 ```
 2. **Clone the repository**:
-   ```bash
-   git clone https://github.com/dhananjaybhandiwad/HybridQA.git
-   ```
+```bash
+git clone https://github.com/dhananjaybhandiwad/HybridQA.git
+```
 3. Setup the code including the creation of the virtual env
-   ```bash
-   bash hpc_setup.sh
-   ```
+```bash
+bash hpc_setup.sh
+```
 4. Allocate Resources, Load Modules and activate virtual env (if not already done)
-   
-   **Do this before every session!**
-   ```bash
-   #cpu only run, interactive
-   srun -n 1 -c 32 -t 02:00:00 --mem-per-cpu 1972 --pty bash
-   source activate_env.sh
-   ```
+
+**Do this before every session!**
+```bash
+#cpu only run, interactive
+srun -n 1 -c 32 -t 02:00:00 --mem-per-cpu 1972 --pty bash
+source activate_env.sh
+```
+OR
+```bash
+#gpu run, interactive
+srun -N 1 -n1 -c 48 -t 02:00:00 --hint=nomultithread --mem-per-cpu 10320 --gres=gpu:4 --pty bash
+source activate_env.sh
+```
 5. Set Huggingface to your Workspace (Default is in your $HOME which has probably not enough disc space)
-   ```bash
-   export TRANSFORMERS_CACHE=/data/horse/ws/<workspace_name>
-   python main.py --dataset qald --model-name 'mosaicml/mpt-7b' --refined_cache_dir /data/horse/ws/<workspace_name>
-   ```
+```bash
+export HF_HOME=path/to/your/workspace/.cache
+
+python main.py --dataset qald --model-name 'mosaicml/mpt-7b-8k' --refined_cache_dir $HF_HOME
+```
