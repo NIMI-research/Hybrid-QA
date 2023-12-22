@@ -7,7 +7,6 @@ from langchain import LLMChain
 from typing import List, Union, Dict, Any
 from langchain.schema import AgentAction, AgentFinish
 import re
-from Tools.utilities_for_tools import load_sentence_transformer
 import json
 import numpy as np
 from sentence_transformers import util
@@ -197,8 +196,8 @@ class CustomOutputParser(AgentOutputParser):
 
 
 class Template_Construction:
-    def __init__(self, question, dataset):
-        self.model = load_sentence_transformer()
+    def __init__(self, question, dataset, model):
+        self.model = model
         self.question = question
         self.dataset = dataset
 
@@ -283,9 +282,10 @@ class Template_Construction:
 
 
 class Lanchain_impl:
-    def __init__(self, dataset, llm, wiki_tool, squall, sparql_tool, dynamic):
+    def __init__(self, dataset, llm, sent_transformer, wiki_tool, squall, sparql_tool, dynamic):
         self.dataset = dataset
         self.llm = llm
+        self.sent_transformer = sent_transformer
         self.wiki_tool = wiki_tool
         self.squall = squall
         self.sparql_tool = sparql_tool
@@ -357,9 +357,9 @@ class Lanchain_impl:
     def get_prompt(self, question, dynamic):
         workflow = ""
         if dynamic:
-            workflow = f"{workflow}{Template_Construction(question, self.dataset).full_shot_with_diversity()}"
+            workflow = f"{workflow}{Template_Construction(question, self.dataset,self.sent_transformer).full_shot_with_diversity()}"
         else:
-            workflow = f"{workflow}{Template_Construction(question, self.dataset).static_prompt_construction()}"
+            workflow = f"{workflow}{Template_Construction(question, self.dataset, self.sent_transformer).static_prompt_construction()}"
         prepend_template = """Given the question, your task is to find the answer using both Wikipedia and Wikidata Databases.If you found the answer using Wikipedia Article you need to verify it with Wikidata, even if you do not find an answer with Wikpedia, first make sure to look up on different relevant wikipedia articles. If you still cannot find with wikipedia, try with Wikidata as well. 
 When Wikipedia gives no answer or SPARQL query gives no result, you are allowed to use relevant keywords for finding QIDs to generate the SPARQL query.
 Your immediate steps include finding relevant wikipedia articles summary to find the answer using {tools} provided, find Keywords that are the QIDS from the Wikidata using Wikipedia Page title. \nUse these QIDs to generate the SPARQL query using available {tools}.\nWikidata Answers are the observation after executing the SPARQL query.\n

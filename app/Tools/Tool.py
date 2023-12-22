@@ -21,11 +21,11 @@ import logging
 
 
 class Squall:
-    def __init__(self, few_shot_path: str, refined, llm):
+    def __init__(self, few_shot_path: str, refined, llm, sent_transformer):
         self.few_shot_path = few_shot_path
         self.config = load_openai_api()
         self.refined = refined
-        self.model = load_sentence_transformer()
+        self.model = sent_transformer
         self.llm = llm
 
     def cos_sim(self, element, model, labels_sim, threshold=2):

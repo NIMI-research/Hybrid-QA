@@ -1,5 +1,5 @@
 from Tools.Tool import Squall, SparqlTool, WikiTool
-from Tools.utilities_for_tools import load_refined_model, load_chain
+from Tools.utilities_for_tools import load_refined_model, load_chain, load_sentence_transformer
 import json
 import fire
 from Lang_file import Lanchain_impl
@@ -13,7 +13,10 @@ import os
 import logging
 import torch, gc
 import time
+from mpi4py import MPI
 
+comm = MPI.COMM_WORLD
+rank = comm.Get_rank()
 
 log_dir = "./logs/"
 os.makedirs(log_dir,exist_ok=True)
@@ -92,19 +95,20 @@ def main(
         f"------Dataset: {dataset}, Model: {model_name}, Dynamic:{dynamic}--------"
     )
     llm = load_chain(model_name,use_vllm)
+    sent_transformer = load_sentence_transformer()
     refined = load_refined_model(refined_cache_dir=refined_cache_dir)
     wiki_tool = WikiTool(llm)
     path = os.getcwd()
     print("main---->", path)
     squall = Squall(
-        f"{path}/Tools/Tools_Data/squall_fixed_few_shot.json", refined, llm
+        f"{path}/Tools/Tools_Data/squall_fixed_few_shot.json", refined, llm, sent_transformer
     )
     sparql_tool = SparqlTool(f"{path}/Tools/Tools_Data/squall2sparql_revised.sh")
     questions = prepare_question_list(dataset)
     print(questions)
     print(refined)
     langchain_call = Lanchain_impl(
-        dataset, llm, wiki_tool, squall, sparql_tool, dynamic
+        dataset, llm, sent_transformer, wiki_tool, squall, sparql_tool, dynamic
     )
     final_answer_list = []
     for idx, question in enumerate(questions):
