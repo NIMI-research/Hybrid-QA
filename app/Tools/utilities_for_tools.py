@@ -9,7 +9,7 @@ from refined.inference.processor import Refined
 import os
 import torch
 
-def load_chain(model_name,use_vllm):
+def load_chain(model_name:str, use_vllm:bool, deterministic_promting:bool):
     if model_name in ['gpt-4-0314','gpt-3.5-turbo']:
         llm = ChatOpenAI(model_name = model_name, temperature=0,request_timeout=300)
     
@@ -19,14 +19,23 @@ def load_chain(model_name,use_vllm):
         if not torch.cuda.is_available():
             raise Exception("vLLM currently only supports GPU Inference but cuda is not available.")
         
-        devices = torch.cuda.device_count()
+        if deterministic_promting:
+            top_k=-1
+            temperature=0
+            top_p=1
+        else:
+            top_k= 10
+            top_p=0.95
+            temperature=0.8
 
+        devices = torch.cuda.device_count()
+        
         llm = VLLM(model=model_name,
            trust_remote_code=True,  # mandatory for hf models
-           max_new_tokens=200,
-           top_k=10,
-           top_p=0.95,
-           temperature=0.8,
+           max_new_tokens=100,
+           top_k=top_k,
+           top_p=top_p,
+           temperature=temperature,
            tensor_parallel_size=devices # for distributed inference
         )       
     else:

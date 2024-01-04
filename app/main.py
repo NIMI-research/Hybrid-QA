@@ -89,12 +89,13 @@ def main(
     output_path: str = "answers_data",
     dynamic=True,
     use_vllm = True,
+    deterministic_prompting = False,
     refined_cache_dir='~/.cache/refined/'
 ):
     logging.info(
         f"------Dataset: {dataset}, Model: {model_name}, Dynamic:{dynamic}--------"
     )
-    llm = load_chain(model_name,use_vllm)
+    llm = load_chain(model_name,use_vllm,deterministic_prompting)
     sent_transformer = load_sentence_transformer()
     refined = load_refined_model(refined_cache_dir=refined_cache_dir)
     wiki_tool = WikiTool(llm)
