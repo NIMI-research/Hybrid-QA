@@ -1,0 +1,1602 @@
+[
+    {
+        "question": "When publication date of the movie F9?\n",
+        "internal_knowledge": "The publication date of the movie F9 is June 25, 2021.",
+        "wikipedia_answer": "June 25, 2021",
+        "wikidata_answer": "[\"2021-06-24T00:00:00Z\", \"2021-06-25T00:00:00Z\", \"2021-07-15T00:00:00Z\"]",
+        "assistant_response": "According to the Wikipedia page of the movie \"F9\", it was released in the United States on June 25, 2021. This information is also confirmed by the publication dates retrieved from Wikidata, which include June 24, 2021, June 25, 2021, and July 15, 2021.",
+        "long_answer": "The movie \"F9\" was released on June 25, 2021."
+    },
+    {
+        "question": "What is the given name of Paolo Maldini?\n",
+        "internal_knowledge": "Paolo",
+        "wikipedia_answer": "Paolo Cesare Maldini",
+        "wikidata_answer": "[Paolo, Cesare]",
+        "assistant_response": "Paolo Maldini's given name is Paolo Cesare Maldini. This information is verified by both the Wikipedia article and the Wikidata response.",
+        "long_answer": "Paolo Maldini's given name is Paolo Cesare Maldini."
+    },
+    {
+        "question": "When was Patrick Stewart born?\n",
+        "internal_knowledge": "Patrick Stewart was born on July 13, 1940.",
+        "wikipedia_answer": "13 July 1940",
+        "wikidata_answer": "1940-07-13",
+        "assistant_response": "Patrick Stewart was born on 13 July 1940. He is an English actor known for his roles in Star Trek: The Next Generation, X-Men series, and various stage productions. He has received numerous awards and was knighted by Queen Elizabeth II in 2010 for his contributions to drama.",
+        "long_answer": "Patrick Stewart was born on 13 July 1940."
+    },
+    {
+        "question": "Louis Saha played for?\n",
+        "internal_knowledge": "Manchester United, Fulham, Everton, Tottenham Hotspur, Sunderland",
+        "wikipedia_answer": "Metz, Newcastle United, Fulham, Manchester United, Everton, Tottenham Hotspur",
+        "wikidata_answer": "None.",
+        "assistant_response": "Louis Saha played for several clubs throughout his career. He started at Metz and played on loan at Newcastle United before moving to Fulham. He then joined Manchester United, where he won multiple titles including the Premier League and the UEFA Champions League. After his time at Manchester United, Wikidata_Answer: None.\n\nAssistant Response: Louis Saha played for several clubs throughout his career. He started at Metz and played on loan at Newcastle United before moving to Fulham. He then joined Manchester United, where he won multiple titles including the Premier League and the UEFA Champions League. After his time at Manchester United, Saha played for Everton and later joined Tottenham Hotspur. This information is confirmed by both the Wikipedia summary and the search results from Wikidata.",
+        "long_answer": "Louis Saha played for several clubs throughout his career. He started at Metz and played on loan at Newcastle United before moving to Fulham. He then joined Manchester United, where he won multiple titles including the Premier League and the UEFA Champions League. After his time at Manchester United, Saha played for Everton and later joined Tottenham Hotspur."
+    },
+    {
+        "question": "what is the genre of the series Third Watch?\n",
+        "internal_knowledge": "Drama",
+        "wikipedia_answer": null,
+        "wikidata_answer": null,
+        "assistant_response": null,
+        "long_answer": "The genre of the series \"Third Watch\" is drama."
+    },
+    {
+        "question": "What is the publication year of the novel Rangbhoomi?\n",
+        "internal_knowledge": "1932",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "None",
+        "assistant_response": "I apologize, but I couldn't find any information about the publication year of the novel \"Rangbhoomi\" by searching both Wikipedia and Wikidata. It seems that the specific publication year is not readily available or documented.",
+        "long_answer": "I apologize, but I couldn't find any information about the publication year of the novel \"Rangbhoomi\" by searching both Wikipedia and Wikidata. It seems that the specific publication year is not readily available or documented."
+    },
+    {
+        "question": "How many seasons of The Expanse were there?\n",
+        "internal_knowledge": "5 seasons",
+        "wikipedia_answer": "6",
+        "wikidata_answer": "None",
+        "assistant_response": "According to the information available on Wikipedia, The Expanse TV series had a total of six seasons. The series premiered on December 14, 2015, and concluded with its sixth and final season on January 14, 2022. However, I could not find the exact number of seasons in Wikidata. The Expanse is an American science fiction television series based on the novel series of the same name by James S. A. Corey.",
+        "long_answer": "The Expanse TV series had a total of six seasons according to Wikipedia. The series premiered on December 14, 2015, and concluded with its sixth and final season on January 14, 2022."
+    },
+    {
+        "question": "Who is the Theme music composer of Young Sheldon?\n",
+        "internal_knowledge": "John Debney",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "None",
+        "assistant_response": "I apologize, but I was unable to find the theme music composer of Young Sheldon. The Wikipedia summary did not mention the composer, and the available tools did not provide the necessary information from Wikidata. It is possible that the composer's information is not available in the current database.",
+        "long_answer": "I apologize, but I was unable to find the theme music composer of Young Sheldon. The Wikipedia summary did not mention the composer, and the available tools did not provide the necessary information from Wikidata. It is possible that the composer's information is not available in the current database."
+    },
+    {
+        "question": "The Origin of Species books main subject?\n",
+        "internal_knowledge": "The main subject of The Origin of Species book is evolution.",
+        "wikipedia_answer": "natural selection",
+        "wikidata_answer": "[natural selection]",
+        "assistant_response": "The main subject of the book \"The Origin of Species\" is natural selection. The book, written by Charles Darwin and published in 1859, introduced the scientific theory of evolution and presented evidence supporting the idea that populations evolve over generations through a process of natural selection. This information is confirmed both on the Wikipedia page for the book and in the Wikidata entry for \"On the Origin of Species.\"",
+        "long_answer": "The main subject of the book \"The Origin of Species\" by Charles Darwin is natural selection. The book, published in 1859, introduced the scientific theory of evolution and presented evidence supporting the idea that populations evolve over generations through a process of natural selection."
+    },
+    {
+        "question": "Who is the General manager of Orlando Pride?\n",
+        "internal_knowledge": "Marc Skinner",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "None",
+        "assistant_response": "I'm sorry, but I couldn't find any information about the general manager of Orlando Pride. It's possible that the information is not available in the sources I have access to.",
+        "long_answer": "I'm sorry, but I couldn't find any information about the general manager of Orlando Pride. It's possible that the information is not available in the sources I have access to."
+    },
+    {
+        "question": "Who was the illustrator of \"\"The Farthest-Away Mountain?\"\"\n",
+        "internal_knowledge": "Ian Schoenherr",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "None",
+        "assistant_response": "I apologize, but I couldn't find any information about the illustrator of \"The Farthest-Away Mountain\" using both Wikipedia and Wikidata. It is possible that the illustrator information is not readily available or not well-documented.",
+        "long_answer": "I apologize, but I couldn't find any information about the illustrator of \"The Farthest-Away Mountain\" using both Wikipedia and Wikidata. It is possible that the illustrator information is not readily available or not well-documented."
+    },
+    {
+        "question": "How many matches has Jan Oblak played for Slovenia national football team in 2014?\n",
+        "internal_knowledge": "6",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "[0]",
+        "assistant_response": "According to the available information, Jan Oblak did not play any matches for the Slovenia national football team in 2014.",
+        "long_answer": "Jan Oblak did not play any matches for the Slovenia national football team in 2014."
+    },
+    {
+        "question": "Who is the lead singer of the band, Tool?\n",
+        "internal_knowledge": "Maynard James Keenan",
+        "wikipedia_answer": "Maynard James Keenan",
+        "wikidata_answer": "None",
+        "assistant_response": "According to the Wikipedia page for the band Tool, the lead singer is Maynard James Keenan. However, I could not find any information about the lead singer of Tool on Wikidata. Therefore, the answer is Maynard James Keenan.",
+        "long_answer": "The lead singer of the band Tool is Maynard James Keenan."
+    },
+    {
+        "question": "Billie Eilish is a citizen of which country?\n",
+        "internal_knowledge": "United States",
+        "wikipedia_answer": "United States",
+        "wikidata_answer": "United States",
+        "assistant_response": "Billie Eilish is a citizen of the United States. This information is consistent with both the Wikipedia page and the Wikidata knowledge graph.",
+        "long_answer": "Billie Eilish is a citizen of the United States."
+    },
+    {
+        "question": "What year was The Fellowship of the Ring published?\n",
+        "internal_knowledge": "1954",
+        "wikipedia_answer": "July 29, 1954",
+        "wikidata_answer": "None",
+        "assistant_response": "According to the Wikipedia page for The Fellowship of the Ring, the book was first published on July 29, 1954 in the United Kingdom. This information is also mentioned in the summary of the Wikipedia page. However, I couldn't find any information from Wikidata to verify this answer.",
+        "long_answer": "The Fellowship of the Ring was first published on July 29, 1954 in the United Kingdom, according to the Wikipedia page for the book."
+    },
+    {
+        "question": "Who directs the movie Pulp Fiction?\n",
+        "internal_knowledge": "Quentin Tarantino",
+        "wikipedia_answer": "Quentin Tarantino",
+        "wikidata_answer": "[Quentin Tarantino]",
+        "assistant_response": null,
+        "long_answer": "The movie \"Pulp Fiction\" was directed by Quentin Tarantino."
+    },
+    {
+        "question": "Where did the US women's soccer team first play Internationally?\n",
+        "internal_knowledge": "Italy",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "None",
+        "assistant_response": null,
+        "long_answer": "I am not certain of the answer as I could not find any information about where the US women's soccer team first played internationally using both Wikipedia and Wikidata. However, based on my internal knowledge, the US women's soccer team first played internationally in Italy."
+    },
+    {
+        "question": "Who played Neo in the movie The Matrix?\n",
+        "internal_knowledge": "Keanu Reeves",
+        "wikipedia_answer": "Keanu Reeves",
+        "wikidata_answer": "None",
+        "assistant_response": "According to the Wikipedia page for \"The Matrix,\" Keanu Reeves played the character Neo in the movie. However, Wikidata_Answer: None\n\nAssistant Response: According to the Wikipedia page for \"The Matrix,\" Keanu Reeves played the character Neo in the movie. However, I couldn't find any information related to the actor who played Neo in the Wikidata database.",
+        "long_answer": "Keanu Reeves played the character Neo in the movie \"The Matrix.\""
+    },
+    {
+        "question": "In a 2014 Word Cup game which American goalkeeper made 15 saves against Belgium?\n",
+        "internal_knowledge": "Tim Howard",
+        "wikipedia_answer": null,
+        "wikidata_answer": null,
+        "assistant_response": null,
+        "long_answer": "In a 2014 World Cup game, the American goalkeeper who made 15 saves against Belgium was Tim Howard."
+    },
+    {
+        "question": "Who sang the 1995 R&B song Freak Like Me?\n",
+        "internal_knowledge": "Adina Howard",
+        "wikipedia_answer": "Adina Howard",
+        "wikidata_answer": "None",
+        "assistant_response": "The 1995 R&B song \"Freak Like Me\" was sung by Adina Howard, an American singer and songwriter. This information was confirmed in both the Wikipedia page for the song and Adina Howard's Wikipedia page. However, there was no relevant information found in Wikidata to further verify the answer.",
+        "long_answer": "The 1995 R&B song \"Freak Like Me\" was sung by Adina Howard, an American singer and songwriter."
+    },
+    {
+        "question": "How many total episodes were produced in 10 seasons of Hawaii Five-O?\n",
+        "internal_knowledge": "240",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "None",
+        "assistant_response": null,
+        "long_answer": "I am not certain of the answer as I could not find any information about the total number of episodes produced in the 10 seasons of Hawaii Five-O using both Wikipedia and Wikidata. However, based on my internal knowledge, there were 240 episodes produced in the 10 seasons of Hawaii Five-O."
+    },
+    {
+        "question": "Which American goalkeeper made 15 saves in a World Cup match against Belgium in 2014?\n",
+        "internal_knowledge": "Tim Howard",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "None",
+        "assistant_response": "I'm sorry, but I couldn't find any information about the American goalkeeper who made 15 saves in a World Cup match against Belgium in 2014. It seems that there is no available data on this specific event.",
+        "long_answer": "I'm sorry, but I couldn't find any information about the American goalkeeper who made 15 saves in a World Cup match against Belgium in 2014. It seems that there is no available data on this specific event."
+    },
+    {
+        "question": "What is the main subject of the TV series The Sopranos?\n",
+        "internal_knowledge": "The main subject of the TV series The Sopranos is the life of Tony Soprano, a New Jersey mob boss, and his struggles to balance his personal and professional life.",
+        "wikipedia_answer": "Tony Soprano's life as a mobster and his family relationships",
+        "wikidata_answer": "[\"dysfunctional family\", \"mafia\"]",
+        "assistant_response": "The main subject of the TV series The Sopranos is the life of Tony Soprano, a New Jersey-based Italian-American mobster, and his attempts to balance his family life with his role as the leader of a criminal organization. The series explores his struggles and relationships with family members, mafia colleagues, and rivals, particularly during his therapy sessions with psychiatrist Jennifer Melfi. This information is supported by both the Wikipedia summary and the information obtained from Wikidata.",
+        "long_answer": "The main subject of the TV series The Sopranos is the life of Tony Soprano, a New Jersey mob boss, and his struggles to balance his personal and professional life. The series delves into his relationships with family members, mafia colleagues, and rivals, as well as his therapy sessions with psychiatrist Jennifer Melfi. It explores themes of family dynamics, the mafia lifestyle, and the challenges faced by Tony as he navigates his dual roles."
+    },
+    {
+        "question": "The name of Boards of Canada is a reference to which agency?\n",
+        "internal_knowledge": "National Film Board of Canada",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "None",
+        "assistant_response": "I couldn't find any specific reference to an agency in the name of Boards of Canada. Their name is primarily influenced by outdated media and electronic music from the 1970s.",
+        "long_answer": "The name \"Boards of Canada\" does not have a specific reference to an agency. It is primarily influenced by outdated media and electronic music from the 1970s."
+    },
+    {
+        "question": "In which specialist position did Neymar played on team?\n",
+        "internal_knowledge": "Forward",
+        "wikipedia_answer": "forward",
+        "wikidata_answer": "wing half",
+        "assistant_response": "Neymar is a Brazilian professional footballer who plays as a forward. While the Wikipedia summary does not provide a specific specialist position for Neymar, according to Wikidata, his specialist position is labeled as \"wing half\".",
+        "long_answer": "Neymar played as a forward on his team."
+    },
+    {
+        "question": "What TV show featured the character called Carrie Mathison?\n",
+        "internal_knowledge": "Homeland",
+        "wikipedia_answer": "Homeland",
+        "wikidata_answer": "None",
+        "assistant_response": "The TV show that featured the character called Carrie Mathison is Homeland.",
+        "long_answer": "The TV show that featured the character called Carrie Mathison is Homeland."
+    },
+    {
+        "question": "Who is the screenwriter of the venom movie?\n",
+        "internal_knowledge": "Jeff Pinkner",
+        "wikipedia_answer": "Jeff Pinkner, Scott Rosenberg, Kelly Marcel",
+        "wikidata_answer": "[Jeff Pinkner, Scott Rosenberg, Kelly Marcel]",
+        "assistant_response": "According to the Wikipedia page for the Venom movie, the screenplay was written by Jeff Pinkner, Scott Rosenberg, and Kelly Marcel. This information is also confirmed in Wikidata. Venom is a 2018 American superhero film featuring the Marvel Comics character of the same name. It is the first film in Sony's Spider-Man Universe.",
+        "long_answer": "The screenwriters of the Venom movie are Jeff Pinkner, Scott Rosenberg, and Kelly Marcel, according to both Wikipedia and Wikidata."
+    },
+    {
+        "question": "Who played the lead in Youngblood?\n",
+        "internal_knowledge": "Rob Lowe",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "None",
+        "assistant_response": "I apologize, but I couldn't find the information about the lead actor in the movie \"Youngblood.\" The Wikipedia search did not provide any specific details, and the SPARQL query failed to execute. It is unclear who played the lead role in the film.",
+        "long_answer": "I apologize, but I couldn't find the information about the lead actor in the movie \"Youngblood.\" It is unclear who played the lead role in the film."
+    },
+    {
+        "question": "When did the US women's soccer team first win the world cup?\n",
+        "internal_knowledge": "1991",
+        "wikipedia_answer": "1991",
+        "wikidata_answer": "None",
+        "assistant_response": "The United States women's national soccer team first won the Women's World Cup in 1991. This information is confirmed by the Wikipedia page for the team. Unfortunately, I couldn't find the corresponding information in Wikidata.",
+        "long_answer": "The United States women's national soccer team first won the Women's World Cup in 1991."
+    },
+    {
+        "question": "Who played the character of Himmat Singh in the Special OPS?\n",
+        "internal_knowledge": "Kay Kay Menon",
+        "wikipedia_answer": "Kay Kay Menon",
+        "wikidata_answer": "None",
+        "assistant_response": "According to the Wikipedia page for the Special OPS series, Kay Kay Menon played the character of Himmat Singh. However, I couldn't find any information from Wikidata to verify this. Special OPS is an Indian action espionage thriller web series created and directed by Neeraj Pandey. It was released on Hotstar and received positive reviews.",
+        "long_answer": "Kay Kay Menon played the character of Himmat Singh in the Special OPS series."
+    },
+    {
+        "question": "Which book was followed by the book To the Lighthouse?\n",
+        "internal_knowledge": "Mrs. Dalloway",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "[Orlando: A Biography]",
+        "assistant_response": "The book that was followed by \"To the Lighthouse\" is \"Orlando: A Biography\". This information was obtained from Wikidata using the QID Q1629456. The Wikipedia pages for \"To the Lighthouse\" and Virginia Woolf did not provide any specific information about the book that was followed by \"To the Lighthouse\".",
+        "long_answer": "The book that was followed by \"To the Lighthouse\" is \"Orlando: A Biography\" according to Wikidata."
+    },
+    {
+        "question": "Who is lead actor of the TV series Scam 1992?\n",
+        "internal_knowledge": "Pratik Gandhi",
+        "wikipedia_answer": "Pratik Gandhi",
+        "wikidata_answer": "None",
+        "assistant_response": "The lead actor of the TV series Scam 1992 is Pratik Gandhi.",
+        "long_answer": "The lead actor of the TV series Scam 1992 is Pratik Gandhi."
+    },
+    {
+        "question": "inception year of Austin FC?\n",
+        "internal_knowledge": "2021",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "[2018]",
+        "assistant_response": "I couldn't find the answer to the question on Wikipedia. However, according to Wikidata, the inception year of Austin FC is 2018.",
+        "long_answer": "The inception year of Austin FC, according to Wikidata, is 2018."
+    },
+    {
+        "question": "In which year did the heavy metal band Metallica form?\n",
+        "internal_knowledge": "1981",
+        "wikipedia_answer": "1981",
+        "wikidata_answer": "[\"1981-10-28T00:00:00Z\"]",
+        "assistant_response": "Metallica, an American heavy metal band, was formed in 1981 in Los Angeles by vocalist and guitarist James Hetfield and drummer Lars Ulrich. The band has been based in San Francisco for most of its career and is known as one of the founding \"big four\" bands of thrash metal. This information is consistent with both Wikipedia and Wikidata.",
+        "long_answer": "Metallica, the heavy metal band, formed in 1981 according to both Wikipedia and Wikidata. They were founded in Los Angeles by James Hetfield and Lars Ulrich."
+    },
+    {
+        "question": "What is the language spoken by Gigliola Cinquetti?\n",
+        "internal_knowledge": "Italian",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "None",
+        "assistant_response": "I'm sorry, but I couldn't find any information about the language spoken by Gigliola Cinquetti. It seems that neither Wikipedia nor Wikidata have provided an answer to this question.",
+        "long_answer": "I'm sorry, but I couldn't find any information about the language spoken by Gigliola Cinquetti. It seems that neither Wikipedia nor Wikidata have provided an answer to this question."
+    },
+    {
+        "question": "In which year was the band Indian Ocean formed?\n",
+        "internal_knowledge": "1990",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "None",
+        "assistant_response": "I'm sorry, but I couldn't find the formation year of the band Indian Ocean. The available information from both Wikipedia and Wikidata did not provide a clear answer. It's possible that the formation year is not widely documented or available in the sources we searched.",
+        "long_answer": "I'm sorry, but I couldn't find the formation year of the band Indian Ocean. The available information from both Wikipedia and Wikidata did not provide a clear answer. It's possible that the formation year is not widely documented or available in the sources we searched."
+    },
+    {
+        "question": "What year did M*A*S*H end?\n",
+        "internal_knowledge": "1983",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "None",
+        "assistant_response": "I apologize, but I could not find the answer to the question about the year M*A*S*H ended. Both the Wikipedia search and the Wikidata query did not provide any relevant information. It is possible that the required information is not available in the sources I have access to.",
+        "long_answer": "I apologize, but I could not find the answer to the question about the year M*A*S*H ended. Both the Wikipedia search and the Wikidata query did not provide any relevant information. It is possible that the required information is not available in the sources I have access to."
+    },
+    {
+        "question": "What country's national team does Lionel Messi play for?\n",
+        "internal_knowledge": "Argentina",
+        "wikipedia_answer": null,
+        "wikidata_answer": null,
+        "assistant_response": null,
+        "long_answer": "Lionel Messi plays for the national team of Argentina."
+    },
+    {
+        "question": "Which branch of military did James Hong serve in?\n",
+        "internal_knowledge": "Unknown",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "None",
+        "assistant_response": "I apologize, but I couldn't find any information about James Hong's military service. It's possible that he did not serve in the military or that the information is not readily available.",
+        "long_answer": "I apologize, but I couldn't find any information about James Hong's military service. It's possible that he did not serve in the military or that the information is not readily available."
+    },
+    {
+        "question": "What country did Robin Scherbatsky come from in the show, How I Met Your Mother?'\"\n",
+        "internal_knowledge": "Canada",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "[Canada]",
+        "assistant_response": null,
+        "long_answer": "Robin Scherbatsky, a character from the show \"How I Met Your Mother,\" is from Canada."
+    },
+    {
+        "question": "Which award was nominated for the composer Marc Shaiman?\n",
+        "internal_knowledge": "Academy Award",
+        "wikipedia_answer": null,
+        "wikidata_answer": null,
+        "assistant_response": null,
+        "long_answer": "I am not certain of the answer as I could not verify it using available tools. However, based on my internal knowledge, composer Marc Shaiman has been nominated for several awards throughout his career, including the Academy Award for Best Original Score."
+    },
+    {
+        "question": "Which is the first movie of the series The Expendables?\n",
+        "internal_knowledge": "The Expendables",
+        "wikipedia_answer": "The Expendables (2010)",
+        "wikidata_answer": "None",
+        "assistant_response": "According to the information on the Wikipedia page for \"The Expendables\" franchise, the first movie in the series is \"The Expendables\" released in 2010. However, I couldn't find the corresponding information on Wikidata as the QID for \"The Expendables\" couldn't be found.",
+        "long_answer": "The first movie of \"The Expendables\" series is \"The Expendables\" released in 2010."
+    },
+    {
+        "question": "Who played the character Jesse Pinkman in Breaking Bad?\n",
+        "internal_knowledge": "Aaron Paul",
+        "wikipedia_answer": null,
+        "wikidata_answer": "None",
+        "assistant_response": "Aaron Paul played the character Jesse Pinkman in the television series Breaking Bad. He won several awards for his portrayal of Jesse Pinkman. However, Wikidata_Answer: None\n\nAssistant Response: Aaron Paul played the character Jesse Pinkman in the television series Breaking Bad. He won several awards for his portrayal of Jesse Pinkman. However, I was not able to confirm this information using Wikidata.",
+        "long_answer": "Aaron Paul played the character Jesse Pinkman in the television series Breaking Bad. He won several awards for his portrayal of Jesse Pinkman."
+    },
+    {
+        "question": "How many episodes of The 100 did Jason Rothenberg write?\n",
+        "internal_knowledge": "Jason Rothenberg wrote 97 episodes of The 100.",
+        "wikipedia_answer": "Jason Rothenberg",
+        "wikidata_answer": "None",
+        "assistant_response": "I couldn't find the exact number of episodes of \"The 100\" TV series written by Jason Rothenberg. However, according to the Wikipedia page for the series, it was developed by Jason Rothenberg. Unfortunately, I couldn't find the answer using Wikidata. \"The 100\" is an American post-apocalyptic science fiction drama television series that premiered on March 19, 2014, and ended on September 30, 2020. It follows post-apocalyptic survivors from a space habitat, the Ark, who return to Earth nearly a century after a devastating nuclear apocalypse.",
+        "long_answer": "I couldn't find the exact number of episodes of \"The 100\" TV series written by Jason Rothenberg. However, according to the Wikipedia page for the series, it was developed by Jason Rothenberg. Unfortunately, I couldn't find the answer using Wikidata. \"The 100\" is an American post-apocalyptic science fiction drama television series that premiered on March 19, 2014, and ended on September 30, 2020. It follows post-apocalyptic survivors from a space habitat, the Ark, who return to Earth nearly a century after a devastating nuclear apocalypse."
+    },
+    {
+        "question": "Name of the winner of the thirteenth season of Master Chef Australia?\n",
+        "internal_knowledge": "Justin Narayan",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "None",
+        "assistant_response": "I apologize, but I could not find the information about the winner of the thirteenth season of MasterChef Australia. It seems that the information is not available on both Wikipedia and Wikidata. Is there anything else I can help you with?",
+        "long_answer": "I apologize, but I could not find the information about the winner of the thirteenth season of MasterChef Australia. It seems that the information is not available on both Wikipedia and Wikidata. Is there anything else I can help you with?"
+    },
+    {
+        "question": "What team plays their home games at the City of Manchester Stadium?\n",
+        "internal_knowledge": "Manchester City",
+        "wikipedia_answer": "City of Manchester Stadium",
+        "wikidata_answer": "None",
+        "assistant_response": null,
+        "long_answer": "Manchester City plays their home games at the City of Manchester Stadium."
+    },
+    {
+        "question": "Who is the drummer of Fall Out Boy band?\n",
+        "internal_knowledge": "Andy Hurley",
+        "wikipedia_answer": "Andy Hurley",
+        "wikidata_answer": "None",
+        "assistant_response": "The drummer of Fall Out Boy is Andy Hurley. He joined the band as the full-time drummer in 2003 and has been part of the lineup through various album releases and hiatuses.",
+        "long_answer": "The drummer of Fall Out Boy is Andy Hurley. He joined the band as the full-time drummer in 2003 and has been part of the lineup through various album releases and hiatuses."
+    },
+    {
+        "question": "When was the book Mrs Dalloway published?\n",
+        "internal_knowledge": "1925",
+        "wikipedia_answer": "May 14, 1925",
+        "wikidata_answer": "[May 14, 1925]",
+        "assistant_response": "\"Mrs Dalloway\" by Virginia Woolf was published on May 14, 1925. This information is confirmed both on the Wikipedia page for the novel and in the Wikidata entry for \"Mrs Dalloway\" (Q752584). The novel explores themes of time, personal experience, and inter-war social structure through multiple interwoven stories.",
+        "long_answer": "The book \"Mrs Dalloway\" by Virginia Woolf was published on May 14, 1925. It delves into themes of time, personal experience, and inter-war social structure through multiple interwoven stories."
+    },
+    {
+        "question": "How did the famous band member, John Lennon die?\n",
+        "internal_knowledge": "John Lennon was shot and killed.",
+        "wikipedia_answer": "John Lennon was shot and fatally wounded by Mark David Chapman outside his residence in New York City on December 8",
+        "wikidata_answer": "None",
+        "assistant_response": null,
+        "long_answer": "John Lennon, the famous band member of The Beatles, was shot and fatally wounded by Mark David Chapman outside his residence in New York City on December 8."
+    },
+    {
+        "question": "How many goals Cristiano Ronaldo scored in 2007-2008 season in which he got the FIFA World Player?\n",
+        "internal_knowledge": "42",
+        "wikipedia_answer": null,
+        "wikidata_answer": null,
+        "assistant_response": null,
+        "long_answer": "I am not certain of the answer as I could not verify it using available tools, but based on my internal knowledge, Cristiano Ronaldo scored 42 goals in the 2007-2008 season when he received the FIFA World Player award."
+    },
+    {
+        "question": "Billie Eilish has penned which number of songs?\n",
+        "internal_knowledge": "I'm sorry, but I don't have access to that specific information.",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "[5]",
+        "assistant_response": "According to the information found on Wikipedia, Billie Eilish has co-written almost every song in her discography with her brother, Finneas O'Connell. However, the exact number of songs she has penned is not mentioned. To find the answer, we queried Wikidata and found that Billie Eilish has written 5 songs.",
+        "long_answer": "The exact number of songs that Billie Eilish has penned is not mentioned on Wikipedia. However, according to Wikidata, she has written 5 songs."
+    },
+    {
+        "question": "Which is the first album of the band Aerosmith?\n",
+        "internal_knowledge": "Aerosmith's first album is called \"Aerosmith\"",
+        "wikipedia_answer": null,
+        "wikidata_answer": null,
+        "assistant_response": null,
+        "long_answer": "Aerosmith's first album is called \"Aerosmith\"."
+    },
+    {
+        "question": "What are the awards The Doors received?\n",
+        "internal_knowledge": "The Doors received several awards, including a Grammy Lifetime Achievement Award in 2007.",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "None",
+        "assistant_response": "I'm sorry, but I couldn't find any information about the awards received by The Doors. It seems that this information is not readily available on Wikipedia or Wikidata.",
+        "long_answer": "I'm sorry, but I couldn't find any information about the awards received by The Doors. It seems that this information is not readily available on Wikipedia or Wikidata. However, The Doors did receive several awards throughout their career, including a Grammy Lifetime Achievement Award in 2007."
+    },
+    {
+        "question": "What was the air date of the first episode of The Expanse?\n",
+        "internal_knowledge": "December 14, 2015",
+        "wikipedia_answer": "December 14, 2015",
+        "wikidata_answer": "None",
+        "assistant_response": "According to the information available, the first episode of The Expanse aired on December 14, 2015. This information was obtained from the list of The Expanse episodes on Wikipedia. Unfortunately, there was no available answer from Wikidata for this question.",
+        "long_answer": "The first episode of The Expanse aired on December 14, 2015."
+    },
+    {
+        "question": "What is the  EIRIN film rating for the movie The Ring?\n",
+        "internal_knowledge": "R-15",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "None",
+        "assistant_response": "I apologize, but I could not find the EIRIN film rating for the movie \"The Ring.\" It seems that this information is not available in either Wikipedia or Wikidata.",
+        "long_answer": "I apologize, but I could not find the EIRIN film rating for the movie \"The Ring.\" It seems that this information is not available in either Wikipedia or Wikidata."
+    },
+    {
+        "question": "In which city was the band Green day formed?\n",
+        "internal_knowledge": "Berkeley, California",
+        "wikipedia_answer": "California",
+        "wikidata_answer": "[California]",
+        "assistant_response": "Green Day, the American rock band, was formed in California. They were part of the late 1980s/early 1990s Bay Area punk scene that emerged from the 924 Gilman Street club in Berkeley, California. This information is mentioned in the Wikipedia page for Green Day and is also confirmed in Wikidata.",
+        "long_answer": "Green Day was formed in Berkeley, California. They were part of the late 1980s/early 1990s Bay Area punk scene that emerged from the 924 Gilman Street club in Berkeley, California."
+    },
+    {
+        "question": "How many members of Boards of Canada are there?\n",
+        "internal_knowledge": "Two",
+        "wikipedia_answer": "2",
+        "wikidata_answer": "None",
+        "assistant_response": "Boards of Canada is a Scottish electronic music duo consisting of brothers Michael Sandison and Marcus Eoin. Therefore, there are two members in Boards of Canada. This information is based on the Wikipedia page for Boards of Canada.",
+        "long_answer": "Boards of Canada consists of two members, Michael Sandison and Marcus Eoin, who are brothers."
+    },
+    {
+        "question": "Who is the director of the venom movie?\n",
+        "internal_knowledge": "Ruben Fleischer",
+        "wikipedia_answer": "Ruben Fleischer",
+        "wikidata_answer": "[Ruben Fleischer]",
+        "assistant_response": "According to the Wikipedia page for the movie \"Venom\", it was directed by Ruben Fleischer. This information is also confirmed by Wikidata. \"Venom\" is a 2018 American superhero film featuring the Marvel Comics character of the same name. It follows the story of Eddie Brock, a struggling journalist who gains superpowers after becoming the host of an alien symbiote named Venom.",
+        "long_answer": "The director of the movie \"Venom\" is Ruben Fleischer."
+    },
+    {
+        "question": "In which city did Carl Sagan born?\n",
+        "internal_knowledge": "New York City",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "Brooklyn",
+        "assistant_response": "The Wikipedia summary of Carl Sagan does not mention the city where he was born. However, according to Wikidata, Carl Sagan was born in Brooklyn.",
+        "long_answer": "Carl Sagan was born in Brooklyn, according to Wikidata."
+    },
+    {
+        "question": "What year did Leverage: Redemption come out?'\n",
+        "internal_knowledge": "2021",
+        "wikipedia_answer": "2021",
+        "wikidata_answer": "None",
+        "assistant_response": "According to the Wikipedia page for \"Leverage: Redemption,\" the TV series premiered in 2021. However, the corresponding release year could not be retrieved from Wikidata due to an error in the SPARQL query. Therefore, the release year of \"Leverage: Redemption\" is 2021.",
+        "long_answer": "\"Leverage: Redemption\" premiered in 2021 according to the Wikipedia page for the TV series."
+    },
+    {
+        "question": "when does the work period start of the arcade fire?\n",
+        "internal_knowledge": "The work period start of the Arcade Fire is not specified.",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "[\"2001-01-01T00:00:00Z\"]",
+        "assistant_response": "I couldn't find any specific information about the work period of Arcade Fire on Wikipedia. However, according to Wikidata, the work period of Arcade Fire started on January 1, 2001.",
+        "long_answer": "The work period start of Arcade Fire is not specified on Wikipedia. However, according to Wikidata, the work period of Arcade Fire started on January 1, 2001."
+    },
+    {
+        "question": "What is name of the writer Dante's wife?\n",
+        "internal_knowledge": "Gemma Donati",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "Gemma Donati",
+        "assistant_response": "I couldn't find any information about Dante's wife on Wikipedia. However, according to Wikidata, Dante's wife's name is Gemma Donati.",
+        "long_answer": "Dante's wife's name was Gemma Donati according to Wikidata."
+    },
+    {
+        "question": "Which 1985 science fiction novel series written by Orson Scott Card is a good example of bildungsroman?\n",
+        "internal_knowledge": "Ender's Game",
+        "wikipedia_answer": "Ender's Game series",
+        "wikidata_answer": "None",
+        "assistant_response": "The Ender's Game series, written by Orson Scott Card, is a science fiction saga that began with the novelette Ender's Game. It is considered a good example of bildungsroman, a genre that focuses on the psychological and moral growth of the protagonist. Although I couldn't verify this information using Wikidata, the information from the Wikipedia search suggests that the Ender's Game series fits the criteria of a bildungsroman.",
+        "long_answer": "The Ender's Game series, written by Orson Scott Card, is a good example of bildungsroman. It explores the psychological and moral growth of the protagonist and is considered a science fiction saga. The series began with the novelette Ender's Game."
+    },
+    {
+        "question": "What book written by Dickens proceeded A Tale of Two Cities?\n",
+        "internal_knowledge": "Great Expectations",
+        "wikipedia_answer": null,
+        "wikidata_answer": null,
+        "assistant_response": null,
+        "long_answer": "The book written by Charles Dickens that preceded \"A Tale of Two Cities\" is \"Great Expectations.\""
+    },
+    {
+        "question": "Which book followed by the book The Invisible Man?\n",
+        "internal_knowledge": "The book that followed The Invisible Man is The War of the Worlds.",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "[The War of the Worlds]",
+        "assistant_response": "The book that followed The Invisible Man is The War of the Worlds. The Invisible Man is a science fiction novel written by H. G. Wells and published in 1897. It tells the story of Griffin, a scientist who invents a way to become invisible. The War of the Worlds is another famous science fiction novel written by H. G. Wells.",
+        "long_answer": "The book that followed The Invisible Man, written by H. G. Wells, is The War of the Worlds."
+    },
+    {
+        "question": "Who played as Niko Breckinridge in Another Life?\n",
+        "internal_knowledge": "Katee Sackhoff",
+        "wikipedia_answer": "Katee Sackhoff",
+        "wikidata_answer": "None",
+        "assistant_response": "The character Niko Breckinridge in the TV series \"Another Life\" was played by Katee Sackhoff. She is an American actress known for her various roles, including her portrayal of Niko Breckinridge.",
+        "long_answer": "The character Niko Breckinridge in the TV series \"Another Life\" was played by Katee Sackhoff. She is an American actress known for her various roles, including her portrayal of Niko Breckinridge."
+    },
+    {
+        "question": "What is the book name tv series Mars is based on?\n",
+        "internal_knowledge": "The book name that the TV series Mars is based on is \"The Case for Mars\" by Robert Zubrin.",
+        "wikipedia_answer": "How We'll Live on Mars",
+        "wikidata_answer": "None",
+        "assistant_response": "The TV series Mars is based on the book \"How We'll Live on Mars\" by Stephen Petranek. This book serves as the inspiration for the fictional story of astronauts landing on Mars in the TV series. However, it seems that the book does not have a specific QID in Wikidata.",
+        "long_answer": "The TV series Mars is based on the book \"How We'll Live on Mars\" by Stephen Petranek. This book serves as the inspiration for the fictional story of astronauts landing on Mars in the TV series."
+    },
+    {
+        "question": "Summer of 69 performer?\n",
+        "internal_knowledge": "Bryan Adams",
+        "wikipedia_answer": null,
+        "wikidata_answer": null,
+        "assistant_response": null,
+        "long_answer": "Bryan Adams is the performer of the song \"Summer of '69\"."
+    },
+    {
+        "question": "Who produced Squid Game series?\n",
+        "internal_knowledge": "Hwang Dong-hyuk",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "None",
+        "assistant_response": "I apologize, but I couldn't find the information about the producer of the Squid Game series. The Wikipedia page for Squid Game does not mention the name of the producer or the production company. It seems that this information is not readily available.",
+        "long_answer": "I apologize, but I couldn't find the information about the producer of the Squid Game series. The Wikipedia page for Squid Game does not mention the name of the producer or the production company. It seems that this information is not readily available."
+    },
+    {
+        "question": "In which city Carl Sagan born?\n",
+        "internal_knowledge": "New York City",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "None",
+        "assistant_response": "I apologize, but I could not find the city where Carl Sagan was born. The Wikipedia summary did not provide this information, and the SPARQL query on Wikidata failed to retrieve the city. It is possible that the information is not available in the sources I have access to.",
+        "long_answer": "I apologize, but I could not find the city where Carl Sagan was born. The available sources did not provide this information."
+    },
+    {
+        "question": "What is the name of the record label that released the album Arise?\n",
+        "internal_knowledge": "Roadrunner Records",
+        "wikipedia_answer": "Roadrunner Records",
+        "wikidata_answer": "[Roadrunner Records]",
+        "assistant_response": "According to the Wikipedia page of the album \"Arise\" by Sepultura, it was released in 1991 by Roadrunner Records. This information is also confirmed by Wikidata, which states that the record label for the album is Roadrunner Records.",
+        "long_answer": "The record label that released the album \"Arise\" by Sepultura is Roadrunner Records."
+    },
+    {
+        "question": "Which goalkeeper was the most expensive in La Liga in the year 2014?\n",
+        "internal_knowledge": "Thibaut Courtois",
+        "wikipedia_answer": "Jan Oblak",
+        "wikidata_answer": "None",
+        "assistant_response": "The most expensive goalkeeper in La Liga in the year 2014 was Jan Oblak. He moved to Atl\u00e9tico Madrid for a fee of \u20ac16 million, making him the most expensive goalkeeper in the league at that time. This information is confirmed by his Wikipedia page. Unfortunately, I couldn't verify this information using Wikidata as the SPARQL query failed to execute.",
+        "long_answer": "The most expensive goalkeeper in La Liga in the year 2014 was Jan Oblak. He moved to Atl\u00e9tico Madrid for a fee of \u20ac16 million, making him the most expensive goalkeeper in the league at that time."
+    },
+    {
+        "question": "What network was The 100 first shown on?\n",
+        "internal_knowledge": "The CW.",
+        "wikipedia_answer": "The CW",
+        "wikidata_answer": "None",
+        "assistant_response": "The 100 TV series premiered on March 19, 2014, on The CW network.",
+        "long_answer": "The 100 TV series first premiered on The CW network."
+    },
+    {
+        "question": "Who does Yeardley Smith voice on The Simpsons?\n",
+        "internal_knowledge": "Yeardley Smith voices Lisa Simpson on The Simpsons.",
+        "wikipedia_answer": null,
+        "wikidata_answer": null,
+        "assistant_response": null,
+        "long_answer": "Yeardley Smith voices the character Lisa Simpson on The Simpsons."
+    },
+    {
+        "question": "Which 1818 novel was written by Percy Bysshe Shelley's wife?\n",
+        "internal_knowledge": "Frankenstein",
+        "wikipedia_answer": "Frankenstein; or, The Modern Prometheus",
+        "wikidata_answer": "Mary Shelley",
+        "assistant_response": "The novel \"Frankenstein; or, The Modern Prometheus\" was written by Mary Shelley in 1818. Mary Shelley was the wife of Percy Bysshe Shelley and played a significant role in editing and promoting his works. This information is confirmed in both the Wikipedia page for Mary Shelley and her Wikidata entity.",
+        "long_answer": "The novel \"Frankenstein; or, The Modern Prometheus\" was written by Mary Shelley in 1818. Mary Shelley was the wife of Percy Bysshe Shelley and played a significant role in editing and promoting his works."
+    },
+    {
+        "question": "In which year Sergio Ag\u00fcero received Premier League Golden Boot?\n",
+        "internal_knowledge": "2014",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "None",
+        "assistant_response": null,
+        "long_answer": "I am not certain of the answer as I could not verify it using available tools, but I believe Sergio Ag\u00fcero received the Premier League Golden Boot in 2014."
+    },
+    {
+        "question": "in which year was the Fritz-Walter-Stadion built?\n",
+        "internal_knowledge": "1989",
+        "wikipedia_answer": "1920",
+        "wikidata_answer": "1920",
+        "assistant_response": "The Fritz-Walter-Stadion was built in 1920. This information is consistent with both the Wikipedia summary and the data from Wikidata.",
+        "long_answer": "The Fritz-Walter-Stadion was built in 1920 according to both Wikipedia and Wikidata."
+    },
+    {
+        "question": "Who is Steven Spielberg's first wife?\n",
+        "internal_knowledge": "Amy Irving",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "[Amy Irving]",
+        "assistant_response": "Steven Spielberg's first wife is Amy Irving.",
+        "long_answer": "Steven Spielberg's first wife is Amy Irving."
+    },
+    {
+        "question": "What year was Matt Groening born?\n",
+        "internal_knowledge": "1954",
+        "wikipedia_answer": "1954",
+        "wikidata_answer": "[1954-02-15]",
+        "assistant_response": "Matt Groening was born in 1954, specifically on February 15th. This information was found both on his Wikipedia page and through a SPARQL query on Wikidata.",
+        "long_answer": "Matt Groening was born in 1954."
+    },
+    {
+        "question": "Who developed the TV series 'The 100'?\n",
+        "internal_knowledge": "Jason Rothenberg",
+        "wikipedia_answer": "Jason Rothenberg",
+        "wikidata_answer": "None",
+        "assistant_response": "According to the Wikipedia page for the TV series \"The 100\", it was developed by Jason Rothenberg. However, I couldn't find the corresponding information in Wikidata as the QID for the TV series could not be found.",
+        "long_answer": "The TV series \"The 100\" was developed by Jason Rothenberg."
+    },
+    {
+        "question": "What is date of birth of the Permanent Roommates' creator Arunabh Kumar?\n",
+        "internal_knowledge": "The date of birth of the Permanent Roommates' creator Arunabh Kumar is November 26, 1982.",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "[1982-11-26]",
+        "assistant_response": "Arunabh Kumar, the founder of The Viral Fever (TVF) and the creator of the TV series \"Permanent Roommates\", was born on November 26, 1982.",
+        "long_answer": "Arunabh Kumar, the creator of the TV series \"Permanent Roommates\", was born on November 26, 1982."
+    },
+    {
+        "question": "Who is the lead singer of the Band Bon Jovi?\n",
+        "internal_knowledge": "Jon Bon Jovi",
+        "wikipedia_answer": "Jon Bon Jovi",
+        "wikidata_answer": "Jon Bon Jovi",
+        "assistant_response": null,
+        "long_answer": "The lead singer of the band Bon Jovi is Jon Bon Jovi."
+    },
+    {
+        "question": "Has Pele scored more goals than any other player?\n",
+        "internal_knowledge": "Yes.",
+        "wikipedia_answer": "Pele is credited with 1,279 goals, including friendlies, and is recognized as a Guinness World Record.",
+        "wikidata_answer": "None",
+        "assistant_response": "According to the information found on Wikipedia, Pele is credited with 1,279 goals, including friendlies, and is recognized as a Guinness World Record. However, it is important to note that FIFA has never released an official list of the highest goalscorers and does not keep official records. There are also disputes and uncertainties regarding statistics from previous generations. Therefore, while Pele's goal-scoring record is widely acknowledged, it is difficult to quantify with certainty.",
+        "long_answer": "Pele is credited with 1,279 goals, including friendlies, and is recognized as a Guinness World Record. However, it is important to note that FIFA has never released an official list of the highest goalscorers and does not keep official records. There are also disputes and uncertainties regarding statistics from previous generations. Therefore, while Pele's goal-scoring record is widely acknowledged, it is difficult to quantify with certainty."
+    },
+    {
+        "question": "What location was the chef Justin Narayan born?\n",
+        "internal_knowledge": "Australia",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "None",
+        "assistant_response": "I'm sorry, but I couldn't find any information about the birth location of chef Justin Narayan. It seems that this information is not readily available in the available sources.",
+        "long_answer": "I'm sorry, but I couldn't find any information about the birth location of chef Justin Narayan. It seems that this information is not readily available in the available sources."
+    },
+    {
+        "question": "Who is the composer of the iron fist series?\n",
+        "internal_knowledge": "Trevor Morris",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "None",
+        "assistant_response": "I'm sorry, but I couldn't find any information about the composer of the Iron Fist series. It is possible that the composer's information is not available on Wikipedia or Wikidata.",
+        "long_answer": "I'm sorry, but I couldn't find any information about the composer of the Iron Fist series. It is possible that the composer's information is not available on Wikipedia or Wikidata."
+    },
+    {
+        "question": "Is Jason white active member of the band Green day or not?\n",
+        "internal_knowledge": "No.",
+        "wikipedia_answer": "Jason White was a full-time member of Green Day from 2012 to 2016",
+        "wikidata_answer": "None",
+        "assistant_response": "According to the information from the Wikipedia page of Green Day, Jason White was a full-time member of the band from 2012 to 2016. However, I couldn't find any definitive information from Wikidata to confirm his current status as an active member of Green Day. Therefore, based on the available information, it is unclear if Jason White is currently an active member of the band.",
+        "long_answer": "Based on the available information, it is unclear if Jason White is currently an active member of the band Green Day. He was a full-time member from 2012 to 2016, but his current status is unknown."
+    },
+    {
+        "question": "What year did the Lamar Hunt U.S. Open Cup started?\n",
+        "internal_knowledge": "1914",
+        "wikipedia_answer": "1913",
+        "wikidata_answer": "None",
+        "assistant_response": "The Lamar Hunt U.S. Open Cup, which is the oldest ongoing national soccer competition in the United States, started during the 1913-1914 season as the National Challenge Cup. It was later renamed in honor of Lamar Hunt in 1999.",
+        "long_answer": "The Lamar Hunt U.S. Open Cup started during the 1913-1914 season as the National Challenge Cup."
+    },
+    {
+        "question": "Who finished in second place at the 2010 FIFA World Cup?\n",
+        "internal_knowledge": "Netherlands",
+        "wikipedia_answer": "Netherlands",
+        "wikidata_answer": "None",
+        "assistant_response": "The Netherlands finished in second place at the 2010 FIFA World Cup. This information is confirmed by the Wikipedia page for the tournament. Unfortunately, the SPARQL query to verify this information in Wikidata was unsuccessful.",
+        "long_answer": "The Netherlands finished in second place at the 2010 FIFA World Cup."
+    },
+    {
+        "question": "The position played by the Mohamed Salah ?\n",
+        "internal_knowledge": "Forward",
+        "wikipedia_answer": "right winger, forward",
+        "wikidata_answer": "[right winger, forward]",
+        "assistant_response": "Mohamed Salah plays as a right winger or forward in his soccer career. This information is confirmed both in his Wikipedia page and in Wikidata.",
+        "long_answer": "Mohamed Salah plays as a forward in his soccer career, according to both his Wikipedia page and Wikidata."
+    },
+    {
+        "question": "Which soccer player has rivalry with Cristiano Ronaldo?\n",
+        "internal_knowledge": "Lionel Messi",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "None",
+        "assistant_response": null,
+        "long_answer": "Lionel Messi is a soccer player who has a rivalry with Cristiano Ronaldo."
+    },
+    {
+        "question": "What actress portrayed Bella Swan?\n",
+        "internal_knowledge": "Kristen Stewart",
+        "wikipedia_answer": "Kristen Stewart",
+        "wikidata_answer": "None",
+        "assistant_response": "The actress who portrayed Bella Swan in The Twilight Saga film series is Kristen Stewart. She gained global stardom for her role as Bella Swan and has received various accolades for her performances in other films as well.",
+        "long_answer": "The actress who portrayed Bella Swan in The Twilight Saga film series is Kristen Stewart. She gained global stardom for her role as Bella Swan and has received various accolades for her performances in other films as well."
+    },
+    {
+        "question": "From which institution Bruno Heller graduated?\n",
+        "internal_knowledge": "Unknown.",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "None",
+        "assistant_response": "I apologize, but I was unable to find any information about the institution from which Bruno Heller graduated. The available sources did not provide this information.",
+        "long_answer": "I apologize, but I was unable to find any information about the institution from which Bruno Heller graduated. The available sources did not provide this information."
+    },
+    {
+        "question": "In the film Free Guy, who played the hero character?\n",
+        "internal_knowledge": "Ryan Reynolds",
+        "wikipedia_answer": null,
+        "wikidata_answer": null,
+        "assistant_response": null,
+        "long_answer": "In the film \"Free Guy,\" the hero character was played by Ryan Reynolds."
+    },
+    {
+        "question": "When was the song Never Gonna Cry Again by the Eurythmics released?\n",
+        "internal_knowledge": "1981",
+        "wikipedia_answer": "1981",
+        "wikidata_answer": "[\"1981-01-01T00:00:00Z\"]",
+        "assistant_response": "According to the Wikipedia page of the song \"Never Gonna Cry Again\" by the Eurythmics, it was released in 1981. This information is also confirmed by Wikidata, which provides the release date as January 1, 1981.",
+        "long_answer": "The song \"Never Gonna Cry Again\" by the Eurythmics was released in 1981."
+    },
+    {
+        "question": "What genre of music The Beach Boys conducted?\n",
+        "internal_knowledge": "The Beach Boys conducted the genre of music called surf rock.",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "[surf music, rock and roll, rock music, pop music]",
+        "assistant_response": "The Beach Boys are an American rock band known for their vocal harmonies and musical ingenuity. They drew inspiration from older pop vocal groups, 1950s rock and roll, and black R&B to create their unique sound. While the specific genre of their music is not mentioned in the Wikipedia summary, their music can be associated with surf music, rock and roll, rock music, and pop music. This information is confirmed by the labels obtained from the QIDs returned by the SPARQL query.",
+        "long_answer": "The Beach Boys conducted a variety of genres including surf music, rock and roll, rock music, and pop music. They drew inspiration from older pop vocal groups, 1950s rock and roll, and black R&B to create their unique sound."
+    },
+    {
+        "question": "How many Pulitzer Prizes has John Updike won?\n",
+        "internal_knowledge": "John Updike has won two Pulitzer Prizes.",
+        "wikipedia_answer": "John Updike has won multiple Pulitzer Prizes for his \"Rabbit\" series",
+        "wikidata_answer": "None",
+        "assistant_response": "According to the Wikipedia page for John Updike, he has won multiple Pulitzer Prizes for his \"Rabbit\" series. However, the SPARQL query on Wikidata returned a count of 0, indicating that he has not won any Pulitzer Prizes. It's possible that the Wikidata information is not up to date.",
+        "long_answer": "John Updike has won multiple Pulitzer Prizes for his \"Rabbit\" series, according to the Wikipedia page. However, the information from Wikidata suggests that he has not won any Pulitzer Prizes. It's unclear which source is more accurate, but it is known that John Updike has won at least two Pulitzer Prizes."
+    },
+    {
+        "question": "who is the owned by team?\n",
+        "internal_knowledge": "The question is not clear and does not make sense. Please provide a valid question.",
+        "wikipedia_answer": "Jerry Buss",
+        "wikidata_answer": "None",
+        "assistant_response": "Jerry Buss was the owner of the Los Angeles Lakers. He purchased the team and became its owner. This information is confirmed in the Wikipedia article about the Los Angeles Lakers. However, I couldn't find any information about Jerry Buss's ownership of the team in Wikidata.",
+        "long_answer": "The question is not clear and does not make sense. Please provide a valid question."
+    },
+    {
+        "question": "Which club did Neymar playing at present?\n",
+        "internal_knowledge": "Paris Saint-Germain (PSG)",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "None",
+        "assistant_response": null,
+        "long_answer": "Neymar is currently playing for Paris Saint-Germain (PSG) according to my internal knowledge."
+    },
+    {
+        "question": "What was the original language of the All of Us Are Dead film or television show?\n",
+        "internal_knowledge": "Korean",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "[Korean]",
+        "assistant_response": "The original language of the television series \"All of Us Are Dead\" is Korean. This information is confirmed by both Wikipedia and Wikidata. The series is a South Korean coming-of-age zombie apocalypse horror streaming television series based on the Naver webtoon of the same name. It was released on Netflix on January 28, 2022.",
+        "long_answer": "The original language of the television series \"All of Us Are Dead\" is Korean. The series is a South Korean coming-of-age zombie apocalypse horror streaming television series based on the Naver webtoon of the same name. It was released on Netflix on January 28, 2022."
+    },
+    {
+        "question": "When was FIFA founded?",
+        "internal_knowledge": "1904",
+        "wikipedia_answer": "1904",
+        "wikidata_answer": "[1904-05-21]",
+        "assistant_response": "FIFA was founded in 1904, as mentioned in both the Wikipedia page and the information retrieved from Wikidata.",
+        "long_answer": "FIFA was founded in 1904."
+    },
+    {
+        "question": "Who was Villa Park's architecht?\n",
+        "internal_knowledge": "James Frederick Wetherell",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "None",
+        "assistant_response": "I apologize, but I couldn't find any information about the architect of Villa Park. It seems that the architect's name is not readily available in the available sources.",
+        "long_answer": "I apologize, but I couldn't find any information about the architect of Villa Park. It seems that the architect's name is not readily available in the available sources."
+    },
+    {
+        "question": "What is genre of the TV series The Sopranos?\n",
+        "internal_knowledge": "Crime drama",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "[crime drama]",
+        "assistant_response": "The genre of the TV series \"The Sopranos\" is crime drama. The show focuses on Tony Soprano, a New Jersey-based Italian-American mobster, and his struggles to balance family life with his role as a criminal organization leader.",
+        "long_answer": "The TV series \"The Sopranos\" falls under the genre of crime drama. It revolves around the life of Tony Soprano, an Italian-American mobster based in New Jersey, as he tries to navigate the challenges of both his criminal activities and his family life."
+    },
+    {
+        "question": "what year was the first book of the series?\n",
+        "internal_knowledge": "The first book of the series was published in 2001.",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "None",
+        "assistant_response": null,
+        "long_answer": "The context does not provide any information to answer the question. However, based on my internal knowledge, the first book of the series was published in 2001."
+    },
+    {
+        "question": "What is the name of the founder of City Football Group?\n",
+        "internal_knowledge": "Sheikh Mansour bin Zayed Al Nahyan",
+        "wikipedia_answer": "Sheikh Mansour bin Zayed Al Nahyan",
+        "wikidata_answer": "None",
+        "assistant_response": "The founder of City Football Group is Sheikh Mansour bin Zayed Al Nahyan, as mentioned in the Wikipedia page for the group. However, I couldn't find any information about the founder in Wikidata.",
+        "long_answer": "The founder of City Football Group is Sheikh Mansour bin Zayed Al Nahyan."
+    },
+    {
+        "question": "Who founded the Warner Music Group?\n",
+        "internal_knowledge": "Warner Music Group was founded by Warner Bros.",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "Warner Bros.",
+        "assistant_response": "The founder of Warner Music Group is Warner Bros.",
+        "long_answer": "Warner Bros. founded the Warner Music Group."
+    },
+    {
+        "question": "what is official name of the team USMNT ?\n",
+        "internal_knowledge": "United States Men's National Soccer Team",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "None",
+        "assistant_response": "I apologize, but I couldn't find the official name of the USMNT team. The abbreviation \"USMNT\" is commonly used to refer to the United States men's national soccer team, but I couldn't find the full official name. It's possible that the official name is simply \"United States men's national soccer team,\" but I couldn't confirm this information.",
+        "long_answer": "I apologize, but I couldn't find the official name of the USMNT team. The abbreviation \"USMNT\" is commonly used to refer to the United States men's national soccer team, but I couldn't find the full official name. It's possible that the official name is simply \"United States men's national soccer team,\" but I couldn't confirm this information."
+    },
+    {
+        "question": "When was the original release of Another Life Tv series?\n",
+        "internal_knowledge": "2019",
+        "wikipedia_answer": "July 25, 2019",
+        "wikidata_answer": "None",
+        "assistant_response": "The TV series \"Another Life\" premiered on Netflix on July 25, 2019. This information is confirmed by both Wikipedia and Wikidata.",
+        "long_answer": "The TV series \"Another Life\" premiered on Netflix on July 25, 2019."
+    },
+    {
+        "question": "Where did the band Semisonic start?\n",
+        "internal_knowledge": "Minneapolis, Minnesota",
+        "wikipedia_answer": "Minneapolis",
+        "wikidata_answer": "Minneapolis",
+        "assistant_response": null,
+        "long_answer": "The band Semisonic started in Minneapolis, Minnesota."
+    },
+    {
+        "question": "When did the book, The Lorax, come out by Dr. Seuss?\n",
+        "internal_knowledge": "1971",
+        "wikipedia_answer": "1971",
+        "wikidata_answer": "None",
+        "assistant_response": "According to the Wikipedia article, \"The Lorax\" by Dr. Seuss was published in 1971. However, I couldn't find a specific publication date in the Wikipedia summary or in the available Wikidata information. Therefore, the answer is 1971.",
+        "long_answer": "\"The Lorax\" by Dr. Seuss was published in 1971."
+    },
+    {
+        "question": "What movie did Paul Thomas Anderson that featured Burt Reynolds?\n",
+        "internal_knowledge": "Boogie Nights",
+        "wikipedia_answer": "Boogie Nights",
+        "wikidata_answer": "None",
+        "assistant_response": "The movie directed by Paul Thomas Anderson that featured Burt Reynolds is \"Boogie Nights.\" This information was found on the Wikipedia page for \"Boogie Nights.\" However, I couldn't find any confirmation from Wikidata due to issues with the SPARQL query.",
+        "long_answer": "The movie directed by Paul Thomas Anderson that featured Burt Reynolds is \"Boogie Nights.\""
+    },
+    {
+        "question": "What genre does Maisie Dobbs belong to?\n",
+        "internal_knowledge": "Mystery",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "None",
+        "assistant_response": "I'm sorry, but I couldn't find any information about the genre of the book \"Maisie Dobbs\". It seems that the genre is not specified in the available sources.",
+        "long_answer": "I'm sorry, but I couldn't find any information about the genre of the book \"Maisie Dobbs\". It seems that the genre is not specified in the available sources."
+    },
+    {
+        "question": "How many goals did Louis Saha scored for Manchester United?\n",
+        "internal_knowledge": "42",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "None",
+        "assistant_response": "I apologize, but I was unable to find the specific number of goals Louis Saha scored for Manchester United. The available information does not provide this detail.",
+        "long_answer": "I apologize, but I was unable to find the specific number of goals Louis Saha scored for Manchester United. The available information does not provide this detail."
+    },
+    {
+        "question": "Actor behind the adolescence boy in Boyhood?\n",
+        "internal_knowledge": "Ellar Coltrane",
+        "wikipedia_answer": "Ellar Coltrane",
+        "wikidata_answer": "None",
+        "assistant_response": "The actor behind the adolescence boy in the movie Boyhood is Ellar Coltrane.",
+        "long_answer": "The actor behind the adolescence boy in the movie Boyhood is Ellar Coltrane."
+    },
+    {
+        "question": "Who was the winner of Master Chef Australia Season 13?\n",
+        "internal_knowledge": "Justin Narayan",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "None",
+        "assistant_response": null,
+        "long_answer": "I am not certain of the answer as I could not verify it using available tools, but based on my internal knowledge, Justin Narayan was the winner of Master Chef Australia Season 13."
+    },
+    {
+        "question": "Who was the Original Broadcaster of the Breaking Bad TV series?\n",
+        "internal_knowledge": "AMC",
+        "wikipedia_answer": "AMC",
+        "wikidata_answer": "None",
+        "assistant_response": "The original broadcaster of the Breaking Bad TV series is AMC.",
+        "long_answer": "The original broadcaster of the Breaking Bad TV series is AMC."
+    },
+    {
+        "question": "What is the narrative location in the novel Jane Eyre?\n",
+        "internal_knowledge": "Thornfield Hall",
+        "wikipedia_answer": "Thornfield Hall",
+        "wikidata_answer": "[Thornfield Hall, England]",
+        "assistant_response": "According to the Wikipedia article and the information from Wikidata, the narrative location of the novel \"Jane Eyre\" is Thornfield Hall. Thornfield Hall is the home of the male romantic lead, Edward Fairfax Rochester, and much of the action in the novel takes place there. The description of Thornfield Hall as having a gloomy character and gothic tone suggests that it plays a significant role in the narrative. Additionally, Thornfield Hall is located in England, as confirmed by the QID Q21 from Wikidata. Therefore, the narrative location of \"Jane Eyre\" is Thornfield Hall in England.",
+        "long_answer": "The narrative location of the novel \"Jane Eyre\" is Thornfield Hall in England. Thornfield Hall is the home of the male romantic lead, Edward Fairfax Rochester, and much of the action in the novel takes place there. It is described as having a gloomy character and gothic tone, indicating its significance in the narrative."
+    },
+    {
+        "question": "What year was female soccer player Megan Rapinoe born?\n",
+        "internal_knowledge": "1985",
+        "wikipedia_answer": "July 5, 1985",
+        "wikidata_answer": "July 5, 1985",
+        "assistant_response": "Megan Rapinoe was born on July 5, 1985, according to both Wikipedia and Wikidata. She is an American professional soccer player known for her achievements on the field as well as her activism off the pitch.",
+        "long_answer": "Megan Rapinoe was born on July 5, 1985, according to both Wikipedia and Wikidata. She is an American professional soccer player known for her achievements on the field as well as her activism off the pitch."
+    },
+    {
+        "question": "Number of episodes in third season of Third Watch?\n",
+        "internal_knowledge": "22",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "None",
+        "assistant_response": "I apologize, but I could not find the specific number of episodes in the third season of the TV series \"Third Watch\". The Wikipedia page for \"Third Watch\" does not provide this information, and the SPARQL query on Wikidata did not return any results.",
+        "long_answer": "I apologize, but I could not find the specific number of episodes in the third season of the TV series \"Third Watch\"."
+    },
+    {
+        "question": "In which province Montreal is located?\n",
+        "internal_knowledge": "Quebec",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "None",
+        "assistant_response": null,
+        "long_answer": "Montreal is located in the province of Quebec."
+    },
+    {
+        "question": "What movie starred Rachel McAdams and Ryan Gosling in it?'\n",
+        "internal_knowledge": "The Notebook",
+        "wikipedia_answer": "The Notebook",
+        "wikidata_answer": "None",
+        "assistant_response": "According to the Wikipedia page for \"The Notebook,\" it is a 2004 romantic drama film directed by Nick Cassavetes. The film stars Ryan Gosling and Rachel McAdams as a young couple who fall in love in the 1940s. \"The Notebook\" received generally mixed reviews from critics but was a sleeper hit at the box office. It has since become a cult classic.",
+        "long_answer": "The movie that starred Rachel McAdams and Ryan Gosling is \"The Notebook.\" It is a 2004 romantic drama film directed by Nick Cassavetes. The film tells the story of a young couple who fall in love in the 1940s. \"The Notebook\" received mixed reviews from critics but was a success at the box office and has since gained a cult following."
+    },
+    {
+        "question": "Who is  the most expensive goalkeeper of all time?\n",
+        "internal_knowledge": "Kepa Arrizabalaga",
+        "wikipedia_answer": "Ederson",
+        "wikidata_answer": "Ederson",
+        "assistant_response": null,
+        "long_answer": "The most expensive goalkeeper of all time is Ederson, according to both Wikipedia and Wikidata. However, based on my internal knowledge, Kepa Arrizabalaga holds the record for being the most expensive goalkeeper, as he was transferred to Chelsea for a fee of \u00a371.6 million in 2018."
+    },
+    {
+        "question": "Who is the film composer for Troy?\n",
+        "internal_knowledge": "James Horner",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "None",
+        "assistant_response": "I'm sorry, but I couldn't find any information about the film composer for the movie Troy. The Wikipedia page and Wikidata did not provide any details about the composer. It's possible that this information is not readily available or not well-documented.",
+        "long_answer": "I'm sorry, but I couldn't find any information about the film composer for the movie Troy. The Wikipedia page and Wikidata did not provide any details about the composer. It's possible that this information is not readily available or not well-documented."
+    },
+    {
+        "question": "where is owner of the brand Muse?\n",
+        "internal_knowledge": "The owner of the brand Muse is Matt Bellamy.",
+        "wikipedia_answer": null,
+        "wikidata_answer": null,
+        "assistant_response": null,
+        "long_answer": "I am sorry, but I do not have enough information to answer your question."
+    },
+    {
+        "question": "Who owns the club Paris Saint-Germain F.C.?\n",
+        "internal_knowledge": "Qatar Sports Investments",
+        "wikipedia_answer": "Tamim bin Hamad Al Thani through Qatar Sports Investments (QSI)",
+        "wikidata_answer": "Qatar Sports Investments",
+        "assistant_response": null,
+        "long_answer": "Paris Saint-Germain F.C. is owned by Qatar Sports Investments, as stated by both Wikipedia and Wikidata."
+    },
+    {
+        "question": "official name of Nashville SC ?\n",
+        "internal_knowledge": "Nashville Soccer Club",
+        "wikipedia_answer": "Nashville Soccer Club",
+        "wikidata_answer": "Nashville Soccer Club",
+        "assistant_response": null,
+        "long_answer": "The official name of Nashville SC is Nashville Soccer Club."
+    },
+    {
+        "question": "Which team promoted to the English Premier League for 2021-22 won the EFL Championship in 2021?\n",
+        "internal_knowledge": "Norwich City",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "None",
+        "assistant_response": null,
+        "long_answer": "Norwich City won the EFL Championship in 2021 and was promoted to the English Premier League for the 2021-22 season."
+    },
+    {
+        "question": "What country did Messi score his first goal against?\n",
+        "internal_knowledge": "Albacete",
+        "wikipedia_answer": "Croatia",
+        "wikidata_answer": "None",
+        "assistant_response": null,
+        "long_answer": "Messi scored his first goal against Albacete."
+    },
+    {
+        "question": "Who is the director of the video game God of War?\n",
+        "internal_knowledge": "Cory Barlog",
+        "wikipedia_answer": "Cory Barlog",
+        "wikidata_answer": "[Cory Barlog]",
+        "assistant_response": "The director of the video game \"God of War\" is Cory Barlog. He is known for his work on the God of War series and directed the 2018 game.",
+        "long_answer": "The director of the video game \"God of War\" is Cory Barlog. He is known for his work on the God of War series and directed the 2018 game."
+    },
+    {
+        "question": "Who is the director of the matrix movie?\n",
+        "internal_knowledge": "The director of the Matrix movie is Lana Wachowski.",
+        "wikipedia_answer": "Lilly Wachowski, Lana Wachowski",
+        "wikidata_answer": "[Lilly Wachowski, Lana Wachowski]",
+        "assistant_response": "According to the Wikipedia page for \"The Matrix,\" the movie was written and directed by the Wachowskis. This information is also confirmed by Wikidata, which states that the directors of \"The Matrix\" are Lilly Wachowski and Lana Wachowski. \"The Matrix\" is a 1999 science fiction action film that became a critical and commercial success, leading to two sequels and an expanded franchise.",
+        "long_answer": "The directors of the Matrix movie are Lilly Wachowski and Lana Wachowski, according to both Wikipedia and Wikidata. The Matrix is a 1999 science fiction action film that was written and directed by the Wachowskis. It was a critical and commercial success, leading to two sequels and an expanded franchise."
+    },
+    {
+        "question": "Who directed the music video for \"\"Harder to Breathe\"\"?\n",
+        "internal_knowledge": "Marc Webb",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "None",
+        "assistant_response": null,
+        "long_answer": "I am not certain of the answer as I could not find any information about the director of the music video for \"Harder to Breathe\" using both Wikipedia and Wikidata. However, based on my internal knowledge, Marc Webb directed the music video."
+    },
+    {
+        "question": "What number of children does Tamim bin Hamad Al Thani have?\n",
+        "internal_knowledge": "Tamim bin Hamad Al Thani has four children.",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "None",
+        "assistant_response": "I'm sorry, but I could not find any information about the number of children that Tamim bin Hamad Al Thani has. The available sources did not provide any details about his family or children.",
+        "long_answer": "I'm sorry, but I could not find any information about the number of children that Tamim bin Hamad Al Thani has. The available sources did not provide any details about his family or children."
+    },
+    {
+        "question": "what was the country of origin the movie Killing Them Softly?\n",
+        "internal_knowledge": "United States",
+        "wikipedia_answer": "United States of America",
+        "wikidata_answer": "United States of America",
+        "assistant_response": null,
+        "long_answer": "The movie \"Killing Them Softly\" is from the United States."
+    },
+    {
+        "question": "Who received the award golden globe in the tv series Big Little Lies ?\n",
+        "internal_knowledge": "Nicole Kidman",
+        "wikipedia_answer": null,
+        "wikidata_answer": null,
+        "assistant_response": null,
+        "long_answer": "I am not certain of the answer as I could not verify it using available tools. However, based on my internal knowledge, Nicole Kidman received a Golden Globe award for her role in the TV series \"Big Little Lies.\""
+    },
+    {
+        "question": "Who is the creator of the TV series Paatal Lok?\n",
+        "internal_knowledge": "Sudip Sharma",
+        "wikipedia_answer": "Sudip Sharma",
+        "wikidata_answer": "None",
+        "assistant_response": "According to the Wikipedia page for the TV series Paatal Lok, it was created by Sudip Sharma. Sudip Sharma is the creator of the series. Unfortunately, I couldn't retrieve this information from Wikidata.",
+        "long_answer": "The TV series Paatal Lok was created by Sudip Sharma."
+    },
+    {
+        "question": "Which book was written first, Mrs Dalloway or To the Lighthouse?\n",
+        "internal_knowledge": "Mrs Dalloway",
+        "wikipedia_answer": "Mrs Dalloway",
+        "wikidata_answer": "None",
+        "assistant_response": "\"Mrs Dalloway\" was written and published before \"To the Lighthouse\". According to the Wikipedia page for \"Mrs Dalloway\", it was published on May 14, 1925. On the other hand, the Wikipedia page for \"To the Lighthouse\" states that it was published in 1927. Therefore, \"Mrs Dalloway\" was written first.",
+        "long_answer": "\"Mrs Dalloway\" was written and published before \"To the Lighthouse\". According to the Wikipedia page for \"Mrs Dalloway\", it was published on May 14, 1925. On the other hand, the Wikipedia page for \"To the Lighthouse\" states that it was published in 1927. Therefore, \"Mrs Dalloway\" was written first."
+    },
+    {
+        "question": "Who wrote the Alfred A. Knopf Inc series?\n",
+        "internal_knowledge": "Alfred A. Knopf Inc.",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "None",
+        "assistant_response": null,
+        "long_answer": "I am sorry, but I do not have enough information to answer your question."
+    },
+    {
+        "question": "how many band members did Fall Out Boy have?\n",
+        "internal_knowledge": "Four",
+        "wikipedia_answer": "4",
+        "wikidata_answer": "[4]",
+        "assistant_response": "Fall Out Boy is an American rock band formed in 2001. The band consists of four members: lead vocalist and rhythm guitarist Patrick Stump, bassist Pete Wentz, drummer Andy Hurley, and lead guitarist Joe Trohman. This information is confirmed both on the Wikipedia page and through a SPARQL query on Wikidata.",
+        "long_answer": "Fall Out Boy has four band members. They are lead vocalist and rhythm guitarist Patrick Stump, bassist Pete Wentz, drummer Andy Hurley, and lead guitarist Joe Trohman."
+    },
+    {
+        "question": "what is genre of the movie F9?\n",
+        "internal_knowledge": "Action",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "None",
+        "assistant_response": null,
+        "long_answer": "I am not certain of the answer as I could not find any information about the genre of the movie \"F9\" using both Wikipedia and Wikidata. However, based on my internal knowledge, \"F9\" is an action movie."
+    },
+    {
+        "question": "What was the first soccer stadium designed by Archibald Leitch?\n",
+        "internal_knowledge": "Ibrox Park",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "None",
+        "assistant_response": null,
+        "long_answer": "The first soccer stadium designed by Archibald Leitch was Ibrox Park."
+    },
+    {
+        "question": "When was the film Pulp Fiction first released?\n",
+        "internal_knowledge": "1994",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "None",
+        "assistant_response": null,
+        "long_answer": "The film \"Pulp Fiction\" was first released in 1994."
+    },
+    {
+        "question": "Who is the drummer of Maroon 5 band?\n",
+        "internal_knowledge": "Matt Flynn",
+        "wikipedia_answer": "Matt Flynn",
+        "wikidata_answer": "None",
+        "assistant_response": null,
+        "long_answer": "The drummer of Maroon 5 is Matt Flynn."
+    },
+    {
+        "question": "What is the profession of Vladimir Nabokov?\n",
+        "internal_knowledge": "Writer",
+        "wikipedia_answer": "writer",
+        "wikidata_answer": "[novelist, poet, translator, lepidopterist]",
+        "assistant_response": null,
+        "long_answer": "Vladimir Nabokov was a writer."
+    },
+    {
+        "question": "What country was the band Tears for Fears from?\n",
+        "internal_knowledge": "England",
+        "wikipedia_answer": "England",
+        "wikidata_answer": "United Kingdom",
+        "assistant_response": "Tears for Fears is a pop rock band that was formed in England in 1981. They were associated with the new wave synthesizer bands of the 1980s and achieved international chart success. The band continues to tour and release new music.",
+        "long_answer": "Tears for Fears is a pop rock band that was formed in England in 1981."
+    },
+    {
+        "question": "Who are the current band members in Blink 182?\n",
+        "internal_knowledge": "Mark Hoppus, Travis Barker, Matt Skiba",
+        "wikipedia_answer": "Mark Hoppus, Travis Barker, Tom DeLonge",
+        "wikidata_answer": "[Mark Hoppus, Travis Barker, Tom DeLonge]",
+        "assistant_response": "The current band members of Blink-182 are Mark Hoppus, Travis Barker, and Tom DeLonge.",
+        "long_answer": "The current band members of Blink-182 are Mark Hoppus, Travis Barker, and Tom DeLonge."
+    },
+    {
+        "question": "Actor behind Pi Patel role as teen age boy in Life of Pi?\n",
+        "internal_knowledge": "Suraj Sharma",
+        "wikipedia_answer": "Suraj Sharma",
+        "wikidata_answer": "None",
+        "assistant_response": "The actor who played the role of Pi Patel as a teenage boy in the movie \"Life of Pi\" is Suraj Sharma. He made his debut in the film and received critical acclaim for his performance.",
+        "long_answer": "The actor who played the role of Pi Patel as a teenage boy in the movie \"Life of Pi\" is Suraj Sharma. He made his debut in the film and received critical acclaim for his performance."
+    },
+    {
+        "question": "What county is Morrison, CO located in?\n",
+        "internal_knowledge": "Jefferson",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "None",
+        "assistant_response": "Unfortunately, we could not find the county information for Morrison, CO. Both Wikipedia and Wikidata did not provide an answer. It is possible that the county information is not available or there was an issue with the SPARQL query.",
+        "long_answer": "Unfortunately, we could not find the county information for Morrison, CO. Both Wikipedia and Wikidata did not provide an answer. It is possible that the county information is not available or there was an issue with the SPARQL query."
+    },
+    {
+        "question": "Who is the narrator of TV series Young Sheldon?\n",
+        "internal_knowledge": "Jim Parsons",
+        "wikipedia_answer": "Jim Parsons",
+        "wikidata_answer": "Jim Parsons",
+        "assistant_response": null,
+        "long_answer": "Jim Parsons is the narrator of the TV series Young Sheldon."
+    },
+    {
+        "question": "producer of Jurassic Park?\n",
+        "internal_knowledge": "Steven Spielberg",
+        "wikipedia_answer": "Kathleen Kennedy",
+        "wikidata_answer": "[Kathleen Kennedy]",
+        "assistant_response": "According to both Wikipedia and Wikidata, Kathleen Kennedy is the producer of the movie \"Jurassic Park\". She worked on the film alongside Gerald R. Molen. \"Jurassic Park\" is a 1993 American science fiction action film directed by Steven Spielberg.",
+        "long_answer": "Kathleen Kennedy is the producer of the movie \"Jurassic Park\" according to both Wikipedia and Wikidata. She worked on the film alongside Gerald R. Molen. The film was directed by Steven Spielberg."
+    },
+    {
+        "question": "What is the name of the illustrator for A Tale of Two Cities ?\n",
+        "internal_knowledge": "Hablot Knight Browne, also known as Phiz.",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "None",
+        "assistant_response": "I'm sorry, but I couldn't find any information about the illustrator of \"A Tale of Two Cities\". It is possible that the book does not have an illustrator credited.",
+        "long_answer": "I'm sorry, but I couldn't find any information about the illustrator of \"A Tale of Two Cities\". It is possible that the book does not have an illustrator credited."
+    },
+    {
+        "question": "What was Keanu Reeves first feature length movie?\n",
+        "internal_knowledge": "Youngblood",
+        "wikipedia_answer": "Youngblood",
+        "wikidata_answer": "None",
+        "assistant_response": "Keanu Reeves' first feature-length movie was \"Youngblood\" in 1986, according to his Wikipedia page. However, I couldn't verify this information using Wikidata as the SPARQL query didn't provide any results.",
+        "long_answer": "Keanu Reeves' first feature-length movie was \"Youngblood\" in 1986."
+    },
+    {
+        "question": "What edition number was the 2010 FIFA World Cup?\n",
+        "internal_knowledge": "19th",
+        "wikipedia_answer": "19",
+        "wikidata_answer": "19",
+        "assistant_response": "The 2010 FIFA World Cup was the 19th edition of the tournament, as confirmed by both Wikipedia and Wikidata. Spain won their first world title in this edition, becoming the eighth nation to win the tournament and the first European nation to win a World Cup hosted outside its home continent.",
+        "long_answer": "The 2010 FIFA World Cup was the 19th edition of the tournament. Spain won their first world title in this edition, becoming the eighth nation to win the tournament and the first European nation to win a World Cup hosted outside its home continent."
+    },
+    {
+        "question": "What is the name of Martin Clunes' father?\n",
+        "internal_knowledge": "Alec Clunes",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "Alec Clunes",
+        "assistant_response": null,
+        "long_answer": "The name of Martin Clunes' father is Alec Clunes."
+    },
+    {
+        "question": "What is the complete name of Thiago Silva?\n",
+        "internal_knowledge": "Thiago Emiliano da Silva",
+        "wikipedia_answer": "Thiago Emiliano da Silva",
+        "wikidata_answer": "[Thiago Silva]",
+        "assistant_response": "The complete name of Thiago Silva is Thiago Emiliano da Silva, as mentioned on his Wikipedia page. This information is also confirmed by Wikidata.",
+        "long_answer": "The complete name of Thiago Silva is Thiago Emiliano da Silva."
+    },
+    {
+        "question": "Which place did Eliza Taylor born?\n",
+        "internal_knowledge": "Australia",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "[Melbourne]",
+        "assistant_response": "The birthplace of Eliza Taylor is Melbourne. This information was obtained from Wikidata, which is a reliable source for factual information. Eliza Taylor is an Australian actress known for her role as Clarke Griffin in the TV series \"The 100\".",
+        "long_answer": "Eliza Taylor was born in Melbourne, Australia. She is an Australian actress known for her role as Clarke Griffin in the TV series \"The 100\"."
+    },
+    {
+        "question": "What is the run time of Titanic?\n",
+        "internal_knowledge": "194 minutes",
+        "wikipedia_answer": null,
+        "wikidata_answer": null,
+        "assistant_response": null,
+        "long_answer": "The runtime of the movie Titanic is 194 minutes."
+    },
+    {
+        "question": "What was the Philadelphia Union's first trophy?\n",
+        "internal_knowledge": "2019 U.S. Open Cup",
+        "wikipedia_answer": "The Philadelphia Union's first trophy was the Supporters' Shield in 2020",
+        "wikidata_answer": "None",
+        "assistant_response": "According to the Wikipedia page of the Philadelphia Union, their first trophy in the club's history was the Supporters' Shield, which they won in 2020. Unfortunately, we couldn't find any information about the Philadelphia Union's trophies from Wikidata as we couldn't find the QID for the property \"trophy won\".",
+        "long_answer": "The Philadelphia Union's first trophy was the Supporters' Shield, which they won in 2020 according to Wikipedia. However, there is no information available from Wikidata regarding the Philadelphia Union's trophies."
+    },
+    {
+        "question": "Which is the initial movie of the series The Expendables?\n",
+        "internal_knowledge": "The Expendables",
+        "wikipedia_answer": "The Expendables (2010)",
+        "wikidata_answer": "None",
+        "assistant_response": "According to the information from the Wikipedia search, the initial movie of \"The Expendables\" series is \"The Expendables\" released in 2010. However, I couldn't find the QID for \"The Expendables\" on Wikidata to verify this information. \"The Expendables\" is an American ensemble action thriller franchise consisting of four films: The Expendables (2010), The Expendables 2 (2012), The Expendables 3 (2014), and the upcoming Expend4bles (2023).",
+        "long_answer": "The initial movie of \"The Expendables\" series is \"The Expendables\" released in 2010."
+    },
+    {
+        "question": "Paolo Maldini was nominated for the prize by who?\n",
+        "internal_knowledge": "The answer is FIFA.",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "None",
+        "assistant_response": null,
+        "long_answer": "I am not certain of the answer as I could not verify it using available tools. However, based on my internal knowledge, Paolo Maldini was nominated for the prize by FIFA."
+    },
+    {
+        "question": "What band wrote the song Hotel California?\n",
+        "internal_knowledge": "The Eagles",
+        "wikipedia_answer": "Eagles",
+        "wikidata_answer": "[Eagles]",
+        "assistant_response": "The song \"Hotel California\" was written by the Eagles. The Wikipedia page for the song states that the songwriting credits go to Don Felder (music), Don Henley, and Glenn Frey (lyrics). This information is also confirmed by Wikidata, which identifies the Eagles as the band responsible for the song.",
+        "long_answer": "The song \"Hotel California\" was written by the Eagles. The band members Don Felder, Don Henley, and Glenn Frey are credited with the song's composition."
+    },
+    {
+        "question": "What is the date of birth of Aravind Adiga?\n",
+        "internal_knowledge": "The date of birth of Aravind Adiga is October 23, 1974.",
+        "wikipedia_answer": "23 October 1974",
+        "wikidata_answer": "[\"1974-10-23T00:00:00Z\"]",
+        "assistant_response": "According to the Wikipedia page of Aravind Adiga, he was born on 23 October 1974. This information is also confirmed by Wikidata.",
+        "long_answer": "Aravind Adiga was born on October 23, 1974."
+    },
+    {
+        "question": "Who played the lead role in the series Doc Martin?\n",
+        "internal_knowledge": "Martin Clunes",
+        "wikipedia_answer": "Martin Clunes",
+        "wikidata_answer": "[Martin Clunes]",
+        "assistant_response": "According to the Wikipedia page for the series \"Doc Martin,\" the lead role of Doctor Martin Ellingham is played by Martin Clunes. This information is also confirmed by the QID for the series in Wikidata. \"Doc Martin\" is a British medical comedy-drama television series set in the fictional seaside village of Portwenn. The series aired for nine seasons between 2004 and 2019, with a final season in 2022.",
+        "long_answer": "The lead role in the series \"Doc Martin\" is played by Martin Clunes, according to both Wikipedia and Wikidata. The series is a British medical comedy-drama set in the fictional seaside village of Portwenn. It aired for nine seasons between 2004 and 2019, with a final season in 2022."
+    },
+    {
+        "question": "The band Graduate took their name because they often played which song?\n",
+        "internal_knowledge": "Elvis Costello's \"Watching the Detectives\"",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "None",
+        "assistant_response": "I'm sorry, but I couldn't find any information about the song that the band Graduate often played. It seems that this information is not readily available in the available sources.",
+        "long_answer": "I'm sorry, but I couldn't find any information about the song that the band Graduate often played. It seems that this information is not readily available in the available sources."
+    },
+    {
+        "question": "What is the second book of The Mortal Instruments?\n",
+        "internal_knowledge": "City of Ashes",
+        "wikipedia_answer": "City of Ashes",
+        "wikidata_answer": "[City of Ashes]",
+        "assistant_response": "The second book of The Mortal Instruments series is \"City of Ashes\" written by Cassandra Clare. This information was found on both Wikipedia and Wikidata.",
+        "long_answer": "The second book of The Mortal Instruments series is \"City of Ashes\" written by Cassandra Clare."
+    },
+    {
+        "question": "Who is the creator of the series Doc Martin?\n",
+        "internal_knowledge": "Dominic Minghella",
+        "wikipedia_answer": "Dominic Minghella",
+        "wikidata_answer": "Dominic Minghella",
+        "assistant_response": null,
+        "long_answer": "The creator of the series Doc Martin is Dominic Minghella."
+    },
+    {
+        "question": "In which year was the Real Madrid Club de F\u00fatbol founded?\n",
+        "internal_knowledge": "1902",
+        "wikipedia_answer": "1902",
+        "wikidata_answer": "1902",
+        "assistant_response": "Real Madrid Club de F\u00fatbol was founded on March 6, 1902. This information is confirmed both in the Wikipedia article and in Wikidata.",
+        "long_answer": "Real Madrid Club de F\u00fatbol was founded in 1902."
+    },
+    {
+        "question": "When did How I met your Mother start?\n",
+        "internal_knowledge": "September 19, 2005",
+        "wikipedia_answer": null,
+        "wikidata_answer": null,
+        "assistant_response": null,
+        "long_answer": "\"How I Met Your Mother\" premiered on September 19, 2005."
+    },
+    {
+        "question": "For which club does Neymar plays for?\n",
+        "internal_knowledge": "Paris Saint-Germain (PSG)",
+        "wikipedia_answer": "Al Hilal",
+        "wikidata_answer": "Al Hilal",
+        "assistant_response": "Neymar currently plays for Al Hilal, a club in the Saudi Pro League. This information is verified from both the Wikipedia page and the Wikidata entry for Neymar.",
+        "long_answer": "Neymar currently plays for Paris Saint-Germain (PSG)."
+    },
+    {
+        "question": "What are the 4 recognized languages that FIFA has?\n",
+        "internal_knowledge": "English, French, German, Spanish",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "None",
+        "assistant_response": null,
+        "long_answer": "FIFA recognizes four languages: English, French, German, and Spanish."
+    },
+    {
+        "question": "Who is the creator of The Simpsons?\n",
+        "internal_knowledge": "Matt Groening",
+        "wikipedia_answer": "Matt Groening",
+        "wikidata_answer": "Matt Groening",
+        "assistant_response": "The creator of The Simpsons is Matt Groening. The Simpsons is an American animated sitcom that satirically depicts American life through the Simpson family. The show has been on air since 1989 and is the longest-running American animated series, sitcom, and scripted primetime television series.",
+        "long_answer": "The creator of The Simpsons is Matt Groening. The Simpsons is an American animated sitcom that satirically depicts American life through the Simpson family. The show has been on air since 1989 and is the longest-running American animated series, sitcom, and scripted primetime television series."
+    },
+    {
+        "question": "What country was Gianni Infantino originally from, who is the current president of FIFA?\n",
+        "internal_knowledge": "Switzerland",
+        "wikipedia_answer": "Switzerland",
+        "wikidata_answer": "Switzerland",
+        "assistant_response": "Gianni Infantino, the current president of FIFA, is originally from Switzerland. This information is confirmed both in his Wikipedia article and in his Wikidata entry.",
+        "long_answer": "Gianni Infantino, the current president of FIFA, is originally from Switzerland."
+    },
+    {
+        "question": "Who is the screenplay writer of the movie, The Godfather?\n",
+        "internal_knowledge": "Mario Puzo",
+        "wikipedia_answer": "Mario Puzo",
+        "wikidata_answer": "[Mario Puzo]",
+        "assistant_response": "According to the Wikipedia page for \"The Godfather,\" the screenplay of the movie was co-written by Francis Ford Coppola and Mario Puzo. This information is also confirmed by the QIDs of Francis Ford Coppola and Mario Puzo on Wikidata. Mario Puzo is the screenplay writer of \"The Godfather.\"",
+        "long_answer": "The screenplay writer of the movie \"The Godfather\" is Mario Puzo. He co-wrote the screenplay with Francis Ford Coppola."
+    },
+    {
+        "question": "Who directs the movie The Ring?\n",
+        "internal_knowledge": "Gore Verbinski",
+        "wikipedia_answer": "Gore Verbinski",
+        "wikidata_answer": "Gore Verbinski",
+        "assistant_response": null,
+        "long_answer": "The movie \"The Ring\" is directed by Gore Verbinski."
+    },
+    {
+        "question": "Formation year of the band Aerosmith?\n",
+        "internal_knowledge": "1970",
+        "wikipedia_answer": "1970",
+        "wikidata_answer": "1969",
+        "assistant_response": "According to the Wikipedia page of Aerosmith, the band was formed in Boston in 1970. However, Wikidata states that the formation year is 1969. There might be some discrepancy in the information provided by different sources.",
+        "long_answer": "Aerosmith was formed in 1970 according to Wikipedia, but there is some discrepancy as Wikidata states the formation year as 1969."
+    },
+    {
+        "question": "What is the last album that was recorded by artist George Harrison, from the band the Beatles?\n",
+        "internal_knowledge": "Brainwashed",
+        "wikipedia_answer": "Brainwashed",
+        "wikidata_answer": "None",
+        "assistant_response": "According to the discography of George Harrison on Wikipedia, his last studio album was \"Brainwashed,\" which was released posthumously in 2002. There was no confirmation from Wikidata, but the information from Wikipedia is sufficient to answer the question.",
+        "long_answer": "The last album recorded by George Harrison, from the band The Beatles, was \"Brainwashed.\" It was released posthumously in 2002."
+    },
+    {
+        "question": "In what year was The Godfather: Part III movie released?\n",
+        "internal_knowledge": "1990",
+        "wikipedia_answer": "1990",
+        "wikidata_answer": "[1990-12-25T00:00:00Z, 1991-02-21T00:00:00Z, 1991-03-15T00:00:00Z]",
+        "assistant_response": "The Godfather: Part III movie was released in 1990 according to its Wikipedia page. However, the release dates obtained from Wikidata are December 25, 1990, February 21, 1991, and March 15, 1991. The Wikipedia page is more reliable in this case, so we can conclude that the movie was released in 1990.",
+        "long_answer": "The Godfather: Part III movie was released in 1990."
+    },
+    {
+        "question": "TV series Scam 1992 is based on which incident?\n",
+        "internal_knowledge": "The Harshad Mehta scam.",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "None",
+        "assistant_response": null,
+        "long_answer": "The TV series \"Scam 1992\" is based on the Harshad Mehta scam."
+    },
+    {
+        "question": "What is the birth year of the chef Emelia Jackson?\n",
+        "internal_knowledge": "The birth year of chef Emelia Jackson is not provided.",
+        "wikipedia_answer": "1989",
+        "wikidata_answer": "[\"1989-01-01T00:00:00Z\"]",
+        "assistant_response": "According to the Wikipedia page of Emelia Jackson, she was born in 1989. This information is also confirmed by Wikidata.",
+        "long_answer": "Emelia Jackson, the chef, was born in 1989 according to both Wikipedia and Wikidata."
+    },
+    {
+        "question": "Who plays Walter White in the TV series, Breaking Bad?\n",
+        "internal_knowledge": "Bryan Cranston",
+        "wikipedia_answer": "Bryan Cranston",
+        "wikidata_answer": "None",
+        "assistant_response": "The actor who plays Walter White in the TV series Breaking Bad is Bryan Cranston.",
+        "long_answer": "The actor who plays Walter White in the TV series Breaking Bad is Bryan Cranston."
+    },
+    {
+        "question": "What is the main subject of the movie Saving Private Ryan?\n",
+        "internal_knowledge": "World War II",
+        "wikipedia_answer": "A group of soldiers led by Captain John Miller on a mission to locate Private James Francis Ryan and bring him home safely during World War II",
+        "wikidata_answer": "[Sole Survivor Policy, altruistic suicide, Operation Overlord, rescue operation, comradeship, World War II, Normandy landings]",
+        "assistant_response": "The main subject of the movie Saving Private Ryan is a group of soldiers led by Captain John Miller on a mission to locate Private James Francis Ryan and bring him home safely during World War II. The movie is known for its realistic portrayal of combat and has been considered one of the greatest films ever made. According to Wikidata, the main subjects of the movie include the Sole Survivor Policy, altruistic suicide, Operation Overlord, rescue operation, comradeship, World War II, and the Normandy landings.",
+        "long_answer": "The main subject of the movie Saving Private Ryan is a group of soldiers led by Captain John Miller on a mission to locate Private James Francis Ryan and bring him home safely during World War II. The movie is known for its realistic portrayal of combat and has been considered one of the greatest films ever made."
+    },
+    {
+        "question": "What was the first award that Victor Ambrus receieved?\n",
+        "internal_knowledge": "The first award that Victor Ambrus received was the Kate Greenaway Medal.",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "[Kate Greenaway Medal]",
+        "assistant_response": null,
+        "long_answer": "I could not find any information about the first award that Victor Ambrus received using both Wikipedia and Wikidata. However, based on my internal knowledge, the first award that Victor Ambrus received was the Kate Greenaway Medal."
+    },
+    {
+        "question": "What is the name of the school that was the basis of Malory Towers?\n",
+        "internal_knowledge": "Malory Towers",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "None",
+        "assistant_response": "I apologize, but I could not find the name of the school that was the basis for Malory Towers. It seems that the information is not available in either Wikipedia or Wikidata.",
+        "long_answer": "I apologize, but I could not find the name of the school that was the basis for Malory Towers. It seems that the information is not available in either Wikipedia or Wikidata."
+    },
+    {
+        "question": "What was the fourth album by The Carpenters called?\n",
+        "internal_knowledge": "A Song for You",
+        "wikipedia_answer": null,
+        "wikidata_answer": null,
+        "assistant_response": null,
+        "long_answer": "I am not certain of the answer as I could not find any information about the fourth album by The Carpenters using both Wikipedia and Wikidata. However, based on my internal knowledge, the fourth album by The Carpenters is called \"A Song for You.\""
+    },
+    {
+        "question": "Who performs Maria in West Side Story?\n",
+        "internal_knowledge": "Natalie Wood",
+        "wikipedia_answer": "Rachel Zegler",
+        "wikidata_answer": "Rachel Zegler",
+        "assistant_response": "The performer of the character Maria in the musical West Side Story is Rachel Zegler. She gained prominence for her role in Steven Spielberg's adaptation of the musical and won the Golden Globe Award for Best Actress - Motion Picture Comedy or Musical for her performance.",
+        "long_answer": "Rachel Zegler performs the character Maria in the musical West Side Story. She gained prominence for her role in Steven Spielberg's adaptation of the musical and won the Golden Globe Award for Best Actress - Motion Picture Comedy or Musical for her performance."
+    },
+    {
+        "question": "author of The Hunger Games trilogy?\n",
+        "internal_knowledge": "Suzanne Collins",
+        "wikipedia_answer": "Suzanne Collins",
+        "wikidata_answer": "[Suzanne Collins]",
+        "assistant_response": "Suzanne Collins is the author of The Hunger Games trilogy, which includes the books The Hunger Games, Catching Fire, and Mockingjay. This information is confirmed in both the Wikipedia page for The Hunger Games trilogy and Suzanne Collins' Wikidata entity. The trilogy follows the story of the teenage protagonist Katniss Everdeen in a dystopian society.",
+        "long_answer": "The author of The Hunger Games trilogy is Suzanne Collins. The trilogy includes the books The Hunger Games, Catching Fire, and Mockingjay. Suzanne Collins is known for her dystopian storytelling and the series follows the story of the teenage protagonist Katniss Everdeen in a dystopian society."
+    },
+    {
+        "question": "drummer of the rock band The Doors?\n",
+        "internal_knowledge": "John Densmore",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "None",
+        "assistant_response": null,
+        "long_answer": "The drummer of the rock band The Doors is John Densmore."
+    },
+    {
+        "question": "How many episodes in Another Life Tv series?\n",
+        "internal_knowledge": "10 episodes",
+        "wikipedia_answer": null,
+        "wikidata_answer": "None",
+        "assistant_response": "According to the information available on Wikipedia, there is no information about the number of episodes in Another Life TV series. Unfortunately, there is no additional information available in Wikidata to verify this.",
+        "long_answer": "I am not certain of the answer as I could not find any information about the number of episodes in the Another Life TV series using available sources. However, based on my internal knowledge, the Another Life TV series consists of 10 episodes."
+    },
+    {
+        "question": "Did Peter Ostrum play Pete in the 1977 Pete's Dragon movie?\n",
+        "internal_knowledge": "No.",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "None",
+        "assistant_response": "There is no evidence to suggest that Peter Ostrum played Pete in the 1977 movie \"Pete's Dragon\". The Wikipedia page for Peter Ostrum only mentions his role as Charlie Bucket in the 1971 movie \"Willy Wonka & the Chocolate Factory\". The Wikipedia page for \"Pete's Dragon\" does not mention Peter Ostrum either. Therefore, it can be concluded that Peter Ostrum did not play Pete in the 1977 movie \"Pete's Dragon\".",
+        "long_answer": "There is no evidence to suggest that Peter Ostrum played Pete in the 1977 movie \"Pete's Dragon\"."
+    },
+    {
+        "question": "Which actor played the Japanese general in Airplane!?\n",
+        "internal_knowledge": "Pat Morita",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "None",
+        "assistant_response": "I apologize, but I could not find any information about the actor who played the Japanese general in the movie Airplane!. It is possible that the character is not well-documented or does not have a significant role in the movie.",
+        "long_answer": "I apologize, but I could not find any information about the actor who played the Japanese general in the movie Airplane!. It is possible that the character is not well-documented or does not have a significant role in the movie."
+    },
+    {
+        "question": "Mohamed Salah born on which date?\n",
+        "internal_knowledge": "Mohamed Salah was born on June 15, 1992.",
+        "wikipedia_answer": "June 15, 1992",
+        "wikidata_answer": "[\"1992-06-15T00:00:00Z\"]",
+        "assistant_response": "According to the Wikipedia page of Mohamed Salah, he was born on June 15, 1992. This information is also confirmed by Wikidata.",
+        "long_answer": "Mohamed Salah was born on June 15, 1992."
+    },
+    {
+        "question": "How many matches did Bhaichung Bhutia played for India?\n",
+        "internal_knowledge": "104",
+        "wikipedia_answer": "Bhaichung Bhutia played 80 matches for India",
+        "wikidata_answer": "None",
+        "assistant_response": "According to Bhaichung Bhutia's Wikipedia page, he is India's second most capped player with 80 international caps. However, there is no information available on Wikidata to verify this. Bhaichung Bhutia is an Indian former professional footballer who played as a striker and is considered the torchbearer of Indian football in the international arena. He has played for clubs like East Bengal, Bury, Perak FA, JCT Mills, and Mohun Bagan. Bhutia has won several championships and is a prominent figure in Indian football.",
+        "long_answer": "Bhaichung Bhutia played 80 matches for India according to his Wikipedia page."
+    },
+    {
+        "question": "Which book out of Mrs Dalloway and To the Lighthouse, came first?\n",
+        "internal_knowledge": "Mrs Dalloway",
+        "wikipedia_answer": "Mrs Dalloway",
+        "wikidata_answer": "None",
+        "assistant_response": "\"Mrs Dalloway\" was published on May 14, 1925, while \"To the Lighthouse\" was published in 1927. Therefore, \"Mrs Dalloway\" came first.",
+        "long_answer": "\"Mrs Dalloway\" came first. It was published on May 14, 1925."
+    },
+    {
+        "question": "What network did \"\"Dawson\\'s Creek\"\" originally air on?\n",
+        "internal_knowledge": "The WB",
+        "wikipedia_answer": "The WB",
+        "wikidata_answer": "None",
+        "assistant_response": "\"Dawson's Creek\" originally aired on The WB network. Although I was unable to find a corresponding QID on Wikidata, the information from Wikipedia confirms that The WB was the network that aired the show.",
+        "long_answer": "\"Dawson's Creek\" originally aired on The WB network."
+    },
+    {
+        "question": "Where the Electric Lady Studios is located?\n",
+        "internal_knowledge": "New York City",
+        "wikipedia_answer": "Greenwich Village, New York City",
+        "wikidata_answer": "New York City",
+        "assistant_response": "Electric Lady Studios is located in Greenwich Village, New York City. It was commissioned by Jimi Hendrix in 1968 and has been used by many top-selling recording artists since then.",
+        "long_answer": "Electric Lady Studios is located in Greenwich Village, New York City. It was commissioned by Jimi Hendrix in 1968 and has been used by many top-selling recording artists since then."
+    },
+    {
+        "question": "What is the capacity of The City of Manchester stadium for domestic football games?\n",
+        "internal_knowledge": "55,017",
+        "wikipedia_answer": "55,000",
+        "wikidata_answer": "[55,017]",
+        "assistant_response": "The City of Manchester Stadium, also known as the Etihad Stadium, has a domestic football capacity of 55,000. It is the 6th-largest football stadium in England and the ninth-largest in the United Kingdom. This information is verified by both the Wikipedia article and the data from Wikidata.",
+        "long_answer": "The City of Manchester Stadium, also known as the Etihad Stadium, has a capacity of 55,000 for domestic football games according to both Wikipedia and Wikidata."
+    },
+    {
+        "question": "who was the discography of the band Muse\n",
+        "internal_knowledge": "The discography of the band Muse includes albums such as \"Showbiz,\" \"Origin of Symmetry,\" \"Absolution,\" \"Black Holes and Revelations,\" \"The Resistance,\" \"The 2nd Law,\" \"Drones,\" \"Simulation Theory,\" and \"Origin of Muse.\"",
+        "wikipedia_answer": "Showbiz, Origin of Symmetry, Absolution, Black Holes and Revelations, The Resistance, The 2nd Law, Drones, Simulation Theory, and Will of the People",
+        "wikidata_answer": "None",
+        "assistant_response": "The discography of the band Muse includes the following albums: Showbiz, Origin of Symmetry, Absolution, Black Holes and Revelations, The Resistance, The 2nd Law, Drones, Simulation Theory, and Will of the People. This information was found on the band's Wikipedia page. Unfortunately, I couldn't find any additional information from Wikidata.",
+        "long_answer": "The discography of the band Muse includes albums such as \"Showbiz,\" \"Origin of Symmetry,\" \"Absolution,\" \"Black Holes and Revelations,\" \"The Resistance,\" \"The 2nd Law,\" \"Drones,\" \"Simulation Theory,\" and \"Will of the People.\""
+    },
+    {
+        "question": "The Selection Day TV series is based on which sports fiction novel?\n",
+        "internal_knowledge": "Selection Day",
+        "wikipedia_answer": "Aravind Adiga's 2016 novel \"Selection Day\"",
+        "wikidata_answer": "None",
+        "assistant_response": "The Selection Day TV series is based on Aravind Adiga's 2016 sports fiction novel \"Selection Day\". The series follows the life of two brothers, Radha and Manju, who are raised by their cricket-obsessed father and meet their rival Javed. Although there is no specific information available on Wikidata for the novel, the information from Wikipedia confirms the connection between the TV series and the novel.",
+        "long_answer": "The Selection Day TV series is based on Aravind Adiga's 2016 sports fiction novel \"Selection Day\". The series follows the life of two brothers, Radha and Manju, who are raised by their cricket-obsessed father and meet their rival Javed."
+    },
+    {
+        "question": "When was Squid Game released worldwide?\n",
+        "internal_knowledge": "September 17, 2021",
+        "wikipedia_answer": null,
+        "wikidata_answer": null,
+        "assistant_response": null,
+        "long_answer": "I am not certain of the answer as I could not find any information about the worldwide release date of Squid Game using both Wikipedia and Wikidata. However, based on my internal knowledge, Squid Game was released worldwide on September 17, 2021."
+    },
+    {
+        "question": "Who wrote the book The power of Habit?\n",
+        "internal_knowledge": "Charles Duhigg",
+        "wikipedia_answer": "Charles Duhigg",
+        "wikidata_answer": "None",
+        "assistant_response": "The book \"The Power of Habit\" was written by Charles Duhigg, as mentioned in the Wikipedia page for the book. However, I could not find any information about the authorship of the book in Wikidata.",
+        "long_answer": "\"The Power of Habit\" was written by Charles Duhigg."
+    },
+    {
+        "question": "Where did actor Aaron Paul and Lauren Parsekian get married?\n",
+        "internal_knowledge": "Malibu, California",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "None",
+        "assistant_response": "I'm sorry, but I couldn't find any information about Aaron Paul and Lauren Parsekian's wedding. It's possible that the details of their wedding are not publicly available or have not been documented.",
+        "long_answer": "I'm sorry, but I couldn't find any information about Aaron Paul and Lauren Parsekian's wedding. It's possible that the details of their wedding are not publicly available or have not been documented."
+    },
+    {
+        "question": "What year did the Shiki anime end?",
+        "internal_knowledge": "2010",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "None",
+        "assistant_response": "I'm sorry, but I couldn't find the information about when the Shiki anime ended. It seems that the information is not available in both Wikipedia and Wikidata.",
+        "long_answer": "I'm sorry, but I couldn't find the information about when the Shiki anime ended. It seems that the information is not available in both Wikipedia and Wikidata."
+    }
+]

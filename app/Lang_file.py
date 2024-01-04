@@ -1,6 +1,6 @@
 import os
 import time
-
+from enchant.utils import levenshtein
 from langchain import PromptTemplate
 from langchain.prompts import StringPromptTemplate
 from langchain import LLMChain
@@ -15,6 +15,7 @@ import operator
 from langchain.callbacks.manager import (
     Callbacks,
 )
+from langchain.callbacks import get_openai_callback
 from langchain.agents import (
     Tool,
     AgentExecutor,
@@ -280,11 +281,13 @@ class CustomOutputParserWikidata(AgentOutputParser):
 
 
 class Template_Construction:
-    def __init__(self, question, dataset, wikidata=False):
+    def __init__(self, question, dataset, wikidata=False, cos=False, div=False):
         self.model = load_sentence_transformer()
         self.question = question
         self.dataset = dataset
         self.wikidata = wikidata
+        self.cos = cos
+        self.div = div
 
     def cos_sim(self, element, model, labels_sim, threshold=2):
         x = model.encode([element])
@@ -292,15 +295,22 @@ class Template_Construction:
         res = res.squeeze()
         y = np.array(res)
         ind = np.argpartition(y, -threshold)[-threshold:]
+
         ind = ind[np.argsort(y[ind])]
         return ind
 
-    def cos_sim_least(self, element, model, labels_sim, threshold=2):
+    def cos_sim_least(
+        self, element, model, labels_sim, threshold=2, most_similar=False
+    ):
         x = model.encode([element])
         res = util.dot_score(x, labels_sim)
         res = res.squeeze()
         y = np.array(res)
-        ind = np.argpartition(y, threshold)[:threshold]
+        if most_similar:
+            ind = np.argpartition(y, -threshold)[-threshold:]
+
+        else:
+            ind = np.argpartition(y, threshold)[:threshold]
         ind = ind[np.argsort(y[ind])]
         return ind
 
@@ -312,7 +322,22 @@ class Template_Construction:
         else:
             res_list = list(operator.itemgetter(*indexes)(questions))
         return res_list
+    def levenshtein_distance(self,ques, final_list):
 
+        q = self.most_similar_items("When was the author of mirrorshades born?", ques)
+
+        K = q * final_list * q
+        obj_log_det = LogDeterminantFunction(n=20,
+                                            mode="dense",
+                                            lambdaVal=0,
+                                            sijs=K)
+        greedy_indices_and_scores = obj_log_det.maximize(budget=3,
+                                                            optimizer='NaiveGreedy',
+                                                            stopIfZeroGain=False,
+                                                            stopIfNegativeGain=False,
+                                                            verbose=False)
+        greedy_indices, greedy_scores = zip(*greedy_indices_and_scores)
+        return greedy_indices
     def load_dataset_for_few_shot(self, path):
         questions = []
         with open(path, "r") as file:
@@ -321,11 +346,36 @@ class Template_Construction:
             if x.get("Question") is not None:
                 questions.append(x.get("Question"))
         return questions
-
+    def few_shot_with_dpp(self):
+        path = os.getcwd()
+        dataset ='compmix'
+        path = "/home/preetam19/app_hybrid/HybridQA/app"
+        questions = self.load_dataset_for_few_shot(f"{path}/data/{dataset}.json")
+        fetching_ques = self.most_similar_items(self.question, questions)
+        with open(f"{path}/data/{dataset}.json", "r") as file:
+            data = json.load(file)
+            action_sequence = ""
+            action_sequence_list = []
+            final_template = ""
+            for idx, x in enumerate(data):
+                    action_sequence_list.append(x.get("Action_Sequence"))
+                    final_list = []
+                    for i in action_sequence_list:
+                            x = []
+                            for j in action_sequence_list:
+                                    x.append(1 - levenshtein(i, j)/max(len(i),len(j)))
+                            final_list.append(x)
+                    final_list = np.array(final_list)
+        indices = self.levenshtein_distance(questions, final_list)
+        final_template = f"Example 1:{data[indices[0]].get('One_Shot')}\n\nExample 2:\n\n{data[indices[1]].get('One_Shot')}\n\nExample 3:\n\n{data[indices[2]].get('One_Shot')}"
+        return final_template
+    
     def full_shot_with_diversity(self):
         path = os.getcwd()
+        path = "/home/preetam19/app_hybrid/HybridQA/app"
         questions = self.load_dataset_for_few_shot(f"{path}/data/{self.dataset}.json")
         fetching_ques = self.most_similar_items(self.question, questions)
+        print(fetching_ques)
         with open(f"{path}/data/{self.dataset}.json", "r") as file:
             data = json.load(file)
             action_sequence = ""
@@ -341,10 +391,29 @@ class Template_Construction:
                     x.get("Action_Sequence").strip().strip("\t")
                 )
             similar_sequences = self.model.encode(action_sequence_list)
-            indexes = self.cos_sim_least(
-                action_sequence, self.model, similar_sequences, 2
-            )
-            final_template = f"{final_template}\n\nExample 2:\n\n{data[indexes[0]].get('One_Shot')}\n\nExample 3:\n\n{data[indexes[1]].get('One_Shot')}"
+            if self.cos:
+                print(f"doing cos max")
+                indexes = self.cos_sim_least(
+                    action_sequence, self.model, similar_sequences, 3, most_similar=True
+                )
+                final_template = f"Example 1:{final_template}\n\nExample 2:\n\n{data[indexes[1]].get('One_Shot')}\n\nExample 3:\n\n{data[indexes[2]].get('One_Shot')}"
+            elif self.div:
+                print(f"doing cos min")
+                indexes = self.cos_sim_least(
+                    action_sequence,
+                    self.model,
+                    similar_sequences,
+                    10,
+                    most_similar=False,
+                )
+                selected_indices = random.sample(list(indexes), 3)
+                final_template = f"Example 1:{data[selected_indices[0]].get('One_Shot')}\n\nExample 2:\n\n{data[selected_indices[1]].get('One_Shot')}\n\nExample 3:\n\n{data[selected_indices[2]].get('One_Shot')}"
+            else:
+                print("cos general")
+                indexes = self.cos_sim_least(
+                    action_sequence, self.model, similar_sequences, 2
+                )
+                final_template = f"{final_template}\n\nExample 2:\n\n{data[indexes[0]].get('One_Shot')}\n\nExample 3:\n\n{data[indexes[1]].get('One_Shot')}"
             return final_template
 
     def static_prompt_construction(self):
@@ -360,7 +429,7 @@ class Template_Construction:
             )
             full_path = f"{path}/data/{self.dataset}.json"
         # random.seed(4)
-        selected_questions = random.sample(questions, 3)
+        selected_questions = random.sample(questions, 3)  # change static variable
         with open(full_path, "r") as file:
             data = json.load(file)
             final_template = ""
@@ -375,14 +444,14 @@ class Template_Construction:
 
 
 class Lanchain_impl:
-    def __init__(self, dataset, model_name, wiki_tool, squall, sparql_tool, dynamic):
+    def __init__(self, dataset, model_name, wiki_tool, squall, sparql_tool, dynamic, DPP):
         self.dataset = dataset
         self.model_name = model_name
         self.wiki_tool = wiki_tool
         self.squall = squall
         self.sparql_tool = sparql_tool
         self.dynamic = dynamic
-
+        self.DPP = DPP
     @backoff.on_exception(backoff.expo, openai.error.RateLimitError)
     def exponential_backoff_get_wikipedia_summary_keyword(self, x):
         return self.wiki_tool.get_wikipedia_summary_keyword(x)
@@ -410,7 +479,7 @@ class Lanchain_impl:
                 func=lambda x: self.exponential_backoff_get_wikipedia_summary_keyword(
                     x
                 ),
-                description="Useful to find relevant wikipedia article given the Action Input. Do not use this tool with same Action Input.",
+                description="Useful to find relevant Wikipedia article given the Action Input. Do not use this tool with same Action Input.",
             ),
             Tool(
                 name="GetWikidataID",
@@ -441,10 +510,12 @@ class Lanchain_impl:
         ]
         return tools
 
-    def get_prompt(self, question, dynamic):
+    def get_prompt(self, question, dynamic, DPP):
         workflow = ""
+        if DPP:
+            workflow = f"{workflow}{Template_Construction(question, self.dataset).few_shot_with_dpp()}"
         if dynamic:
-            workflow = f"{workflow}{Template_Construction(question, self.dataset).full_shot_with_diversity()}"
+            workflow = f"{workflow}{Template_Construction(question, self.dataset, div=True).full_shot_with_diversity()}"
         else:
             workflow = f"{workflow}{Template_Construction(question, self.dataset).static_prompt_construction()}"
         prepend_template = """Given the question, your task is to find the answer using both Wikipedia and Wikidata Databases.If you found the answer using Wikipedia Article you need to verify it with Wikidata, even if you do not find an answer with Wikpedia, first make sure to look up on different relevant wikipedia articles. If you still cannot find with wikipedia, try with Wikidata as well. 
@@ -456,9 +527,10 @@ Once you have the Wikipedia Answer and Wikidata Answer or either of them after t
 Final Answer: Wikipedia_Answer : Wikipedia Answer, Wikidata_Answer : Wikidata Answer , 
 Assistant Response: Extended Answer that contains your reasoning, proof and final answer, please keep this descriptive.
 Please do not use same Action Input to the tools, If no answer is found even after multiple tries using wikidata but found answer with wikipedia return and vice versa
-Wikipedia_Answer : Answer, Wikidata_Answer : None , 
-
-Here are three examples to look at on how to use the {tools}\n"""
+Wikipedia_Answer : Answer, Wikidata_Answer : None 
+Here are three examples to look at on how to use the {tools}\n
+"""
+        # Here are three examples to look at on how to use the {tools}\n
         additional_template = """
 You have access to the following - {tools}!
 Use the following format:
@@ -477,9 +549,8 @@ Question: {input}
             """
 
         workflow = workflow.strip("\n")
-        complete_workflow = (
-            f"{prepend_template}{workflow}\n\n{additional_template.strip()}"
-        )
+        complete_workflow = f"{prepend_template}{workflow}\n\n{additional_template.strip()}"  # {workflow}
+        print(complete_workflow)
         logging.info(complete_workflow)
         prompt = CustomPromptTemplate(
             template=complete_workflow.strip("\n"),
@@ -488,7 +559,7 @@ Question: {input}
             # This includes the `intermediate_steps` variable because that is needed
             input_variables=["input", "intermediate_steps"],
         )
-
+        # print(prompt)
         return prompt
 
     def answer_ques(self, ques):
@@ -567,180 +638,186 @@ Question: {input}
             return_intermediate_steps=True,
         )
         internal_answer = self.answer_ques(question)
-        out = agent_executor(question)
-        answer_template_for_inference = self.get_template_inference(
-            out, internal_answer
-        )
-        return out, answer_template_for_inference
-
-
-class Lanchain_impl_wikidata:
-    def __init__(self, dataset, model_name, wiki_tool, squall, sparql_tool, dynamic):
-        self.dataset = dataset
-        self.model_name = model_name
-        self.squall = squall
-        self.sparql_tool = sparql_tool
-        self.wiki_tool = wiki_tool
-        self.dynamic = dynamic
-
-    @backoff.on_exception(backoff.expo, openai.error.RateLimitError)
-    def exponential_backoff_generate_squall_query(self, x):
-        return self.squall.generate_squall_query(x)
-
-    def get_observation(self, x):
-        print("Inside GetObservation!")
-        if "Observation" in x and ":" in x:
-            _, observation = x.split(":", 1)
-            return observation
-        else:
-            return x
-
-    def get_tools(self):
-        tools = [
-            Tool(
-                name="GenerateSparql",
-                func=lambda x: self.exponential_backoff_generate_squall_query(x),
-                description="useful to get Squall query given the Action Input. Do not use this tool with same Action Input.",
-            ),
-            Tool(
-                name="RunSparql",
-                func=lambda x: self.sparql_tool.run_sparql(x),
-                description="useful to run a query on wikibase to get results. Do not use this tool with same Action Input.",
-            ),
-            Tool(
-                name="GetLabel",
-                func=lambda x: self.wiki_tool.get_label(x),
-                description="useful to get the label for the wikidata QID. Do not use this tool with same Action Input.",
-            ),
-        ]
-        return tools
-
-    def get_prompt(self, question, dynamic):
-        workflow = ""
-        if dynamic:
-            workflow = f"{workflow}{Template_Construction(question, self.dataset).full_shot_with_diversity()}"
-        else:
-            workflow = f"{workflow}{Template_Construction(question, self.dataset, wikidata= True).static_prompt_construction()}"
-        prepend_template = """Given the question, your task is to find the answer using Wikidata Databases.You are not allowed to use your own knowledge to get QIDs to generate the SPARQL query.
-Your immediate steps include generating SPARQL queries using available {tools} and then executing the query over Wikidata.\nWikidata Answers are the observation after executing the SPARQL query.\n
-You have access to the following - {tools}!. 
-Once you have the Wikidata Answer, always follow the specific format to output the final answer - 
-Final Answer: Wikidata_Answer : Wikidata Answer , 
-Assistant Response: Extended Answer that contains your reasoning, proof and final answer, please keep this descriptive.
-Please do not use same Action Input to the tools, If no answer is found even after multiple tries using wikidata 
-Wikidata_Answer : None ,
-
-Here are three examples to look at on how to use the {tools}\n"""
-        additional_template = """
-You have access to the following - {tools}!
-Use the following format:
-Question: the input question for which you must provide a natural language answer
-Thought: you should always think about what to do
-Action: the action to take, should be one of [{tool_names}]
-Action Input: the input to the action
-Observation: the result of the action
-... (this Thought/Action/Action Input/Observation can repeat N times)
-Always use the following format for the Final Answer -
-Final Answer: Wikidata_Answer : ,
-Assistant Response : 
-Question: {input}
-{agent_scratchpad}
-
-            """
-
-        workflow = workflow.strip("\n")
-        complete_workflow = (
-            f"{prepend_template}{workflow}\n\n{additional_template.strip()}"
-        )
-        logging.info(complete_workflow)
-        prompt = CustomPromptTemplate(
-            template=complete_workflow.strip("\n"),
-            tools=self.get_tools(),
-            # This omits the `agent_scratchpad`, `tools`, and `tool_names` variables because those are generated dynamically
-            # This includes the `intermediate_steps` variable because that is needed
-            input_variables=["input", "intermediate_steps"],
-        )
-
-        return prompt
-
-    def answer_ques(self, ques):
-        template = """Given a question your task is to answer the question, please do not provide any other information other than the Answer
-                    Question: {ques}
-                    Answer: """
-        prompt = PromptTemplate(template=template, input_variables=["ques"])
-        llm = load_chain(self.model_name)
-        llm_chain = LLMChain(prompt=prompt, llm=llm)
-        return llm_chain.run(ques)
-
-    def get_template_inference(self, out, int_answer):
-        complete_steps = ""
-        for i in out.get("intermediate_steps"):
-            thought = ""
-            if "Thought:" in i[0].log:
-                complete_steps = (
-                    f"{complete_steps}\n{thought}{i[0].log}\nObservation:{i[1]}\n"
-                )
-            else:
-                thought = "Thought: "
-                complete_steps = (
-                    f"{complete_steps}\n{thought}{i[0].log}\nObservation:{i[1]}\n"
-                )
-        final_string = """Thought: I now know the final answer based on  Wikidata. \nFinal Answer: """
-        complete_steps = f'{out.get("input")}\n{complete_steps}\n{final_string}{out.get("output")}, Internal Knowledge: {int_answer}'
-        return complete_steps
-
-    def execute_one_query(self, complete_steps, x):
-        temp = {}
-        temp["question"] = x
-        parametric_knowledge = self.answer_ques(x.strip())
-        temp["internal_knowledge"] = parametric_knowledge.strip()
-        try:
-            answers = complete_steps  # agent_executor.run(x.strip())
-            idx = answers.find("Wikidata_answer")
-            _, wiki_answer = answers[:idx].split(":", 1)
-            _, wikidata_answer = answers[idx:].split(":", 1)
-            # temp["wikipedia"] = (
-            #     wiki_answer.replace(",", "").strip()
-            #     if "None" not in wiki_answer
-            #     else None
-            # )
-            temp["wikidata"] = (
-                wikidata_answer.strip() if "None" not in wikidata_answer else None
+        with get_openai_callback() as cb:
+            out = agent_executor(question)
+            logging.info(f"Total Tokens: {cb.total_tokens}")
+            logging.info(f"Prompt Tokens: {cb.prompt_tokens}")
+            logging.info(f"Completion Tokens: {cb.completion_tokens}")
+            logging.info(f"Total Cost (USD): ${cb.total_cost}")
+            answer_template_for_inference = self.get_template_inference(
+                out, internal_answer
             )
-            if "Wikidata_answer" not in answers and "Wikipedia_answer" not in answers:
-                temp["error"] = answers
-            else:
-                temp["error"] = None
-        except Exception as e:
-            temp["wikipedia"] = None
-            temp["wikidata"] = None
-            temp["error"] = str(e)
-            temp["stack_trace"] = str(traceback.print_exc())
-        return temp
+        return out, answer_template_for_inference, cb.completion_tokens
 
-    def execute_agent(self, question):
-        llm = ChatOpenAI(model_name=self.model_name, temperature=0, request_timeout=300)
-        prompt = self.get_prompt(question, self.dynamic)
-        llm_chain = LLMChain(llm=llm, prompt=prompt)
-        tools = self.get_tools()
-        tool_names = [tool.name for tool in tools]
-        output_parser = CustomOutputParserWikidata()
-        agent = LLMSingleActionAgentCustom(
-            llm_chain=llm_chain,
-            output_parser=output_parser,
-            stop=["\nObservation:"],
-            allowed_tools=tool_names,
-        )
-        agent_executor = AgentExecutor.from_agent_and_tools(
-            agent=agent,
-            tools=tools,
-            verbose=True,
-            handle_parsing_errors=True,
-            return_intermediate_steps=True,
-        )
-        internal_answer = self.answer_ques(question)
-        out = agent_executor(question)
-        answer_template_for_inference = self.get_template_inference(
-            out, internal_answer
-        )
-        return out, answer_template_for_inference
+
+# class Lanchain_impl_wikidata:
+#     def __init__(self, dataset, model_name, wiki_tool, squall, sparql_tool, dynamic):
+#         self.dataset = dataset
+#         self.model_name = model_name
+#         self.squall = squall
+#         self.sparql_tool = sparql_tool
+#         self.wiki_tool = wiki_tool
+#         self.dynamic = dynamic
+
+#     @backoff.on_exception(backoff.expo, openai.error.RateLimitError)
+#     def exponential_backoff_generate_squall_query(self, x):
+#         return self.squall.generate_squall_query(x)
+
+#     def get_observation(self, x):
+#         print("Inside GetObservation!")
+#         if "Observation" in x and ":" in x:
+#             _, observation = x.split(":", 1)
+#             return observation
+#         else:
+#             return x
+
+#     def get_tools(self):
+#         tools = [
+#             Tool(
+#                 name="GenerateSparql",
+#                 func=lambda x: self.exponential_backoff_generate_squall_query(x),
+#                 description="useful to get Squall query given the Action Input. Do not use this tool with same Action Input.",
+#             ),
+#             Tool(
+#                 name="RunSparql",
+#                 func=lambda x: self.sparql_tool.run_sparql(x),
+#                 description="useful to run a query on wikibase to get results. Do not use this tool with same Action Input.",
+#             ),
+#             Tool(
+#                 name="GetLabel",
+#                 func=lambda x: self.wiki_tool.get_label(x),
+#                 description="useful to get the label for the wikidata QID. Do not use this tool with same Action Input.",
+#             ),
+#         ]
+#         return tools
+
+#     def get_prompt(self, question, dynamic):
+#         workflow = ""
+#         if dynamic:
+#             workflow = f"{workflow}{Template_Construction(question, self.dataset).full_shot_with_diversity()}"
+#         else:
+#             workflow = f"{workflow}{Template_Construction(question, self.dataset, wikidata= True).static_prompt_construction()}"
+#         prepend_template = """Given the question, your task is to find the answer using Wikidata Databases.You are not allowed to use your own knowledge to get QIDs to generate the SPARQL query.
+# Your immediate steps include generating SPARQL queries using available {tools} and then executing the query over Wikidata.\nWikidata Answers are the observation after executing the SPARQL query.\n
+# You have access to the following - {tools}!.
+# Once you have the Wikidata Answer, always follow the specific format to output the final answer -
+# Final Answer: Wikidata_Answer : Wikidata Answer ,
+# Assistant Response: Extended Answer that contains your reasoning, proof and final answer, please keep this descriptive.
+# Please do not use same Action Input to the tools, If no answer is found even after multiple tries using wikidata
+# Wikidata_Answer : None ,"""
+
+#         # Here is one example to look at on how to use the {tools}\n"""
+#         additional_template = """
+# You have access to the following - {tools}!
+# Use the following format:
+# Question: the input question for which you must provide a natural language answer
+# Thought: you should always think about what to do
+# Action: the action to take, should be one of [{tool_names}]
+# Action Input: the input to the action
+# Observation: the result of the action
+# ... (this Thought/Action/Action Input/Observation can repeat N times)
+# Always use the following format for the Final Answer -
+# Final Answer: Wikidata_Answer : ,
+# Assistant Response :
+# Question: {input}
+# {agent_scratchpad}
+
+#             """
+
+#         workflow = workflow.strip("\n")
+#         complete_workflow = (
+#             f"{prepend_template}{workflow}\n\n{additional_template.strip()}"  # {workflow}
+#         )
+#         logging.info(complete_workflow)
+#         print(complete_workflow)
+#         prompt = CustomPromptTemplate(
+#             template=complete_workflow.strip("\n"),
+#             tools=self.get_tools(),
+#             # This omits the `agent_scratchpad`, `tools`, and `tool_names` variables because those are generated dynamically
+#             # This includes the `intermediate_steps` variable because that is needed
+#             input_variables=["input", "intermediate_steps"],
+#         )
+
+#         return prompt
+
+#     def answer_ques(self, ques):
+#         template = """Given a question your task is to answer the question, please do not provide any other information other than the Answer
+#                     Question: {ques}
+#                     Answer: """
+#         prompt = PromptTemplate(template=template, input_variables=["ques"])
+#         llm = load_chain(self.model_name)
+#         llm_chain = LLMChain(prompt=prompt, llm=llm)
+#         return llm_chain.run(ques)
+
+#     def get_template_inference(self, out, int_answer):
+#         complete_steps = ""
+#         for i in out.get("intermediate_steps"):
+#             thought = ""
+#             if "Thought:" in i[0].log:
+#                 complete_steps = (
+#                     f"{complete_steps}\n{thought}{i[0].log}\nObservation:{i[1]}\n"
+#                 )
+#             else:
+#                 thought = "Thought: "
+#                 complete_steps = (
+#                     f"{complete_steps}\n{thought}{i[0].log}\nObservation:{i[1]}\n"
+#                 )
+#         final_string = """Thought: I now know the final answer based on  Wikidata. \nFinal Answer: """
+#         complete_steps = f'{out.get("input")}\n{complete_steps}\n{final_string}{out.get("output")}, Internal Knowledge: {int_answer}'
+#         return complete_steps
+
+#     def execute_one_query(self, complete_steps, x):
+#         temp = {}
+#         temp["question"] = x
+#         parametric_knowledge = self.answer_ques(x.strip())
+#         temp["internal_knowledge"] = parametric_knowledge.strip()
+#         try:
+#             answers = complete_steps  # agent_executor.run(x.strip())
+#             idx = answers.find("Wikidata_answer")
+#             _, wiki_answer = answers[:idx].split(":", 1)
+#             _, wikidata_answer = answers[idx:].split(":", 1)
+#             # temp["wikipedia"] = (
+#             #     wiki_answer.replace(",", "").strip()
+#             #     if "None" not in wiki_answer
+#             #     else None
+#             # )
+#             temp["wikidata"] = (
+#                 wikidata_answer.strip() if "None" not in wikidata_answer else None
+#             )
+#             if "Wikidata_answer" not in answers and "Wikipedia_answer" not in answers:
+#                 temp["error"] = answers
+#             else:
+#                 temp["error"] = None
+#         except Exception as e:
+#             temp["wikipedia"] = None
+#             temp["wikidata"] = None
+#             temp["error"] = str(e)
+#             temp["stack_trace"] = str(traceback.print_exc())
+#         return temp
+
+#     def execute_agent(self, question):
+#         llm = ChatOpenAI(model_name=self.model_name, temperature=0, request_timeout=300)
+#         prompt = self.get_prompt(question, self.dynamic)
+#         llm_chain = LLMChain(llm=llm, prompt=prompt)
+#         tools = self.get_tools()
+#         tool_names = [tool.name for tool in tools]
+#         output_parser = CustomOutputParserWikidata()
+#         agent = LLMSingleActionAgentCustom(
+#             llm_chain=llm_chain,
+#             output_parser=output_parser,
+#             stop=["\nObservation:"],
+#             allowed_tools=tool_names,
+#         )
+#         agent_executor = AgentExecutor.from_agent_and_tools(
+#             agent=agent,
+#             tools=tools,
+#             verbose=True,
+#             handle_parsing_errors=True,
+#             return_intermediate_steps=True,
+#         )
+#         internal_answer = self.answer_ques(question)
+#         out = agent_executor(question)
+#         answer_template_for_inference = self.get_template_inference(
+#             out, internal_answer
+#         )
+#         return out, answer_template_for_inference

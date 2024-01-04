@@ -22,7 +22,7 @@ log_filename = os.path.join(log_dir, f"logs_{current_time}.log")
 
 logging.basicConfig(
     filename=log_filename,
-    level=logging.DEBUG,
+    level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s",
 )
 
@@ -85,9 +85,10 @@ def main(
     model_name: str = "gpt-4-0314",
     output_path: str = "answers_data",
     dynamic=True,
+    DPP=False
 ):
     logging.info(
-        f"------Dataset: {dataset}, Model: {model_name}, Dynamic:{dynamic}--------"
+        f"------Dataset: {dataset}, Model: {model_name}, Dynamic:{dynamic},cos min, Examples: {3}--------"
     )
     refined = load_refined_model()
     wiki_tool = WikiTool(model_name)
@@ -102,21 +103,21 @@ def main(
     print(questions)
     print(refined)
     langchain_call = Lanchain_impl(
-        dataset, model_name, wiki_tool, squall, sparql_tool, dynamic
+        dataset, model_name, wiki_tool, squall, sparql_tool, dynamic, DPP
     )
     final_answer_list = []
+    count = 0
     for idx, question in enumerate(questions):
-        # time.sleep(30)
-        # if idx % 10 == 0:
-        #     time.sleep(300)
         temp = {}
         try:
             logging.info(
-                f"----------Evaluation on Question: {question} Index: {idx}----------"
+                f"----------Evaluation on Question: {question} Index: {idx} Three SHOTTTT----------"
             )
             temp["question"] = question
-            out, template_answer = langchain_call.execute_agent(question.strip("\n"))
-
+            out, template_answer, counts = langchain_call.execute_agent(
+                question.strip("\n")
+            )
+            count += counts
             few_shot = read_json(dataset)
             wiki_ans, wikidata_ans, int_ans, final_answer = merge_step_updated(
                 out, few_shot, langchain_call, model_name
@@ -142,8 +143,9 @@ def main(
             final_answer_list.append(temp)
             continue
         del temp
-
+        # if idx % 20 == 0:
     write_answers(final_answer_list, output_path, dataset)
+    logging.info(f"final count is {count}")
 
 
 if __name__ == "__main__":

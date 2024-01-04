@@ -16,11 +16,11 @@ import logging
 
 
 def main(
-    dataset: str = "mintaka",
+    dataset: str = "compmix",
     model_name: str = "gpt-4-0314",
     output_path: str = "late_fusion",
     dynamic=False,
-    few_shot_data: str = "mintaka_wikidata",
+    few_shot_data: str = "compmix_wikidata",
 ):
     logging.info(f"------FUSION Dataset: {dataset}, Model: {model_name}")
     refined = load_refined_model()
@@ -43,6 +43,7 @@ def main(
     for idx, question in enumerate(questions):
         temp = {}
         try:
+            time.sleep(30)
             logging.info(
                 f"----------Evaluation on Question: {question} Index: {idx}----------"
             )

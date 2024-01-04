@@ -1,0 +1,50 @@
+[
+    {
+        "question": "How many Pulitzer Prizes has John Updike won?\n",
+        "internal_knowledge": "2",
+        "wikipedia_answer": "John Updike won the Pulitzer Prize for Fiction twice",
+        "wikidata_answer": "[0]",
+        "assistant_response": "John Updike won the Pulitzer Prize for Fiction twice, according to his Wikipedia page. He received the award for his novels Rabbit Is Rich (1981) and Rabbit at Rest (1990). However, the Wikidata query returned 0 Pulitzer Prizes, which is likely outdated or incorrect.",
+        "long_answer": "John Updike won the Pulitzer Prize for Fiction twice, according to his Wikipedia page. He received the award for his novels Rabbit Is Rich (1981) and Rabbit at Rest (1990)."
+    },
+    {
+        "question": "Who is the director of the video game God of War?\n",
+        "internal_knowledge": "Cory Barlog",
+        "wikipedia_answer": "None",
+        "wikidata_answer": "None",
+        "assistant_response": "I could not find the director of the video game God of War using the available tools and keywords. The information is not available in the context provided.",
+        "long_answer": "Cory Barlog is the director of the video game God of War, according to my internal knowledge. However, I could not verify this information using Wikipedia or Wikidata."
+    },
+    {
+        "question": "Actor behind Pi Patel role as teen age boy in Life of Pi?\n",
+        "internal_knowledge": "Suraj Sharma",
+        "wikipedia_answer": "Suraj Sharma",
+        "wikidata_answer": "[Suraj Sharma]",
+        "assistant_response": "Suraj Sharma portrayed the teenage Pi Patel in the movie Life of Pi.",
+        "long_answer": "Suraj Sharma played the role of teenage Pi Patel in the movie Life of Pi."
+    },
+    {
+        "question": "What is the second book of The Mortal Instruments?\n",
+        "internal_knowledge": "City of Ashes",
+        "wikipedia_answer": "City of Ashes",
+        "wikidata_answer": "None",
+        "assistant_response": "The second book of The Mortal Instruments series is titled \"City of Ashes.\" This information was found in the Wikipedia summary of the movie adaptation of the first book, which mentioned the second book's title. Unfortunately, I could not verify this information using Wikidata as the queries failed.",
+        "long_answer": "The second book in The Mortal Instruments series is titled \"City of Ashes.\""
+    },
+    {
+        "question": "Formation year of the band Aerosmith?\n",
+        "internal_knowledge": "1970",
+        "wikipedia_answer": "1970",
+        "wikidata_answer": "[\"1969-01-01T00:00:00Z\"]",
+        "assistant_response": "According to the Wikipedia summary, Aerosmith is an American rock band formed in Boston in 1970. However, Wikidata shows a formation date of January 1, 1969. There is a discrepancy between the two sources, but it is likely that the band was formed around the late 1960s or early 1970s.",
+        "long_answer": "Aerosmith, an American rock band, was formed in Boston around the late 1960s or early 1970s. While there is a discrepancy between sources, with Wikipedia stating 1970 and Wikidata indicating January 1, 1969, it is safe to say that the band's formation occurred during that time period."
+    },
+    {
+        "question": "Mohamed Salah born on which date?\n",
+        "internal_knowledge": "June 15, 1992",
+        "wikipedia_answer": "15 June 1992",
+        "wikidata_answer": "[\"1992-06-15T00:00:00Z\"]",
+        "assistant_response": "Mohamed Salah, the Egyptian professional footballer, was born on 15 June 1992. This information is confirmed by both Wikipedia and Wikidata.",
+        "long_answer": "Mohamed Salah was born on June 15, 1992. He is an Egyptian professional footballer."
+    }
+]
