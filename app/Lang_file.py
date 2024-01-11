@@ -345,10 +345,9 @@ class Template_Construction:
         return questions
     def few_shot_with_dpp(self):
         path = os.getcwd()
-        dataset ='compmix'
         questions = self.load_dataset_for_few_shot(f"{path}/data/{self.dataset}.json")
         q = self.most_similar_items(self.question, questions)
-        with open(f"{path}/data/{dataset}.json", "r") as file:
+        with open(f"{path}/data/{self.dataset}.json", "r") as file:
             data = json.load(file)
             action_sequence = ""
             action_sequence_list = []
