@@ -322,10 +322,7 @@ class Template_Construction:
         else:
             res_list = list(operator.itemgetter(*indexes)(questions))
         return res_list
-    def levenshtein_distance(self,ques, final_list):
-
-        q = self.most_similar_items("When was the author of mirrorshades born?", ques)
-
+    def DPP(self,q, final_list):
         K = q * final_list * q
         obj_log_det = LogDeterminantFunction(n=20,
                                             mode="dense",
@@ -349,9 +346,8 @@ class Template_Construction:
     def few_shot_with_dpp(self):
         path = os.getcwd()
         dataset ='compmix'
-        path = "/home/preetam19/app_hybrid/HybridQA/app"
-        questions = self.load_dataset_for_few_shot(f"{path}/data/{dataset}.json")
-        fetching_ques = self.most_similar_items(self.question, questions)
+        questions = self.load_dataset_for_few_shot(f"{path}/data/{self.dataset}.json")
+        q = self.most_similar_items(self.question, questions)
         with open(f"{path}/data/{dataset}.json", "r") as file:
             data = json.load(file)
             action_sequence = ""
@@ -366,13 +362,12 @@ class Template_Construction:
                                     x.append(1 - levenshtein(i, j)/max(len(i),len(j)))
                             final_list.append(x)
                     final_list = np.array(final_list)
-        indices = self.levenshtein_distance(questions, final_list)
+        indices = self.DPP(q, final_list)
         final_template = f"Example 1:{data[indices[0]].get('One_Shot')}\n\nExample 2:\n\n{data[indices[1]].get('One_Shot')}\n\nExample 3:\n\n{data[indices[2]].get('One_Shot')}"
         return final_template
     
     def full_shot_with_diversity(self):
         path = os.getcwd()
-        path = "/home/preetam19/app_hybrid/HybridQA/app"
         questions = self.load_dataset_for_few_shot(f"{path}/data/{self.dataset}.json")
         fetching_ques = self.most_similar_items(self.question, questions)
         print(fetching_ques)
