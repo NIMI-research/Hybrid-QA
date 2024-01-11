@@ -322,7 +322,7 @@ class Template_Construction:
         else:
             res_list = list(operator.itemgetter(*indexes)(questions))
         return res_list
-    def DPP(self,q, final_list):
+    def DPP_function(self,q, final_list):
         K = q * final_list * q
         obj_log_det = LogDeterminantFunction(n=20,
                                             mode="dense",
@@ -361,7 +361,7 @@ class Template_Construction:
                                     x.append(1 - levenshtein(i, j)/max(len(i),len(j)))
                             final_list.append(x)
                     final_list = np.array(final_list)
-        indices = self.DPP(q, final_list)
+        indices = self.DPP_function(q, final_list)
         final_template = f"Example 1:{data[indices[0]].get('One_Shot')}\n\nExample 2:\n\n{data[indices[1]].get('One_Shot')}\n\nExample 3:\n\n{data[indices[2]].get('One_Shot')}"
         return final_template
     
