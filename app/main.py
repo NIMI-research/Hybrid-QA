@@ -95,9 +95,13 @@ def main(
     logging.info(
         f"------Dataset: {dataset}, Model: {model_name}, Dynamic:{dynamic}--------"
     )
+    print('Start loading models sequentially:')
+    start = time.time()
     llm = load_chain(model_name,use_vllm,deterministic_prompting)
     sent_transformer = load_sentence_transformer()
     refined = load_refined_model(refined_cache_dir=refined_cache_dir)
+    end = time.time()
+    print(f'Loading models took {end-start}s.')
     wiki_tool = WikiTool(llm)
     path = os.getcwd()
     print("main---->", path)
