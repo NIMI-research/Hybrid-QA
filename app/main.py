@@ -14,6 +14,7 @@ import logging
 import torch, gc
 import time
 from mpi4py import MPI
+import asyncio
 
 comm = MPI.COMM_WORLD
 rank = comm.Get_rank()
@@ -83,7 +84,7 @@ def merge_step_updated(output, few_shot, langchain_call, llm):
 
 #'gpt-3.5-turbo'
 # gpt-4-0314
-def main(
+async def main(
     dataset: str = "mintaka",
     model_name: str = "gpt-4-0314",
     output_path: str = "answers_data",
@@ -95,12 +96,19 @@ def main(
     logging.info(
         f"------Dataset: {dataset}, Model: {model_name}, Dynamic:{dynamic}--------"
     )
-    llm = load_chain(model_name,use_vllm,deterministic_prompting)
-    sent_transformer = load_sentence_transformer()
-    refined = load_refined_model(refined_cache_dir=refined_cache_dir)
+    print('Loadign models asyncronously')
+    start=time.time()
+    llm_task = asyncio.create_task(load_chain(model_name,use_vllm,deterministic_prompting))
+    sent_transformer_task = asyncio.create_task(load_sentence_transformer())
+    refined_task = asyncio.create_task(load_refined_model(refined_cache_dir=refined_cache_dir))
+    
+    llm, sent_transformer, refined = await asyncio.gather(llm_task,sent_transformer_task,refined_task)
+    end = time.time()
+    print(f'Finished model loading after {start-end}s.')
     wiki_tool = WikiTool(llm)
     path = os.getcwd()
     print("main---->", path)
+
     squall = Squall(
         f"{path}/Tools/Tools_Data/squall_fixed_few_shot.json", refined, llm, sent_transformer
     )
@@ -108,6 +116,8 @@ def main(
     questions = prepare_question_list(dataset)
     print(questions)
     print(refined)
+
+   
     langchain_call = Lanchain_impl(
         dataset, llm, sent_transformer, wiki_tool, squall, sparql_tool, dynamic
     )

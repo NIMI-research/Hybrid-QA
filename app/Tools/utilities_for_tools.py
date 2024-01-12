@@ -8,8 +8,9 @@ from transformers import AutoTokenizer, AutoModelForCausalLM,pipeline
 from refined.inference.processor import Refined
 import os
 import torch
+import asyncio
 
-def load_chain(model_name:str, use_vllm:bool, deterministic_promting:bool):
+async def load_chain(model_name:str, use_vllm:bool, deterministic_prompting:bool):
     if model_name in ['gpt-4-0314','gpt-3.5-turbo']:
         llm = ChatOpenAI(model_name = model_name, temperature=0,request_timeout=300)
     
@@ -19,7 +20,7 @@ def load_chain(model_name:str, use_vllm:bool, deterministic_promting:bool):
         if not torch.cuda.is_available():
             raise Exception("vLLM currently only supports GPU Inference but cuda is not available.")
         
-        if deterministic_promting:
+        if deterministic_prompting:
             top_k=-1
             temperature=0
             top_p=1
@@ -49,6 +50,7 @@ def load_chain(model_name:str, use_vllm:bool, deterministic_promting:bool):
         pipe = pipeline("text-generation", model=model, tokenizer=tokenizer,max_new_tokens=100,device=device)
         llm = HuggingFacePipeline(pipeline=pipe) 
        
+    await asyncio.sleep(0)
     return llm
 
 def load_openai_api():
@@ -60,14 +62,16 @@ def load_openai_api():
     print(openai_api_key)
     return config
 
-def load_sentence_transformer():
+async def load_sentence_transformer():
     model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
+    await asyncio.sleep(0)
     return model
 
 
-def load_refined_model(refined_cache_dir='~/.cache/refined/'):
+async def load_refined_model(refined_cache_dir='~/.cache/refined/'):
     refined = Refined.from_pretrained(model_name='wikipedia_model_with_numbers',
                                       entity_set="wikipedia",
                                       data_dir=refined_cache_dir)
+    await asyncio.sleep(0)
     return refined
 

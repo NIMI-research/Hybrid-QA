@@ -34,4 +34,6 @@ export SCOREP_CUDA_BUFFER=4G
 export SCOREP_TOTAL_MEMORY=4095M
 export SCOREP_PROFILING_MAX_CALLPATH_DEPTH=700
 
-python -m scorep --cuda --mpp=mpi main.py --dataset qald --model-name 'mosaicml/mpt-7b-8k-chat' --refined_cache_dir /beegfs/ws/0/s6690609-hybridQA
+export CUDA_LAUNCH_BLOCKING=0
+
+srun python -m scorep --cuda --mpp=mpi main.py -dataset qald --model-name 'mosaicml/mpt-7b-8k-chat' --deterministic_prompting True --refined_cache_dir $HF_HOME
