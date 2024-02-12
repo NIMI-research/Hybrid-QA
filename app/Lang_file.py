@@ -276,8 +276,6 @@ class CustomOutputParserWikidata(AgentOutputParser):
             return AgentAction(
                 tool=action, tool_input=f"{action_input}", log=llm_output
             )
-        else:
-            return AgentAction(tool=action, tool_input=action_input, log=llm_output)
 
 
 class Template_Construction:
@@ -524,7 +522,6 @@ Please do not use same Action Input to the tools, If no answer is found even aft
 Wikipedia_Answer : Answer, Wikidata_Answer : None 
 Here are three examples to look at on how to use the {tools}\n
 """
-        # Here are three examples to look at on how to use the {tools}\n
         additional_template = """
 You have access to the following - {tools}!
 Use the following format:
@@ -539,8 +536,8 @@ Final Answer: Wikipedia_Answer : , Wikidata_Answer : ,
 Assistant Response : 
 Question: {input}
 {agent_scratchpad}
-
             """
+
 
         workflow = workflow.strip("\n")
         complete_workflow = f"{prepend_template}{workflow}\n\n{additional_template.strip()}"  # {workflow}
@@ -582,34 +579,6 @@ Question: {input}
         complete_steps = f'{out.get("input")}\n{complete_steps}\n{final_string}{out.get("output")}, Internal Knowledge: {int_answer}'
         return complete_steps
 
-    def execute_one_query(self, complete_steps, x):
-        temp = {}
-        temp["question"] = x
-        parametric_knowledge = self.answer_ques(x.strip())
-        temp["internal_knowledge"] = parametric_knowledge.strip()
-        try:
-            answers = complete_steps  # agent_executor.run(x.strip())
-            idx = answers.find("Wikidata_answer")
-            _, wiki_answer = answers[:idx].split(":", 1)
-            _, wikidata_answer = answers[idx:].split(":", 1)
-            temp["wikipedia"] = (
-                wiki_answer.replace(",", "").strip()
-                if "None" not in wiki_answer
-                else None
-            )
-            temp["wikidata"] = (
-                wikidata_answer.strip() if "None" not in wikidata_answer else None
-            )
-            if "Wikidata_answer" not in answers and "Wikipedia_answer" not in answers:
-                temp["error"] = answers
-            else:
-                temp["error"] = None
-        except Exception as e:
-            temp["wikipedia"] = None
-            temp["wikidata"] = None
-            temp["error"] = str(e)
-            temp["stack_trace"] = str(traceback.print_exc())
-        return temp
 
     def execute_agent(self, question):
         llm = ChatOpenAI(model_name=self.model_name, temperature=0, request_timeout=300)
@@ -815,3 +784,160 @@ Question: {input}
 #             out, internal_answer
 #         )
 #         return out, answer_template_for_inference
+
+        out = agent_executor(question)
+        answer_template_for_inference = self.get_template_inference(
+            out, internal_answer
+        )
+        print(answer_template_for_inference)
+        return out, answer_template_for_inference
+
+class Lanchain_impl_wikipedia:
+
+    def __init__(self,dataset, model_name, wiki_tool,few_shot_dataset):
+        self.dataset = dataset
+        self.model_name = model_name
+        self.wiki_tool = wiki_tool
+        self.few_shot_dataset=few_shot_dataset
+
+    @backoff.on_exception(backoff.expo, openai.error.RateLimitError)
+    def exponential_backoff_get_wikipedia_summary(self, x):
+        return self.wiki_tool.get_wikipedia_summary(x)
+
+    @backoff.on_exception(backoff.expo, openai.error.RateLimitError)
+    def exponential_backoff_get_wikipedia_summary_keyword(self, x):
+        return self.wiki_tool.get_wikipedia_summary_keyword(x)
+
+    def get_tools_wikipedia(self):
+        tools = [
+            Tool(
+                name="WikiSearch",
+                func=lambda x: self.exponential_backoff_get_wikipedia_summary_keyword(
+                    x
+                ),
+                description="Useful to find relevant wikipedia article given the Action Input. Do not use this tool with same Action Input.",
+            ),
+            Tool(
+                name="WikiSearchSummary",
+                func=lambda x: self.exponential_backoff_get_wikipedia_summary(x),
+                description="useful to find the answer on wikipedia article given the Action Input if WikiSearch Tool doesnt provide any answer!. Do not use this tool with same Action Input.",
+                verbose=True,
+            )
+        ]
+        return tools
+    def load_dataset_for_few_shot(self, path):
+        questions = []
+        with open(path, "r") as file:
+            data = json.load(file)
+        for x in data:
+            if x.get("Question") is not None:
+                questions.append(x.get("Question"))
+        return questions
+    def static_prompt_construction(self):
+        path = os.getcwd()
+        questions = self.load_dataset_for_few_shot(f"{path}/data_late_fusion/{self.few_shot_dataset}.json")
+        # random.seed(4)
+        selected_questions = random.sample(questions, 3)
+        with open(f"{path}/data_late_fusion/{self.few_shot_dataset}.json", "r") as file:
+            data = json.load(file)
+            final_template = ""
+            print(selected_questions)
+            counter = 0
+            for x in data:
+                for question in selected_questions:
+                    if x.get("Question").strip() == question.strip():
+                        counter = counter + 1
+                        final_template = f"{final_template}\n\nExample {counter}:\n\n{x.get('One_Shot')}"
+
+            return final_template
+
+    def get_prompt_wikipedia(self):
+        #######Preetu please work with the wikipedia prompt Here!!!!!!!!
+        workflow = ""
+        workflow = f"{workflow}{self.static_prompt_construction()}"
+        prepend_template = """Given the question, your task is to find the answer using Wikipedia. If you found the answer using Wikipedia Article.
+Your immediate steps include finding relevant wikipedia articles summary to find the answer using {tools} provided.
+Also do not check the wikipedia page manually to answer the questions. 
+You have access to the following - {tools}!. 
+Once you have the Wikipedia Answer after trying, always follow the specific format to output the final answer - 
+Final Answer: Wikipedia_Answer : Wikipedia Answer
+Assistant Response: Extended Answer that contains your reasoning, proof and final answer, please keep this descriptive.
+Please do not use same Action Input to the tools, If no answer is found even after multiple tries with wikipedia, please return
+Wikipedia_Answer : None
+
+Here are three examples to look at on how to use the {tools}\n"""
+        additional_template = """
+You have access to the following - {tools}!
+Use the following format:
+Question: the input question for which you must provide a natural language answer
+Thought: you should always think about what to do
+Action: the action to take, should be one of [{tool_names}]
+Action Input: the input to the action
+Observation: the result of the action
+... (this Thought/Action/Action Input/Observation can repeat N times)
+Always use the following format for the Final Answer -
+Final Answer: Wikipedia_Answer : ,
+Assistant Response : 
+Question: {input}
+{agent_scratchpad}
+
+        """
+
+        workflow = workflow.strip("\n")
+        complete_workflow = (
+            f"{prepend_template}{workflow}\n\n{additional_template.strip()}"
+        )
+        logging.info(complete_workflow)
+        prompt = CustomPromptTemplate(
+            template=complete_workflow.strip("\n"),
+            tools=self.get_tools_wikipedia(),
+            # This omits the `agent_scratchpad`, `tools`, and `tool_names` variables because those are generated dynamically
+            # This includes the `intermediate_steps` variable because that is needed
+            input_variables=["input", "intermediate_steps"],
+        )
+        print(complete_workflow)
+        return prompt
+
+    def get_template_inference(self, out):
+        complete_steps = ""
+        for i in out.get("intermediate_steps"):
+            thought = ""
+            if "Thought:" in i[0].log:
+                complete_steps = (
+                    f"{complete_steps}\n{thought}{i[0].log}\nObservation:{i[1]}\n"
+                )
+            else:
+                thought = "Thought: "
+                complete_steps = (
+                    f"{complete_steps}\n{thought}{i[0].log}\nObservation:{i[1]}\n"
+                )
+        final_string = """Thought: I now know the final answer based on Wikipedia.\nFinal Answer: """
+        complete_steps = f'{out.get("input")}\n{complete_steps}\n{final_string}{out.get("output")}'
+        return complete_steps
+
+
+    def execute_agent_wikipedia(self,question):
+        llm = ChatOpenAI(model_name=self.model_name, temperature=0, request_timeout=300)
+        prompt = self.get_prompt_wikipedia()
+        llm_chain = LLMChain(llm=llm, prompt=prompt)
+        tools = self.get_tools_wikipedia()
+        tool_names = [tool.name for tool in tools]
+        output_parser = CustomOutputParser()
+        agent = LLMSingleActionAgentCustom(
+            llm_chain=llm_chain,
+            output_parser=output_parser,
+            stop=["\nObservation:"],
+            allowed_tools=tool_names,
+        )
+        agent_executor = AgentExecutor.from_agent_and_tools(
+            agent=agent,
+            tools=tools,
+            verbose=True,
+            handle_parsing_errors=True,
+            return_intermediate_steps=True,
+        )
+        out = agent_executor(question)
+        template_answer = self.get_template_inference(out)
+        print(template_answer)
+        return out, template_answer
+

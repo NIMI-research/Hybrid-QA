@@ -29,6 +29,7 @@ class Squall:
         self.mode_name = "gpt-4-0314"
         self.wikidata = wikidata
 
+
     def cos_sim(self, element, model, labels_sim, threshold=2):
         x = model.encode([element])
         res = util.dot_score(x, labels_sim)
@@ -316,6 +317,7 @@ class SparqlTool:
     def run_sparql(self, query: str, url="https://query.wikidata.org/sparql"):
         try:
             print("Inside RunSparql!")
+
             wikidata_user_agent_header = (
                 None
                 if not self.config.has_section("WIKIDATA")
@@ -351,6 +353,7 @@ class SparqlTool:
             return {
                 "message": "The given query failed, please reconstruct your query and try again."
             }
+
 
 
 class WikiTool:

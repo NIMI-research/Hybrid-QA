@@ -14,6 +14,7 @@ import logging
 import time
 import langchain
 
+
 log_dir = "./logs/"
 
 current_time = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
@@ -22,7 +23,6 @@ log_filename = os.path.join(log_dir, f"logs_{current_time}.log")
 
 logging.basicConfig(
     filename=log_filename,
-    level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s",
 )
 
@@ -89,6 +89,7 @@ def main(
 ):
     logging.info(
         f"------Dataset: {dataset}, Model: {model_name}, Dynamic:{dynamic},cos min, Examples: {3}--------"
+
     )
     refined = load_refined_model()
     wiki_tool = WikiTool(model_name)
@@ -118,6 +119,7 @@ def main(
                 question.strip("\n")
             )
             count += counts
+
             few_shot = read_json(dataset)
             wiki_ans, wikidata_ans, int_ans, final_answer = merge_step_updated(
                 out, few_shot, langchain_call, model_name
@@ -136,16 +138,19 @@ def main(
             logging.info(f"intermediate_logs ---> {template_answer}")
             logging.info(f"----Evaluation Done Question: {question} Index: {idx}---")
         except Exception as e:
+            # if "CUDA error:" in str(e):
+            #     gc.collect()
+            #     torch.cuda.empty_cache()
             temp["question"] = question
             temp["final_answer"] = None
             temp["intermediate_logs"] = None
             temp["error"] = str(e)
             final_answer_list.append(temp)
-            continue
         del temp
         # if idx % 20 == 0:
     write_answers(final_answer_list, output_path, dataset)
     logging.info(f"final count is {count}")
+
 
 
 if __name__ == "__main__":

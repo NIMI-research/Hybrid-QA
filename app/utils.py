@@ -29,7 +29,7 @@ def read_json(dataset):
     
 def write_answers(answer_list, output_path, dataset, answer=True):
     json_write = json.dumps(answer_list, indent=4)
-    timestamp = datetime.datetime.now().strftime("%M%H%d%Y")
+    timestamp = datetime.datetime.now().strftime("%d-%m-%Y_%H_%M_%S")
     path = ""
     if answer:
         path = f"{output_path}/{timestamp}_{dataset}_answer.json" 
