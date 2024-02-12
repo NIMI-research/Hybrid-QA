@@ -9,8 +9,9 @@ from Tools.utilities_for_tools import load_chain, load_openai_api
 
 
 def long_answer_call(ques, wikipedia_ans, wikidata_ans, int_knw, context):
-    template = """Your task is to answer questions. For doing this, you get short answers that were extracted from Wikipedia, Wikidata and your own parametric knowledge respectively. You also get a paragraph of context information related to the answer of the question. Do not use any information outside of those sources to answer the question unless neither Wikipedia nor Wikidata provide information. Given all of this information, you need to do your best to formulate an answer to the question, which is of high quality, truthful, informative and engaging.
-Here are few examples to refer to.
+    template = """
+Your task is to answer questions. For doing this, you get short answers that were extracted from Wikipedia, Wikidata and your own internal knowledge respectively. You also get a paragraph of context information related to the answer of the question. Do not use any information outside of those sources to answer the question unless neither Wikipedia nor Wikidata provide information. Given all of this information, you need to do your best to formulate an answer to the question, which is of high quality, truthful, informative and engaging.
+Do not provide any sources of your answer, just answer the question. If the Context does not provide any information to answer the question, please answer the question using Internal knowledge, always as 3rd person tone. Here are few examples to refer to. 
 
 Question: When did aerosmith form?
 Wikipedia Answer: 1970
@@ -35,17 +36,17 @@ Answer: The Wuthering Heights novel by Emily Brontë was set on the West Yorkshi
 
 Question: Was harrison ford in star wars?
 Wikipedia Answer: Yes
-Wikidata Answer: - None
+Wikidata Answer: None
 Internal Knowledge: Yes
 Context: Star Wars is a media franchise consisting of nine films in the Skywalker Saga, including the original, prequel, and sequel trilogies. Harrison Ford starred as Han Solo in the original trilogy films alongside Mark Hamill as Luke Skywalker and Carrie Fisher as Leia Organa. Ford and other original trilogy cast members reprised their roles in the sequel trilogy films.
 Answer: Harrison Ford starred as Han Solo in the original trilogy films. Ford and other original trilogy cast members reprised their roles in the sequel trilogy films
 
 Question: What was the name of the coldplay album that was nominated for album of the year but did not win in 2021?
-Wikipedia Answer: - None
-Wikidata Answer: - None
+Wikipedia Answer: None
+Wikidata Answer: None
 Internal Knowledge: Everyday Life
 Context: I could not find any information about the name of the Coldplay album that was nominated for album of the year but did not win in 2021 using both Wikipedia and Wikidata. However, using my own Internal knowledge, Everyday Life was the name of the coldplay album. 
-Answer: I am not certain of the answer as I could not verify it in my knowledge sources, but I believe the Coldplay album “Everyday Life” was nominated for “Album of the Year” at the 2021 Grammy Awards and did not win. 
+Answer: I am not certain of the answer as I could not verify it using available tools, but I believe the Coldplay album “Everyday Life” was nominated for “Album of the Year” at the 2021 Grammy Awards and did not win. 
 
 Question: {ques}
 Wikipedia Answer: {wikipedia_ans}
@@ -64,7 +65,7 @@ Answer:
             "int_knw",
         ],
     )
-    llm = load_chain("gpt-4-0314")
+    llm = load_chain("gpt-3.5-turbo-16k")
     llm_chain = LLMChain(prompt=prompt, llm=llm)
     long_answer = llm_chain.run(
         {
@@ -133,3 +134,4 @@ def main(
 
 if __name__ == "__main__":
     fire.Fire(main)
+

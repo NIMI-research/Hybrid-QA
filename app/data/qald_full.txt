@@ -4,7 +4,6 @@ What is the highest mountain in Germany?
 Butch Otter is the governor of which U.S. state?
 What is the profession of Frank Herbert?
 How many seats does the home stadium of FC Porto have?
-What is Angela Merkelâ€™s birth name?
 Who is the mayor of Berlin?
 Which country was Bill Gates born in?
 How many grand-children did Jacques Cousteau have?
@@ -83,7 +82,7 @@ Who was called Rodzilla?
 How many companies were founded by the founder of Facebook?
 Which book has the most pages?
 What is the largest state in the United States?
-List all boardgames by GMT.
+Who is the mayor of Rotterdam?
 Who developed Skype?
 In which U.S. state is Area 51 located?
 Who is the mayor of New York City?
@@ -95,18 +94,18 @@ Which state of the USA has the highest population density?
 Who created the comic Captain America?
 Give me the Apollo 14 astronauts.
 Who wrote the book The pillars of the Earth?
-Which state of the United States of America has the highest density?
-Which spaceflights were launched from Baikonur?
+Who is the son of Sonny and Cher?
+Who was the first to climb Mount Everest?
 Which U.S. states are in the same timezone as Utah?
-Who is the daughter of Ingrid Bergman married to?
-Who is the tallest player of the Atlanta Falcons?
+Is Christian Bale starring in Velvet Goldmine?
+What country is Sitecore from?
 When was the Statue of Liberty built?
 Who developed Minecraft?
 Where did Hillel Slovak die?
 What movies does Jesse Eisenberg play in?
 What kind of music did Lou Reed play?
 Where do the Red Sox play?
-How many films did Hal Roach produce?
+Who is the Formula 1 race driver with the most races?
 Who are the four youngest MVP basketball players?
 How many movies did Park Chan-wook direct?
 Give me all Apollo 14 astronauts.
@@ -114,8 +113,8 @@ In which films directed by Garry Marshall was Julia Roberts starring?
 Give me all soccer clubs in the Premier League.
 What is the highest place of the Urals?
 Who is the governor of Wyoming?
-Where did the architect of the Eiffel Tower study?
-Give me all world heritage sites designated within the past two years.
+Who was married to president Chirac?
+How high is the Yokohama Marine Tower?
 Which movies star both Liz Taylor and Richard Burton?
 Which pope succeeded John Paul II?
 Who is the owner of Rolls-Royce?
@@ -124,14 +123,13 @@ Give me all the TV shows with Neil Patrick Harris.
 When were the Hells Angels founded?
 In which city was the former Dutch queen Juliana buried?
 Who killed John Lennon?
-Which writers studied in Istanbul?
-What was Brazil's lowest rank in the FIFA World Ranking?
+In which city are the headquarters of the United Nations?
+Did Tesla win a nobel prize in physics?
 Was Margaret Thatcher a chemist?
 Which U.S. states are in the same time zone as Utah?
-Give me all books written by Danielle Steel.
+Did Che Guevara have children?
 Which country has the most official languages?
 In which U.S. state is Mount McKinley located?
-Give me all companies in the advertising industry
 Which artists were born on the same date as Rachel Stevens?
 What is Angela Merkel’s birth name?
 Give me all professional skateboarders from Sweden.
@@ -180,7 +178,7 @@ Give me a list of all critically endangered birds.
 Give me all chemical elements.
 Which subsidiary of TUI Travel serves both Glasgow and Dublin?
 What is the wavelength of Indigo?
-Give me all B-sides of the Ramones.
+Give me all B-sides of the Ramones
 What is the name of the university where Obama's wife studied?
 How short is the shortest active NBA player?
 Which animals are critically endangered?
@@ -198,3 +196,5 @@ Which bridges are of the same type as the Manhattan Bridge?
 Show me hiking trails in the Grand Canyon where there's no danger of flash floods.
 Give me the websites of companies with more than 500000 employees.
 What were the names of the three ships by Columbus?
+What is the capital of Cameroon?
+Who is the oldest child of Meryl Streep?

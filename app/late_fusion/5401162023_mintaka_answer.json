@@ -1,0 +1,8 @@
+[
+    {
+        "question": "When was the Maya civilization founded?",
+        "wikipedia_answer": "Wikidata_Answer: -2000-01-01T00:00:00Z\n\nAssistant Response: According to Wikidata, the Maya civilization was founded around 2000 BCE.",
+        "error": null,
+        "intermediate_logs": "When was the Maya civilization founded?\n\nThought: First, I need to generate the SPARQL query.\n\nAction: GenerateSparql\n\nAction Input: When was the Maya civilization founded?\n\nObservation:ASK { wd:Q28567 p:P571 ?x1 . ?x1 ps:P571 :When . }\n\nThought: The generated query seems incorrect. I'll try to manually create a SPARQL query to find the founding date of the Maya civilization.\n\nAction: RunSparql\n\nAction Input: SELECT ?foundingDate WHERE { wd:Q28567 wdt:P571 ?foundingDate. }\n\nObservation:{'message': [{'foundingDate': {'datatype': 'http://www.w3.org/2001/XMLSchema#dateTime', 'type': 'literal', 'value': '-2000-01-01T00:00:00Z'}}]}\n\nThought: I now know the final answer based on  Wikidata. \nFinal Answer: Wikidata_Answer: -2000-01-01T00:00:00Z\n\nAssistant Response: According to Wikidata, the Maya civilization was founded around 2000 BCE., Internal Knowledge: 2000 BC"
+    }
+]

@@ -21,12 +21,14 @@ import logging
 
 
 class Squall:
-    def __init__(self, few_shot_path: str, refined, model_name):
+    def __init__(self, few_shot_path: str, refined, model_name, wikidata=False):
         self.few_shot_path = few_shot_path
         self.config = load_openai_api()
         self.refined = refined
         self.model = load_sentence_transformer()
         self.mode_name = "gpt-4-0314"
+        self.wikidata = wikidata
+
 
     def cos_sim(self, element, model, labels_sim, threshold=2):
         x = model.encode([element])
@@ -211,11 +213,18 @@ class Squall:
 
     def generate_squall_query(self, actionInput: str):
         print("Inside GenerateSparql!")
-        question, entities = actionInput.split("#")
-        question, entities = question.strip(), entities.strip()
-        examples = self.generate_prompt_based_on_similarity(question)
-        entities = entities.replace("[", "").replace("]", "").split(",")
+        if self.wikidata:
+            question = actionInput
+            ent_list = self.union_of_refined_entities(question)
+            entities = []
+            for i in ent_list:
+                entities.append(i[0])
+        else:
+            question, entities = actionInput.split("#")
+            question, entities = question.strip(), entities.strip()
+            entities = entities.replace("[", "").replace("]", "").split(",")
         entities = [e.strip().strip("'").strip('"') for e in entities]
+        examples = self.generate_prompt_based_on_similarity(question)
         x = []
         regex = r"Q[0-9]*"
         for e in entities:
@@ -306,8 +315,9 @@ class SparqlTool:
         return current
 
     def run_sparql(self, query: str, url="https://query.wikidata.org/sparql"):
-        print("Inside RunSparql!")
         try:
+            print("Inside RunSparql!")
+
             wikidata_user_agent_header = (
                 None
                 if not self.config.has_section("WIKIDATA")
@@ -340,7 +350,10 @@ class SparqlTool:
                         results_list.append(y)
             return {"message": results_list}
         except Exception as e:
-            return {'message':'The given query failed, please reconstruct your query and try again.'}
+            return {
+                "message": "The given query failed, please reconstruct your query and try again."
+            }
+
 
 
 class WikiTool:
@@ -401,7 +414,7 @@ class WikiTool:
 
     def get_wikipedia_summary(self, actionInput) -> str:
         print("Inside WikiSearchSummary!")
-        logging.info('Using the Tool -----> WikiSearchSummary')
+        logging.info("Using the Tool -----> WikiSearchSummary")
         ques, search = actionInput.split("#")
         ques, search = ques.strip(), search.replace("[", "").replace("]", "").strip()
         items = search.split(",")
@@ -439,6 +452,6 @@ class WikiTool:
                     Context: {result}
                     Answer:: """
         prompt = PromptTemplate(template=template, input_variables=["search", "result"])
-        llm = load_chain(self.model_name)
+        llm = load_chain("gpt-4-0314")
         llm_chain = LLMChain(prompt=prompt, llm=llm)
         return llm_chain.run({"search": ques, "result": result})

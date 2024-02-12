@@ -11,8 +11,8 @@ from utils import extract_values, read_json, write_answers, prepare_question_lis
 import datetime
 import os
 import logging
-import torch, gc
 import time
+import langchain
 
 
 log_dir = "./logs/"
@@ -39,8 +39,8 @@ def merge_step_updated(output, few_shot, langchain_call, model_name):
     print(f"wikipedia answer is ------> {wikipedia_ans}")
     print(f"wikidata answer is  -------->{wikidata_ans}")
     print(f"internal knowledge answer is  -------->{int_knw}")
-    template = """Your task is to provide short answers to questions. For doing this, you get answers that were extracted from Wikipedia, Wikidata and your own parametric knowledge respectively. You also get a paragraph of context information related to the answer of the question. 
-                Only pick Internal Knowledge, if you have no answers either from Wikipedia nor Wikidata.
+    template = """Your task is to provide short answers to questions. For doing this, you get answers that were extracted from Wikipedia, Wikidata and your own parametric knowledge respectively. You also get a paragraph of context information related to the answer of the question.
+                Only pick Internal Knowledge, if you have no answers either from Wikipedia nor Wikidata. If you cannot find an answer using given Context, please pick {int_knw} as the Answer
                 Here are few examples to refer to.
                 {example}
                 Question: {ques}
@@ -85,9 +85,11 @@ def main(
     model_name: str = "gpt-4-0314",
     output_path: str = "answers_data",
     dynamic=True,
+    DPP=False
 ):
     logging.info(
-        f"------Dataset: {dataset}, Model: {model_name}, Dynamic:{dynamic}--------"
+        f"------Dataset: {dataset}, Model: {model_name}, Dynamic:{dynamic},cos min, Examples: {3}--------"
+
     )
     refined = load_refined_model()
     wiki_tool = WikiTool(model_name)
@@ -98,21 +100,26 @@ def main(
     )
     sparql_tool = SparqlTool(f"{path}/Tools/Tools_Data/squall2sparql_revised.sh")
     questions = prepare_question_list(dataset)
+    # langchain.debug = True
     print(questions)
     print(refined)
     langchain_call = Lanchain_impl(
-        dataset, model_name, wiki_tool, squall, sparql_tool, dynamic
+        dataset, model_name, wiki_tool, squall, sparql_tool, dynamic, DPP
     )
     final_answer_list = []
+    count = 0
     for idx, question in enumerate(questions):
         temp = {}
         try:
             logging.info(
-                f"----------Evaluation on Question: {question} Index: {idx}----------"
+                f"----------Evaluation on Question: {question} Index: {idx} Three SHOTTTT----------"
             )
             temp["question"] = question
-            out, template_answer = langchain_call.execute_agent(question.strip("\n"))
-            time.sleep(20)
+            out, template_answer, counts = langchain_call.execute_agent(
+                question.strip("\n")
+            )
+            count += counts
+
             few_shot = read_json(dataset)
             wiki_ans, wikidata_ans, int_ans, final_answer = merge_step_updated(
                 out, few_shot, langchain_call, model_name
@@ -124,10 +131,12 @@ def main(
             temp["error"] = None
             temp["intermediate_logs"] = template_answer
             final_answer_list.append(temp)
-            logging.info(temp)
-            logging.info(
-                f"----Evaluation Done Question: {question} Index: {idx}---"
-            )
+            logging.info(f"final_answer ---> {final_answer}")
+            logging.info(f"wikipedia_answer ---> {wiki_ans}")
+            logging.info(f"wikidata_answer ---> {wikidata_ans}")
+            logging.info(f"internal_knowledge ---> {int_ans}")
+            logging.info(f"intermediate_logs ---> {template_answer}")
+            logging.info(f"----Evaluation Done Question: {question} Index: {idx}---")
         except Exception as e:
             # if "CUDA error:" in str(e):
             #     gc.collect()
@@ -138,9 +147,11 @@ def main(
             temp["error"] = str(e)
             final_answer_list.append(temp)
         del temp
-        if (idx+1) % 10 == 0:
-            write_answers(final_answer_list, output_path, dataset)
-        continue
+        # if idx % 20 == 0:
+    write_answers(final_answer_list, output_path, dataset)
+    logging.info(f"final count is {count}")
+
+
 
 if __name__ == "__main__":
     fire.Fire(main)
