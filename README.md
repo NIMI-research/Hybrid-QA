@@ -1,5 +1,9 @@
 # Beyond Boundaries: A Human-like Approach for Question Answering over Structured and Unstructured information sources
 Answering factual questions from heterogeneous sources, such as graphs and text, is a key capacity of intelligent systems. Current approaches either (i) perform question answering over text and structured sources as separate pipelines followed by a merge step or (ii) provide an early integration, giving up the strengths of particular information sources. To solve this problem, we present "HumanIQ," a method that teaches language models to dynamically combine retrieved information by imitating how humans use retrieval tools. Our approach couples a generic method for gathering human demonstrations of tool use with adaptive few-shot learning for tool-augmented models. We show that HumanIQ confers significant benefits, including (i) reducing the error rate of our strongest baseline (GPT-4) by over 50% across 3 benchmarks, (ii) improving human preference over responses from vanilla GPT-4 (45.3% wins, 46.7% ties, 8.0% loss), and (iii) outperforming numerous task-specific baselines.
+![pipeline](https://github.com/NIMI-research/HybridQA/assets/91888251/f28aa180-c98e-413f-825f-0dfe962683ea)
+
+![bars](https://github.com/NIMI-research/HybridQA/assets/91888251/616497af-316a-42d1-beb5-1270d7d6f6de)
+
 ## Prerequisites
 
 Before you begin, ensure you meet the following requirements:
