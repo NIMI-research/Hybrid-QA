@@ -10,7 +10,7 @@ Before you begin, ensure you meet the following requirements:
 
  - Python version 3.9 or higher. The project is tested on Python 3.10 for optimal performance.
  - Virtual environment tool (e.g., venv, conda) for Python.
- - OpenAI API key
+ - OpenAI API key (Please add your API key in app/Tools/Tools_Data/secrets.ini)
 ### Installation Guide
 
 1. **Clone the repository**:
