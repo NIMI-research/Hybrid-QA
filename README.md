@@ -48,9 +48,9 @@ python main.py --dataset mintaka --model_name gpt-4-0314 --dynamic True --DPP Fa
 
 **Wikipedia Pipeline**: 
 ```bash
-python wikipedia_pipeline.py --dataset mintaka --model_name gpt-4-0314
+python wikipedia_pipeline.py --dataset mintaka --model_name gpt-4-0314 --few_shot_data mintaka_wikipedia
  ```
 **Wikidata Pipeline**: 
 ```bash
-python wikidata_pipeline.py --dataset mintaka --model_name gpt-4-0314
+python wikidata_pipeline.py --dataset mintaka --model_name gpt-4-0314 --few_shot_data mintaka_wikidata
  ```
