@@ -645,7 +645,9 @@ Once you have the Wikidata Answer, always follow the specific format to output t
 Final Answer: Wikidata_Answer : Wikidata Answer ,
 Assistant Response: Extended Answer that contains your reasoning, proof and final answer, please keep this descriptive.
 Please do not use same Action Input to the tools, If no answer is found even after multiple tries using wikidata
-Wikidata_Answer : None """
+Wikidata_Answer : None 
+
+Here are three examples to look at on how to use the {tools}\n"""
         additional_template = """
 You have access to the following - {tools}!
 Use the following format:
