@@ -170,11 +170,9 @@ class CustomOutputParser(AgentOutputParser):
         # Parse out the action and action input
         regex_action = r"Action:(.*?)(?=\s*Action Input:|$)"
         regex_action_input = r"Action Input:(.*)"
-        print(f"LLMOUtpUT----->{llm_output}")
         match_action = re.search(regex_action, llm_output, re.DOTALL)
         match_action_input = re.search(regex_action_input, llm_output, re.DOTALL)
         if match_action is None and match_action_input is None:
-            print("Non returnable zone!")
 
             return AgentFinish(
                 # Return values is generally always a dictionary with a single `output` key
@@ -184,8 +182,6 @@ class CustomOutputParser(AgentOutputParser):
                 },
                 log=llm_output,
             )
-        print(f"Match action---->{match_action}")
-        print(f"Match action input---->{match_action_input}")
         action = match_action.group(1).strip("\n").strip()
         action_input = match_action_input.group(1).strip("\n").strip()
 
@@ -196,8 +192,7 @@ class CustomOutputParser(AgentOutputParser):
             or action == "WikiSearchSummary"
         ):
             logging.info(f"Using the Tool -----> {action}")
-            # print(f"Action is the Tool -----> {action}")
-            # print(f"Action Input the Tool -----> {action_input}")
+
             return AgentAction(
                 tool=action, tool_input=f"{user_q} # {action_input}", log=llm_output
             )
@@ -245,11 +240,9 @@ class CustomOutputParserWikidata(AgentOutputParser):
         # Parse out the action and action input
         regex_action = r"Action:(.*?)(?=\s*Action Input:|$)"
         regex_action_input = r"Action Input:(.*)"
-        print(f"LLMOUtpUT----->{llm_output}")
         match_action = re.search(regex_action, llm_output, re.DOTALL)
         match_action_input = re.search(regex_action_input, llm_output, re.DOTALL)
         if match_action is None and match_action_input is None:
-            print("Non returnable zone!")
 
             return AgentFinish(
                 # Return values is generally always a dictionary with a single `output` key
@@ -259,8 +252,6 @@ class CustomOutputParserWikidata(AgentOutputParser):
                 },
                 log=llm_output,
             )
-        print(f"Match action---->{match_action}")
-        print(f"Match action input---->{match_action_input}")
         action = match_action.group(1).strip("\n").strip()
         action_input = match_action_input.group(1).strip("\n").strip()
 
@@ -271,8 +262,6 @@ class CustomOutputParserWikidata(AgentOutputParser):
             or action == "WikiSearchSummary"
         ):
             logging.info(f"Using the Tool -----> {action}")
-            # print(f"Action is the Tool -----> {action}")
-            # print(f"Action Input the Tool -----> {action_input}")
             return AgentAction(
                 tool=action, tool_input=f"{action_input}", log=llm_output
             )
@@ -367,7 +356,6 @@ class Template_Construction:
         path = os.getcwd()
         questions = self.load_dataset_for_few_shot(f"{path}/data/{self.dataset}.json")
         fetching_ques = self.most_similar_items(self.question, questions)
-        print(fetching_ques)
         with open(f"{path}/data/{self.dataset}.json", "r") as file:
             data = json.load(file)
             action_sequence = ""
@@ -384,13 +372,11 @@ class Template_Construction:
                 )
             similar_sequences = self.model.encode(action_sequence_list)
             if self.cos:
-                print(f"doing cos max")
                 indexes = self.cos_sim_least(
                     action_sequence, self.model, similar_sequences, 3, most_similar=True
                 )
                 final_template = f"Example 1:{final_template}\n\nExample 2:\n\n{data[indexes[1]].get('One_Shot')}\n\nExample 3:\n\n{data[indexes[2]].get('One_Shot')}"
             elif self.div:
-                print(f"doing cos min")
                 indexes = self.cos_sim_least(
                     action_sequence,
                     self.model,
@@ -401,7 +387,6 @@ class Template_Construction:
                 selected_indices = random.sample(list(indexes), 3)
                 final_template = f"Example 1:{data[selected_indices[0]].get('One_Shot')}\n\nExample 2:\n\n{data[selected_indices[1]].get('One_Shot')}\n\nExample 3:\n\n{data[selected_indices[2]].get('One_Shot')}"
             else:
-                print("cos general")
                 indexes = self.cos_sim_least(
                     action_sequence, self.model, similar_sequences, 2
                 )
@@ -420,7 +405,6 @@ class Template_Construction:
                 f"{path}/data/{self.dataset}.json"
             )
             full_path = f"{path}/data/{self.dataset}.json"
-        # random.seed(4)
         selected_questions = random.sample(questions, 3)  # change static variable
         with open(full_path, "r") as file:
             data = json.load(file)
@@ -457,7 +441,6 @@ class Lanchain_impl:
         return self.wiki_tool.get_wikipedia_summary(x)
 
     def get_observation(self, x):
-        print("Inside GetObservation!")
         if "Observation" in x and ":" in x:
             _, observation = x.split(":", 1)
             return observation
@@ -541,16 +524,12 @@ Question: {input}
 
         workflow = workflow.strip("\n")
         complete_workflow = f"{prepend_template}{workflow}\n\n{additional_template.strip()}"  # {workflow}
-        print(complete_workflow)
         logging.info(complete_workflow)
         prompt = CustomPromptTemplate(
             template=complete_workflow.strip("\n"),
             tools=self.get_tools(),
-            # This omits the `agent_scratchpad`, `tools`, and `tool_names` variables because those are generated dynamically
-            # This includes the `intermediate_steps` variable because that is needed
             input_variables=["input", "intermediate_steps"],
         )
-        # print(prompt)
         return prompt
 
     def answer_ques(self, ques):
@@ -613,183 +592,167 @@ Question: {input}
         return out, answer_template_for_inference, cb.completion_tokens
 
 
-# class Lanchain_impl_wikidata:
-#     def __init__(self, dataset, model_name, wiki_tool, squall, sparql_tool, dynamic):
-#         self.dataset = dataset
-#         self.model_name = model_name
-#         self.squall = squall
-#         self.sparql_tool = sparql_tool
-#         self.wiki_tool = wiki_tool
-#         self.dynamic = dynamic
+class Lanchain_impl_wikidata:
+    def __init__(self, dataset, model_name, wiki_tool, squall, sparql_tool, dynamic):
+        self.dataset = dataset
+        self.model_name = model_name
+        self.squall = squall
+        self.sparql_tool = sparql_tool
+        self.wiki_tool = wiki_tool
+        self.dynamic = dynamic
 
-#     @backoff.on_exception(backoff.expo, openai.error.RateLimitError)
-#     def exponential_backoff_generate_squall_query(self, x):
-#         return self.squall.generate_squall_query(x)
+    @backoff.on_exception(backoff.expo, openai.error.RateLimitError)
+    def exponential_backoff_generate_squall_query(self, x):
+        return self.squall.generate_squall_query(x)
 
-#     def get_observation(self, x):
-#         print("Inside GetObservation!")
-#         if "Observation" in x and ":" in x:
-#             _, observation = x.split(":", 1)
-#             return observation
-#         else:
-#             return x
+    def get_observation(self, x):
+        if "Observation" in x and ":" in x:
+            _, observation = x.split(":", 1)
+            return observation
+        else:
+            return x
 
-#     def get_tools(self):
-#         tools = [
-#             Tool(
-#                 name="GenerateSparql",
-#                 func=lambda x: self.exponential_backoff_generate_squall_query(x),
-#                 description="useful to get Squall query given the Action Input. Do not use this tool with same Action Input.",
-#             ),
-#             Tool(
-#                 name="RunSparql",
-#                 func=lambda x: self.sparql_tool.run_sparql(x),
-#                 description="useful to run a query on wikibase to get results. Do not use this tool with same Action Input.",
-#             ),
-#             Tool(
-#                 name="GetLabel",
-#                 func=lambda x: self.wiki_tool.get_label(x),
-#                 description="useful to get the label for the wikidata QID. Do not use this tool with same Action Input.",
-#             ),
-#         ]
-#         return tools
+    def get_tools(self):
+        tools = [
+            Tool(
+                name="GenerateSparql",
+                func=lambda x: self.exponential_backoff_generate_squall_query(x),
+                description="useful to get Squall query given the Action Input. Do not use this tool with same Action Input.",
+            ),
+            Tool(
+                name="RunSparql",
+                func=lambda x: self.sparql_tool.run_sparql(x),
+                description="useful to run a query on wikibase to get results. Do not use this tool with same Action Input.",
+            ),
+            Tool(
+                name="GetLabel",
+                func=lambda x: self.wiki_tool.get_label(x),
+                description="useful to get the label for the wikidata QID. Do not use this tool with same Action Input.",
+            ),
+        ]
+        return tools
 
-#     def get_prompt(self, question, dynamic):
-#         workflow = ""
-#         if dynamic:
-#             workflow = f"{workflow}{Template_Construction(question, self.dataset).full_shot_with_diversity()}"
-#         else:
-#             workflow = f"{workflow}{Template_Construction(question, self.dataset, wikidata= True).static_prompt_construction()}"
-#         prepend_template = """Given the question, your task is to find the answer using Wikidata Databases.You are not allowed to use your own knowledge to get QIDs to generate the SPARQL query.
-# Your immediate steps include generating SPARQL queries using available {tools} and then executing the query over Wikidata.\nWikidata Answers are the observation after executing the SPARQL query.\n
-# You have access to the following - {tools}!.
-# Once you have the Wikidata Answer, always follow the specific format to output the final answer -
-# Final Answer: Wikidata_Answer : Wikidata Answer ,
-# Assistant Response: Extended Answer that contains your reasoning, proof and final answer, please keep this descriptive.
-# Please do not use same Action Input to the tools, If no answer is found even after multiple tries using wikidata
-# Wikidata_Answer : None ,"""
+    def get_prompt(self, question, dynamic):
+        workflow = ""
+        if dynamic:
+            workflow = f"{workflow}{Template_Construction(question, self.dataset).full_shot_with_diversity()}"
+        else:
+            workflow = f"{workflow}{Template_Construction(question, self.dataset, wikidata= True).static_prompt_construction()}"
+        prepend_template = """Given the question, your task is to find the answer using Wikidata Databases.You are not allowed to use your own knowledge to get QIDs to generate the SPARQL query.
+Your immediate steps include generating SPARQL queries using available {tools} and then executing the query over Wikidata.\nWikidata Answers are the observation after executing the SPARQL query.\n
+You have access to the following - {tools}!.
+Once you have the Wikidata Answer, always follow the specific format to output the final answer -
+Final Answer: Wikidata_Answer : Wikidata Answer ,
+Assistant Response: Extended Answer that contains your reasoning, proof and final answer, please keep this descriptive.
+Please do not use same Action Input to the tools, If no answer is found even after multiple tries using wikidata
+Wikidata_Answer : None """
+        additional_template = """
+You have access to the following - {tools}!
+Use the following format:
+Question: the input question for which you must provide a natural language answer
+Thought: you should always think about what to do
+Action: the action to take, should be one of [{tool_names}]
+Action Input: the input to the action
+Observation: the result of the action
+... (this Thought/Action/Action Input/Observation can repeat N times)
+Always use the following format for the Final Answer -
+Final Answer: Wikidata_Answer : ,
+Assistant Response :
+Question: {input}
+{agent_scratchpad}
 
-#         # Here is one example to look at on how to use the {tools}\n"""
-#         additional_template = """
-# You have access to the following - {tools}!
-# Use the following format:
-# Question: the input question for which you must provide a natural language answer
-# Thought: you should always think about what to do
-# Action: the action to take, should be one of [{tool_names}]
-# Action Input: the input to the action
-# Observation: the result of the action
-# ... (this Thought/Action/Action Input/Observation can repeat N times)
-# Always use the following format for the Final Answer -
-# Final Answer: Wikidata_Answer : ,
-# Assistant Response :
-# Question: {input}
-# {agent_scratchpad}
+            """
 
-#             """
+        workflow = workflow.strip("\n")
+        complete_workflow = (
+            f"{prepend_template}{workflow}\n\n{additional_template.strip()}"  # {workflow}
+        )
+        logging.info(complete_workflow)
+        prompt = CustomPromptTemplate(
+            template=complete_workflow.strip("\n"),
+            tools=self.get_tools(),
+            # This omits the `agent_scratchpad`, `tools`, and `tool_names` variables because those are generated dynamically
+            # This includes the `intermediate_steps` variable because that is needed
+            input_variables=["input", "intermediate_steps"],
+        )
 
-#         workflow = workflow.strip("\n")
-#         complete_workflow = (
-#             f"{prepend_template}{workflow}\n\n{additional_template.strip()}"  # {workflow}
-#         )
-#         logging.info(complete_workflow)
-#         print(complete_workflow)
-#         prompt = CustomPromptTemplate(
-#             template=complete_workflow.strip("\n"),
-#             tools=self.get_tools(),
-#             # This omits the `agent_scratchpad`, `tools`, and `tool_names` variables because those are generated dynamically
-#             # This includes the `intermediate_steps` variable because that is needed
-#             input_variables=["input", "intermediate_steps"],
-#         )
+        return prompt
 
-#         return prompt
+    def answer_ques(self, ques):
+        template = """Given a question your task is to answer the question, please do not provide any other information other than the Answer
+                    Question: {ques}
+                    Answer: """
+        prompt = PromptTemplate(template=template, input_variables=["ques"])
+        llm = load_chain(self.model_name)
+        llm_chain = LLMChain(prompt=prompt, llm=llm)
+        return llm_chain.run(ques)
 
-#     def answer_ques(self, ques):
-#         template = """Given a question your task is to answer the question, please do not provide any other information other than the Answer
-#                     Question: {ques}
-#                     Answer: """
-#         prompt = PromptTemplate(template=template, input_variables=["ques"])
-#         llm = load_chain(self.model_name)
-#         llm_chain = LLMChain(prompt=prompt, llm=llm)
-#         return llm_chain.run(ques)
+    def get_template_inference(self, out, int_answer):
+        complete_steps = ""
+        for i in out.get("intermediate_steps"):
+            thought = ""
+            if "Thought:" in i[0].log:
+                complete_steps = (
+                    f"{complete_steps}\n{thought}{i[0].log}\nObservation:{i[1]}\n"
+                )
+            else:
+                thought = "Thought: "
+                complete_steps = (
+                    f"{complete_steps}\n{thought}{i[0].log}\nObservation:{i[1]}\n"
+                )
+        final_string = """Thought: I now know the final answer based on  Wikidata. \nFinal Answer: """
+        complete_steps = f'{out.get("input")}\n{complete_steps}\n{final_string}{out.get("output")}, Internal Knowledge: {int_answer}'
+        return complete_steps
 
-#     def get_template_inference(self, out, int_answer):
-#         complete_steps = ""
-#         for i in out.get("intermediate_steps"):
-#             thought = ""
-#             if "Thought:" in i[0].log:
-#                 complete_steps = (
-#                     f"{complete_steps}\n{thought}{i[0].log}\nObservation:{i[1]}\n"
-#                 )
-#             else:
-#                 thought = "Thought: "
-#                 complete_steps = (
-#                     f"{complete_steps}\n{thought}{i[0].log}\nObservation:{i[1]}\n"
-#                 )
-#         final_string = """Thought: I now know the final answer based on  Wikidata. \nFinal Answer: """
-#         complete_steps = f'{out.get("input")}\n{complete_steps}\n{final_string}{out.get("output")}, Internal Knowledge: {int_answer}'
-#         return complete_steps
+    def execute_one_query(self, complete_steps, x):
+        temp = {}
+        temp["question"] = x
+        parametric_knowledge = self.answer_ques(x.strip())
+        temp["internal_knowledge"] = parametric_knowledge.strip()
+        try:
+            answers = complete_steps  # agent_executor.run(x.strip())
+            idx = answers.find("Wikidata_answer")
+            _, wiki_answer = answers[:idx].split(":", 1)
+            _, wikidata_answer = answers[idx:].split(":", 1)
+            temp["wikidata"] = (
+                wikidata_answer.strip() if "None" not in wikidata_answer else None
+            )
+            if "Wikidata_answer" not in answers and "Wikipedia_answer" not in answers:
+                temp["error"] = answers
+            else:
+                temp["error"] = None
+        except Exception as e:
+            temp["wikipedia"] = None
+            temp["wikidata"] = None
+            temp["error"] = str(e)
+            temp["stack_trace"] = str(traceback.print_exc())
+        return temp
 
-#     def execute_one_query(self, complete_steps, x):
-#         temp = {}
-#         temp["question"] = x
-#         parametric_knowledge = self.answer_ques(x.strip())
-#         temp["internal_knowledge"] = parametric_knowledge.strip()
-#         try:
-#             answers = complete_steps  # agent_executor.run(x.strip())
-#             idx = answers.find("Wikidata_answer")
-#             _, wiki_answer = answers[:idx].split(":", 1)
-#             _, wikidata_answer = answers[idx:].split(":", 1)
-#             # temp["wikipedia"] = (
-#             #     wiki_answer.replace(",", "").strip()
-#             #     if "None" not in wiki_answer
-#             #     else None
-#             # )
-#             temp["wikidata"] = (
-#                 wikidata_answer.strip() if "None" not in wikidata_answer else None
-#             )
-#             if "Wikidata_answer" not in answers and "Wikipedia_answer" not in answers:
-#                 temp["error"] = answers
-#             else:
-#                 temp["error"] = None
-#         except Exception as e:
-#             temp["wikipedia"] = None
-#             temp["wikidata"] = None
-#             temp["error"] = str(e)
-#             temp["stack_trace"] = str(traceback.print_exc())
-#         return temp
-
-#     def execute_agent(self, question):
-#         llm = ChatOpenAI(model_name=self.model_name, temperature=0, request_timeout=300)
-#         prompt = self.get_prompt(question, self.dynamic)
-#         llm_chain = LLMChain(llm=llm, prompt=prompt)
-#         tools = self.get_tools()
-#         tool_names = [tool.name for tool in tools]
-#         output_parser = CustomOutputParserWikidata()
-#         agent = LLMSingleActionAgentCustom(
-#             llm_chain=llm_chain,
-#             output_parser=output_parser,
-#             stop=["\nObservation:"],
-#             allowed_tools=tool_names,
-#         )
-#         agent_executor = AgentExecutor.from_agent_and_tools(
-#             agent=agent,
-#             tools=tools,
-#             verbose=True,
-#             handle_parsing_errors=True,
-#             return_intermediate_steps=True,
-#         )
-#         internal_answer = self.answer_ques(question)
-#         out = agent_executor(question)
-#         answer_template_for_inference = self.get_template_inference(
-#             out, internal_answer
-#         )
-#         return out, answer_template_for_inference
-
+    def execute_agent(self, question):
+        llm = ChatOpenAI(model_name=self.model_name, temperature=0, request_timeout=300)
+        prompt = self.get_prompt(question, self.dynamic)
+        llm_chain = LLMChain(llm=llm, prompt=prompt)
+        tools = self.get_tools()
+        tool_names = [tool.name for tool in tools]
+        output_parser = CustomOutputParserWikidata()
+        agent = LLMSingleActionAgentCustom(
+            llm_chain=llm_chain,
+            output_parser=output_parser,
+            stop=["\nObservation:"],
+            allowed_tools=tool_names,
+        )
+        agent_executor = AgentExecutor.from_agent_and_tools(
+            agent=agent,
+            tools=tools,
+            verbose=True,
+            handle_parsing_errors=True,
+            return_intermediate_steps=True,
+        )
+        internal_answer = self.answer_ques(question)
         out = agent_executor(question)
         answer_template_for_inference = self.get_template_inference(
             out, internal_answer
         )
-        print(answer_template_for_inference)
         return out, answer_template_for_inference
 
 class Lanchain_impl_wikipedia:
@@ -836,12 +799,10 @@ class Lanchain_impl_wikipedia:
     def static_prompt_construction(self):
         path = os.getcwd()
         questions = self.load_dataset_for_few_shot(f"{path}/data_late_fusion/{self.few_shot_dataset}.json")
-        # random.seed(4)
         selected_questions = random.sample(questions, 3)
         with open(f"{path}/data_late_fusion/{self.few_shot_dataset}.json", "r") as file:
             data = json.load(file)
             final_template = ""
-            print(selected_questions)
             counter = 0
             for x in data:
                 for question in selected_questions:
@@ -852,7 +813,6 @@ class Lanchain_impl_wikipedia:
             return final_template
 
     def get_prompt_wikipedia(self):
-        #######Preetu please work with the wikipedia prompt Here!!!!!!!!
         workflow = ""
         workflow = f"{workflow}{self.static_prompt_construction()}"
         prepend_template = """Given the question, your task is to find the answer using Wikipedia. If you found the answer using Wikipedia Article.
@@ -895,7 +855,6 @@ Question: {input}
             # This includes the `intermediate_steps` variable because that is needed
             input_variables=["input", "intermediate_steps"],
         )
-        print(complete_workflow)
         return prompt
 
     def get_template_inference(self, out):
@@ -938,6 +897,5 @@ Question: {input}
         )
         out = agent_executor(question)
         template_answer = self.get_template_inference(out)
-        print(template_answer)
         return out, template_answer
 

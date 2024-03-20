@@ -40,6 +40,8 @@ class Squall:
         return ind
 
     def load_dataset(self):
+        """This function is used to load the few shot examples. The few shot examples contain from Mintaka, QALD, Compmix dataset.
+        Example: """
         with open(self.few_shot_path, "r") as file:
             data_train = json.load(file)
             for i in data_train:
@@ -212,7 +214,6 @@ class Squall:
         return examples_list
 
     def generate_squall_query(self, actionInput: str):
-        print("Inside GenerateSparql!")
         if self.wikidata:
             question = actionInput
             ent_list = self.union_of_refined_entities(question)
@@ -316,7 +317,6 @@ class SparqlTool:
 
     def run_sparql(self, query: str, url="https://query.wikidata.org/sparql"):
         try:
-            print("Inside RunSparql!")
 
             wikidata_user_agent_header = (
                 None
@@ -362,7 +362,6 @@ class WikiTool:
         self.model_name = "gpt-4-0314"
 
     def get_label(self, entity_id):
-        print("Inside GetLabel!")
         if "[" in entity_id and "]" in entity_id:
             entity_id = entity_id.replace("[", "").replace("]", "").strip()
             entity_id = entity_id.split(",")
@@ -400,7 +399,6 @@ class WikiTool:
                 return "There is no QID for the given keyword, please retry with another relvant keyword for the QID from Wikidata pages."
 
     def all_wikidata_ids(self, actionInput):
-        print("Inside GetWikidataId!")
         logging.info("Using the Tool -----> GetWikidataId")
         try:
             actionInput = actionInput.replace("[", "").replace("]", "")
@@ -413,7 +411,6 @@ class WikiTool:
             return "There is an internal error while handling this request!"
 
     def get_wikipedia_summary(self, actionInput) -> str:
-        print("Inside WikiSearchSummary!")
         logging.info("Using the Tool -----> WikiSearchSummary")
         ques, search = actionInput.split("#")
         ques, search = ques.strip(), search.replace("[", "").replace("]", "").strip()
@@ -432,7 +429,6 @@ class WikiTool:
         return results
 
     def get_wikipedia_summary_keyword(self, actionInput) -> str:
-        print("Inside WikiSearch!")
         ques, search = actionInput.split("#")
         ques, search = ques.strip(), search.strip()
         search = search.replace("'", "").replace('"', "")

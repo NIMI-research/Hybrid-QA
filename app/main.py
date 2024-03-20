@@ -35,10 +35,7 @@ def merge_step_updated(output, few_shot, langchain_call, model_name):
     )
     context = assistant_match.group(1).strip() if assistant_match else None
     int_knw = langchain_call.answer_ques(ques)
-    print(f"context is ------> {context}")
-    print(f"wikipedia answer is ------> {wikipedia_ans}")
-    print(f"wikidata answer is  -------->{wikidata_ans}")
-    print(f"internal knowledge answer is  -------->{int_knw}")
+
     template = """Your task is to provide short answers to questions. For doing this, you get answers that were extracted from Wikipedia, Wikidata and your own parametric knowledge respectively. You also get a paragraph of context information related to the answer of the question.
                 Only pick Internal Knowledge, if you have no answers either from Wikipedia nor Wikidata. If you cannot find an answer using given Context, please pick {int_knw} as the Answer
                 Here are few examples to refer to.
@@ -77,9 +74,6 @@ def merge_step_updated(output, few_shot, langchain_call, model_name):
     )
     return wikipedia_ans, wikidata_ans, int_knw, final_answer
 
-
-#'gpt-3.5-turbo'
-# gpt-4-0314
 def main(
     dataset: str = "mintaka",
     model_name: str = "gpt-4-0314",
@@ -88,21 +82,17 @@ def main(
     DPP=False
 ):
     logging.info(
-        f"------Dataset: {dataset}, Model: {model_name}, Dynamic:{dynamic},cos min, Examples: {3}--------"
+        f"------Dataset: {dataset}, Model: {model_name}, Dynamic:{dynamic}--------"
 
     )
     refined = load_refined_model()
     wiki_tool = WikiTool(model_name)
     path = os.getcwd()
-    print("main---->", path)
     squall = Squall(
         f"{path}/Tools/Tools_Data/squall_fixed_few_shot.json", refined, model_name
     )
     sparql_tool = SparqlTool(f"{path}/Tools/Tools_Data/squall2sparql_revised.sh")
     questions = prepare_question_list(dataset)
-    # langchain.debug = True
-    print(questions)
-    print(refined)
     langchain_call = Lanchain_impl(
         dataset, model_name, wiki_tool, squall, sparql_tool, dynamic, DPP
     )
@@ -112,7 +102,7 @@ def main(
         temp = {}
         try:
             logging.info(
-                f"----------Evaluation on Question: {question} Index: {idx} Three SHOTTTT----------"
+                f"----------Evaluation on Question: {question} Index: {idx}----------"
             )
             temp["question"] = question
             out, template_answer, counts = langchain_call.execute_agent(
@@ -138,16 +128,12 @@ def main(
             logging.info(f"intermediate_logs ---> {template_answer}")
             logging.info(f"----Evaluation Done Question: {question} Index: {idx}---")
         except Exception as e:
-            # if "CUDA error:" in str(e):
-            #     gc.collect()
-            #     torch.cuda.empty_cache()
             temp["question"] = question
             temp["final_answer"] = None
             temp["intermediate_logs"] = None
             temp["error"] = str(e)
             final_answer_list.append(temp)
         del temp
-        # if idx % 20 == 0:
     write_answers(final_answer_list, output_path, dataset)
     logging.info(f"final count is {count}")
 

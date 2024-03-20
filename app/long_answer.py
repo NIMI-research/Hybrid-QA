@@ -85,14 +85,12 @@ def main(
     dataset: str = "mintaka",
 ):
     paths = os.getcwd()
-    print(paths)
     assist_list = []
     regex = r"Assistant Response:(.*)Internal Knowledge:(.*)"
     regex_again = r"Assistance Response:(.*)Internal Knowledge:(.*)"
     _ = load_openai_api()
     with open(f"{paths}/answers_data/{input_json_file}", "r") as file:
         data = json.load(file)
-        print(len(data))
         for idx, each in enumerate(data):
             temp = {}
             if each.get("intermediate_logs") is not None:
@@ -127,7 +125,6 @@ def main(
                     temp["assistant_response"],
                 )
             assist_list.append(temp)
-            print(temp)
             del temp
         write_answers(assist_list, output_path, dataset)
 

@@ -27,7 +27,6 @@ def main(
     path = os.getcwd()
     wiki_tool = WikiTool(model_name)
     path = os.getcwd()
-    print("main---->", path)
     squall = Squall(
         f"{path}/Tools/Tools_Data/squall_fixed_few_shot.json",
         refined,
@@ -43,7 +42,6 @@ def main(
     for idx, question in enumerate(questions):
         temp = {}
         try:
-            time.sleep(30)
             logging.info(
                 f"----------Evaluation on Question: {question} Index: {idx}----------"
             )
