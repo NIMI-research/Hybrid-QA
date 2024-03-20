@@ -29,29 +29,13 @@ cd app
 ```
 7. To run
 ```bash
-python main.py --dataset qald #for other datasets replace qald with mintaka or compmix
+python main.py --dataset mintaka --model_name gpt-4-0314 --dynamic True --DPP=False #If not Dynamic, runs Static pipeline 
 ```
-
------------Using Conda----------
-
-Make sure you are in the base env before creating the Conda env
-1. Create a bew Conda env
-   ```bash
-   conda create --name hybrid python==3.10 ##env name is hybrid
-   ```
-3. Activate your environment 
-  ```bash
-  conda activate hybrid
-  ```
-3. Install requirements
+8. To run Wikipedia pipeline 
 ```bash
-pip install -r requirements.txt
+python wikipedia_pipeline.py --dataset mintaka --model_name gpt-4-0314
 ```
-4. Go to the project directory
+9. To run Wikidata pipeline 
 ```bash
-cd app
-```
-5. To run the application
-```bash
-python main.py --dataset qald
+python wikidata_pipeline.py --dataset mintaka --model_name gpt-4-0314
 ```

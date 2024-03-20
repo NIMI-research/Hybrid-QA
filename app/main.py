@@ -137,7 +137,5 @@ def main(
     write_answers(final_answer_list, output_path, dataset)
     logging.info(f"final count is {count}")
 
-
-
 if __name__ == "__main__":
     fire.Fire(main)
